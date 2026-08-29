@@ -1,8 +1,22 @@
-# fun-dots — Neural Flow Lenia discovery engine
+# flux-lenia
 
-An open-ended artificial-life workbench in JAX. Continuous multi-channel
-fields, a neural sensory-motor map, strict mass conservation, and an oracle
-that decides what counts as an organism, a division, and a behaviour.
+**Mass-conserving continuous cellular automata with learned local dynamics.**
+
+A JAX workbench for studying emergence in multi-channel continuous fields
+where mass is conserved by construction rather than by penalty. The local
+update rule is a differentiable neural sensory-motor map; transport is
+flux-form, so total mass is preserved to floating-point rounding
+(`~1e-16` relative over thousands of steps) and cannot drift. An
+accompanying oracle decides, with stated thresholds and controls, what
+counts as an organism, a division, and a behaviour.
+
+<p align="center">
+  <img src="outputs/SPECIES_001_OSCILLIS_final.png" width="420"
+       alt="OSCILLIS: a membrane-bounded body with internal nuclei, organism
+            markers overlaid">
+  <br>
+  <em>OSCILLIS (seed 442) at t=900. Circles are tracked organisms.</em>
+</p>
 
 ```
 engine/neural_field.py    the core: perception, brain, flow, transport
@@ -21,10 +35,12 @@ measurement failures that produced wrong numbers first) ·
 ## Run it
 
 ```bash
-.venv/bin/python scripts/selftest.py                 # verify the core
-.venv/bin/python scripts/discover.py screen --n 15   # sample candidates
-.venv/bin/python scripts/discover.py curate --target 3
-.venv/bin/streamlit run app/viewer.py                # explore interactively
+pip install -r requirements.txt
+
+python scripts/selftest.py                    # verify the core (27 checks)
+python scripts/discover.py screen --n 15      # sample candidates
+python scripts/discover.py curate --target 3  # verify, record, write reports
+streamlit run app/viewer.py                   # explore interactively
 ```
 
 `screen` is shardable: pass `--shard i --nshards n` and run several
@@ -199,6 +215,30 @@ Running a world where nobody wrote a score at all is not, and that is what
 
 The creatures themselves are aesthetics. OSCILLIS is not going to do
 anything for anyone.
+
+## Prior work
+
+This engine descends from a specific line and does not pretend otherwise.
+
+- **Lenia** (Chan, 2019, *Lenia: Biology of Artificial Life*). Continuous
+  cellular automata with smooth kernels and growth functions, and the source
+  of the shell-kernel and bell-growth construction used here. This repo's
+  MLP strictly contains classic Lenia as the special case where the network
+  is one linear layer over the bell features.
+- **Flow Lenia** (Plantec et al., 2022). Mass conservation via reintegration
+  tracking, and parameter localization, where the rule parameters are
+  embedded in the substrate and transported with the mass. Both ideas are
+  load-bearing here: the transport scheme and the advected genome field.
+- **Growing Neural Cellular Automata** (Mordvintsev et al., Distill 2020).
+  Differentiable, learned local update rules trained end to end, and the
+  self-repair framing.
+- **Reintegration tracking** (Moroz, 2020). The advection scheme: displace
+  each cell's mass to a sub-cell position and redistribute it over the
+  neighbours, which conserves exactly and barely diffuses.
+- **Physarum network models** (Nakagaki et al., 2000; Tero et al., *Science*
+  2010). Flux-reinforced adaptive networks. Not implemented here, and the
+  reason this engine produces compact bodies rather than foraging networks
+  (see `docs/ROADMAP.md`).
 
 ## Legacy engine
 
