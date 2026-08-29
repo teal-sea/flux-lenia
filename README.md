@@ -13,6 +13,11 @@ scripts/selftest.py       verification; run this before trusting a result
 app/viewer.py             interactive viewport
 ```
 
+**Docs:** [ARCHITECTURE](docs/ARCHITECTURE.md) (how it works and why every
+choice was made) · [FINDINGS](docs/FINDINGS.md) (results, and the four
+measurement failures that produced wrong numbers first) ·
+[ROADMAP](docs/ROADMAP.md) (what this is actually chasing, in order).
+
 ## Run it
 
 ```bash
@@ -168,6 +173,32 @@ Two things this run corrected about itself, both worth knowing:
 
 The recorder writes GIF and, when ffmpeg is present, MP4 into `outputs/`,
 through the same render path shown on screen.
+
+## What this is for
+
+Two different things live in this repo and they should not be confused.
+
+**A technique with real use.** Conservation by construction in a learned
+dynamics model. Neural surrogates for physical systems drift and blow up on
+long rollouts because conservation is enforced by a loss penalty, which
+makes violation discouraged rather than impossible. Building the invariant
+into the architecture instead, by making the update flux-form so the sum
+telescopes exactly, is the standard fix, and this engine is a working
+demonstration of it: a learned velocity field wrapped in a finite-volume
+transport step, drift `1e-16` over thousands of steps. That pattern
+transfers to any learned model where something must be conserved.
+
+**A research question, and a hobby that shares its neighbourhood.** The
+question is open-endedness: nature has been generating novelty for four
+billion years and every artificial system anyone has built plateaus. Nobody
+knows why, and there is not even an agreed way to measure whether you have
+it. Searching this parameter space for creatures with a score I wrote is a
+hobby, because the results are bounded by what the score can express.
+Running a world where nobody wrote a score at all is not, and that is what
+`docs/ROADMAP.md` is aimed at.
+
+The creatures themselves are aesthetics. OSCILLIS is not going to do
+anything for anyone.
 
 ## Legacy engine
 
