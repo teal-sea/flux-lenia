@@ -547,6 +547,15 @@ def cmd_curate(args) -> int:
         "anomaly_clips": anomaly_clips,
     }, indent=2, default=float))
 
+    # A campaign that does not write up its results is not finished. This is
+    # generated from the raw records, so it cannot drift from the data.
+    try:
+        import subprocess
+        subprocess.run([sys.executable, str(ROOT / "scripts" / "report.py")],
+                       check=True)
+    except Exception as e:                     # report, never swallow
+        print(f"WARNING: campaign report generation failed: {e!r}")
+
     print("\n" + "=" * 68)
     print(f"DISCOVERY COMPLETE: {len(summary)} reproducing species "
           f"from {len(records)} screened candidates")

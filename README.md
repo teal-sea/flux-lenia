@@ -28,9 +28,16 @@ app/viewer.py             interactive viewport
 ```
 
 **Docs:** [ARCHITECTURE](docs/ARCHITECTURE.md) (how it works and why every
-choice was made) · [FINDINGS](docs/FINDINGS.md) (results, and the four
+choice was made) · [FINDINGS](docs/FINDINGS.md) (results, and the five
 measurement failures that produced wrong numbers first) ·
 [ROADMAP](docs/ROADMAP.md) (what this is actually chasing, in order).
+
+**Results:** [CAMPAIGN.md](hunts/CAMPAIGN.md) is the experiment write-up
+(objective, method, yield, distributions, threats to validity, exact
+reproduction commands), generated from the raw records by
+`scripts/report.py` so it cannot drift from the data. Individual specimens
+are `hunts/SPECIES_*.md`; every candidate that was ever run, passing or
+failing, is one JSON line in `hunts/_screen/shard_*.jsonl`.
 
 ## Run it
 
@@ -137,9 +144,13 @@ mass, GIF/MP4 round-trips, and a headless render of the Streamlit app.
 ## Discovery run of 2026-08-28
 
 120 candidates screened (two batches of 60, four and three shards in
-parallel), 96 viable, **6 dividing under the strict criterion**, 3 curated
-into species with reports, genomes and media. Mass drift across every run
-stayed at ~1e-16 relative.
+parallel), 96 viable, **7 dividing under the strict criterion, 6 of them
+viable**, 3 curated into species with reports, genomes and media. Mass drift
+across every run stayed at ~1e-16 relative and the conservation gate was
+never the binding constraint in any run.
+
+Full write-up with method, distributions and limitations:
+[`hunts/CAMPAIGN.md`](hunts/CAMPAIGN.md).
 
 Division counts differ between the screening run (720 steps, tracked every
 12) and the longer recording run (900 steps, tracked every 6). Both are

@@ -157,16 +157,38 @@ def _bump(x: np.ndarray) -> np.ndarray:
     return np.where(inside, np.exp(4.0 - 1.0 / (safe * (1.0 - safe))), 0.0)
 
 
-def build_kernel(size: int, radius: float, betas: np.ndarray) -> np.ndarray:
-    """One multi-shell concentric ring kernel, normalized to unit sum."""
+def _shells(size: int, radius: float, betas: np.ndarray) -> np.ndarray:
+    """Unnormalized multi-shell profile."""
     r = _radial_grid(size) / max(radius, 1e-6)
     n = len(betas)
     idx = np.minimum((r * n).astype(int), n - 1)
     k = np.asarray(betas)[idx] * _bump(r * n - idx)
-    k = np.where(r < 1.0, k, 0.0)
+    return np.where(r < 1.0, k, 0.0)
+
+
+def build_kernel(size: int, radius: float, betas: np.ndarray) -> np.ndarray:
+    """One multi-shell concentric ring kernel, normalized to unit sum.
+
+    Small radii cannot resolve many shells. At radius 3 with three shells
+    each shell is one cell wide, every grid sample lands exactly on a zero
+    of the bump, and the profile comes out identically zero. Rather than
+    losing the candidate (two of 120 in the first campaign died this way),
+    collapse to the single shell the radius can support, which is a plain
+    ring at that radius.
+
+    This branch is reachable only for specs that would otherwise be an empty
+    kernel, so no working configuration changes behaviour.
+    """
+    k = _shells(size, radius, np.asarray(betas))
+    if k.sum() <= 0:
+        k = _shells(size, radius, np.array([1.0]))
     total = k.sum()
-    if total <= 0:                      # degenerate spec: refuse silently? no.
-        raise ValueError(f"empty kernel (radius={radius}, betas={betas})")
+    if total <= 0:
+        # A radius below about 1.5 cells cannot form a ring at all. Loud,
+        # because at that point the spec is meaningless rather than coarse.
+        raise ValueError(
+            f"kernel has no support at radius={radius}: too small to resolve "
+            f"a ring on the grid (betas={betas})")
     return k / total
 
 
