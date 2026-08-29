@@ -1,0 +1,291 @@
+{
+  "generated": "2026-08-28T21:57:44",
+  "range": [
+    1,
+    5
+  ],
+  "runs": [
+    {
+      "hunt": 1,
+      "species": "CHASER_DYAD",
+      "verified": true,
+      "report": "hunts/HUNT_001_CHASER_DYAD.md",
+      "failed_gates": [],
+      "metrics": {
+        "steps": 400,
+        "mass_0": 799.9999999999999,
+        "mass_final": 799.9999999999999,
+        "mass_drift": 1.4210854715202006e-16,
+        "concentration_final": 10.118281103394786,
+        "entropy_final": 8.697696007606844,
+        "v_cm": 0.003438445054523094,
+        "s_dot": 0.00048016927348433215,
+        "com_final": [
+          78.0064836140405,
+          71.91746867551142
+        ],
+        "attractor_conc_before": 10.118281103394786,
+        "attractor_conc_after_blast": 12.174555273256592,
+        "attractor_conc_healed": 11.571532239686153,
+        "attractor_disruption": 0.20322366505234823,
+        "attractor_recovery": 1.143626286069853,
+        "attractor_heal_mass_ok": true
+      },
+      "genome": {
+        "n_channels": 2,
+        "size": 128,
+        "dx": 1.0,
+        "dt": 0.05,
+        "kernel_radius": [
+          8.457191805606886,
+          14.809812200008817
+        ],
+        "kernel_sigma": [
+          3.2602019987461333,
+          3.2464053338024357
+        ],
+        "K": [
+          [
+            -0.7876895768819296,
+            -2.5801518857119214
+          ],
+          [
+            0.8282608420765968,
+            -1.4578900645411248
+          ]
+        ],
+        "self_repulsion": 0.5065430831572099,
+        "repulsion_sigma": 1.7703675111190635,
+        "v_max": 0.35,
+        "seed": 1
+      },
+      "elapsed_s": 2.742922067642212
+    },
+    {
+      "hunt": 2,
+      "species": "ORBITAL_PAIR",
+      "verified": true,
+      "report": "hunts/HUNT_002_ORBITAL_PAIR.md",
+      "failed_gates": [],
+      "metrics": {
+        "steps": 400,
+        "mass_0": 800.0,
+        "mass_final": 800.0,
+        "mass_drift": 0.0,
+        "concentration_final": 10.074722612984914,
+        "entropy_final": 8.759191180251534,
+        "v_cm": 0.00280644116215895,
+        "s_dot": 0.0008809541687258005,
+        "com_final": [
+          89.22110257537432,
+          102.96322491618604
+        ],
+        "attractor_conc_before": 10.074722612984914,
+        "attractor_conc_after_blast": 11.610537806772578,
+        "attractor_conc_healed": 10.892995290177094,
+        "attractor_disruption": 0.15244242971098898,
+        "attractor_recovery": 1.081220367907454,
+        "attractor_heal_mass_ok": true
+      },
+      "genome": {
+        "n_channels": 2,
+        "size": 128,
+        "dx": 1.0,
+        "dt": 0.05,
+        "kernel_radius": [
+          10.02278712079722,
+          17.994050765766616
+        ],
+        "kernel_sigma": [
+          2.3744368033291616,
+          3.2991309475921966
+        ],
+        "K": [
+          [
+            -1.347612317068191,
+            -2.2093138551729856
+          ],
+          [
+            1.4429408078077046,
+            -0.9894919191049115
+          ]
+        ],
+        "self_repulsion": 0.9882448772095005,
+        "repulsion_sigma": 2.104050086197955,
+        "v_max": 0.35,
+        "seed": 2
+      },
+      "elapsed_s": 0.6576528549194336
+    },
+    {
+      "hunt": 3,
+      "species": "FLEEING_SHELL",
+      "verified": false,
+      "report": "hunts/HUNT_003_REJECTED.md",
+      "failed_gates": [
+        "attractor_self_heal"
+      ],
+      "metrics": {
+        "steps": 400,
+        "mass_0": 800.0,
+        "mass_final": 800.0,
+        "mass_drift": 0.0,
+        "concentration_final": 13.229511850704641,
+        "entropy_final": 8.646355462916361,
+        "v_cm": 0.0025426722087853897,
+        "s_dot": 0.0014309982325960036,
+        "com_final": [
+          39.82112131305046,
+          19.402012911333436
+        ],
+        "attractor_conc_before": 13.229511850704641,
+        "attractor_conc_after_blast": 17.806353718130026,
+        "attractor_conc_healed": 16.691446527498638,
+        "attractor_disruption": 0.3459569724926479,
+        "attractor_recovery": 1.2616827223757014,
+        "attractor_heal_mass_ok": true
+      },
+      "genome": {
+        "n_channels": 2,
+        "size": 128,
+        "dx": 1.0,
+        "dt": 0.05,
+        "kernel_radius": [
+          12.512677170056461,
+          19.507880813257092
+        ],
+        "kernel_sigma": [
+          2.68087439900816,
+          4.4938514712453905
+        ],
+        "K": [
+          [
+            -1.0946793271888513,
+            -1.9004117892298136
+          ],
+          [
+            1.2620704583938798,
+            -1.2607915574841853
+          ]
+        ],
+        "self_repulsion": 1.0794039787584508,
+        "repulsion_sigma": 2.5600562107000635,
+        "v_max": 0.35,
+        "seed": 3
+      },
+      "elapsed_s": 0.5726583003997803
+    },
+    {
+      "hunt": 4,
+      "species": "PULSE_WANDERER",
+      "verified": true,
+      "report": "hunts/HUNT_004_PULSE_WANDERER.md",
+      "failed_gates": [],
+      "metrics": {
+        "steps": 400,
+        "mass_0": 800.0,
+        "mass_final": 800.0,
+        "mass_drift": 0.0,
+        "concentration_final": 18.265133672762488,
+        "entropy_final": 8.713784121160492,
+        "v_cm": 0.002779320486117631,
+        "s_dot": 0.0008731635779795965,
+        "com_final": [
+          16.834416955154754,
+          82.56148437245776
+        ],
+        "attractor_conc_before": 18.265133672762488,
+        "attractor_conc_after_blast": 20.295891967045595,
+        "attractor_conc_healed": 19.141485075935382,
+        "attractor_disruption": 0.11118223007102501,
+        "attractor_recovery": 1.0479794683616104,
+        "attractor_heal_mass_ok": true
+      },
+      "genome": {
+        "n_channels": 2,
+        "size": 128,
+        "dx": 1.0,
+        "dt": 0.05,
+        "kernel_radius": [
+          11.724042829147926,
+          20.533834911243865
+        ],
+        "kernel_sigma": [
+          2.250984680119146,
+          4.401191668596105
+        ],
+        "K": [
+          [
+            -0.7384773652985913,
+            -1.601408724385144
+          ],
+          [
+            1.0342723618297367,
+            -0.9806546369472374
+          ]
+        ],
+        "self_repulsion": 0.5919747024599642,
+        "repulsion_sigma": 2.737480492245595,
+        "v_max": 0.35,
+        "seed": 4
+      },
+      "elapsed_s": 0.5361449718475342
+    },
+    {
+      "hunt": 5,
+      "species": "TWIN_VORTEX",
+      "verified": true,
+      "report": "hunts/HUNT_005_TWIN_VORTEX.md",
+      "failed_gates": [],
+      "metrics": {
+        "steps": 400,
+        "mass_0": 800.0,
+        "mass_final": 800.0,
+        "mass_drift": 1.4210854715202004e-16,
+        "concentration_final": 9.734948044833429,
+        "entropy_final": 8.941213976463454,
+        "v_cm": 0.011067033139368267,
+        "s_dot": 0.0011954956717273647,
+        "com_final": [
+          64.7671430624603,
+          20.748894231521316
+        ],
+        "attractor_conc_before": 9.734948044833429,
+        "attractor_conc_after_blast": 12.149870605367052,
+        "attractor_conc_healed": 11.684571680058642,
+        "attractor_disruption": 0.24806732911279195,
+        "attractor_recovery": 1.2002705742492303,
+        "attractor_heal_mass_ok": true
+      },
+      "genome": {
+        "n_channels": 2,
+        "size": 128,
+        "dx": 1.0,
+        "dt": 0.05,
+        "kernel_radius": [
+          13.008756347264518,
+          21.790498031077362
+        ],
+        "kernel_sigma": [
+          2.324469408180316,
+          4.242011636946779
+        ],
+        "K": [
+          [
+            -0.8872840283677704,
+            -1.73155067690863
+          ],
+          [
+            2.4750116762994865,
+            -1.2385580486204986
+          ]
+        ],
+        "self_repulsion": 0.9017789945010947,
+        "repulsion_sigma": 2.0100055348498813,
+        "v_max": 0.35,
+        "seed": 5
+      },
+      "elapsed_s": 0.5357787609100342
+    }
+  ]
+}
