@@ -1,57 +1,85 @@
-"""Interactive viewport for the non-reciprocal field simulator.
+"""Neural Flow Lenia discovery viewport.
 
-Run:  .venv/bin/streamlit run app/viewer.py
+    streamlit run app/viewer.py
 
-Live controls for the asymmetric cross-weights K_01 and K_10, plus the two
-perturbation operators the oracle uses: a Gaussian noise blast and a digital
-scalpel that slices mass out of the soliton so you can watch it heal.
+Click the canvas to act on the world. The tool selector decides what a click
+does: drop a creature, irradiate its genome, cut it, or move the lamp. All
+four act at the clicked cell, so the world is edited by pointing at it rather
+than by typing coordinates.
+
+Rendering goes through `engine.render`, the same code path the recorder uses,
+so a saved clip is exactly what was on screen.
 """
 
 from __future__ import annotations
 
 import json
 import sys
+import time
 from pathlib import Path
 
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt          # noqa: E402
-import numpy as np                        # noqa: E402
-import streamlit as st                    # noqa: E402
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from engine.oracle import (               # noqa: E402
-    center_of_mass, concentration, spatial_entropy,
-)
-from engine.physics import Genome, Simulator  # noqa: E402
+from app.tools import PRESET_MIX, TOOLS, apply_click   # noqa: E402
+from engine import neural_field as nf          # noqa: E402
+from engine import novelty_oracle as no        # noqa: E402
+from engine import render as rd                # noqa: E402
 
-st.set_page_config(page_title="fun-dots viewport", layout="wide")
+st.set_page_config(page_title="fun-dots · Neural Flow Lenia", layout="wide")
+
+SPECIES_DIR = ROOT / "outputs" / "species"
+OUTPUTS = ROOT / "outputs"
+SCALE = 3                       # canvas upscale factor
+CLICK_STRIDE = 2                # cell spacing of the invisible click grid
 
 
 # --------------------------------------------------------------------------
-# State
+# World lifecycle
 # --------------------------------------------------------------------------
 
 
-def build(genome: Genome) -> None:
-    st.session_state.genome = genome
-    st.session_state.sim = Simulator(genome)
-    st.session_state.history = []
+def new_world(seed: int, genome_file: str | None = None) -> nf.World:
+    if genome_file:
+        data = json.loads((SPECIES_DIR / genome_file).read_text())
+        data["config"]["advect_genome"] = True     # brush needs a live genome
+        w = nf.World.from_json(data, seed=seed)
+    else:
+        cfg = nf.Config(advect_genome=True)
+        w = nf.World.random(cfg, seed=seed)
+    w.light_pos = None
+    return w
 
 
-def load_genome(path: Path) -> Genome:
-    data = json.loads(path.read_text())
-    return Genome.from_dict(data)
+def reset(seed: int, genome_file: str | None, spawn_preset: str = "AMOEBA"):
+    w = new_world(seed, genome_file)
+    w.spawn(w.cfg.size / 2, w.cfg.size / 2,
+            nf.preset_genome(spawn_preset, w.cfg),
+            radius=20.0, peak=1.2,
+            channel_mix=PRESET_MIX.get(spawn_preset), seed=seed)
+    st.session_state.world = w
+    st.session_state.frames = []
+    st.session_state.log = [f"world reset (seed {seed}, {spawn_preset} seeded)"]
+    st.session_state.tracker = no.SpeciationTracker(size=w.cfg.size)
+    st.session_state.tracker.update(np.asarray(w.A))
+    st.session_state.last_click = None
 
 
-if "sim" not in st.session_state:
-    build(Genome())
+if "world" not in st.session_state:
+    reset(7, None)
+
+world: nf.World = st.session_state.world
+cfg = world.cfg
 
 
-sim: Simulator = st.session_state.sim
-genome: Genome = st.session_state.genome
+def log(msg: str) -> None:
+    st.session_state.log.insert(0, f"[t={world.t}] {msg}")
+    del st.session_state.log[24:]
 
 
 # --------------------------------------------------------------------------
@@ -59,128 +87,207 @@ genome: Genome = st.session_state.genome
 # --------------------------------------------------------------------------
 
 with st.sidebar:
-    st.header("Non-reciprocal coupling")
-    st.caption("K_01 is how channel 0 responds to 1. K_10 is the reverse. "
-               "Equal magnitudes with equal sign = reciprocal, and nothing "
-               "self-propels. Break the symmetry to get chasers.")
-
-    k01 = st.slider("K_01  (chaser gain)", -4.0, 4.0,
-                    float(genome.K[0][1]), 0.05)
-    k10 = st.slider("K_10  (fleer gain)", -4.0, 4.0,
-                    float(genome.K[1][0]), 0.05)
-    k00 = st.slider("K_00  (self 0)", -3.0, 3.0, float(genome.K[0][0]), 0.05)
-    k11 = st.slider("K_11  (self 1)", -3.0, 3.0, float(genome.K[1][1]), 0.05)
-
-    asym = abs(k01 - k10)
-    st.metric("asymmetry |K_01 - K_10|", f"{asym:.2f}")
-
-    sim.K = np.array([[k00, k01], [k10, k11]], dtype=np.float64)
-    genome.K = [[k00, k01], [k10, k11]]
+    st.header("World")
+    genomes = sorted(p.name for p in SPECIES_DIR.glob("*_genome.json")) \
+        if SPECIES_DIR.exists() else []
+    choice = st.selectbox("brain", ["random"] + genomes)
+    seed = st.number_input("seed", 0, 10_000, 7)
+    if st.button("Reset world", width='stretch'):
+        reset(int(seed), None if choice == "random" else choice)
+        st.rerun()
 
     st.divider()
-    st.header("Kernels")
-    r0 = st.slider("ring radius ch0", 3.0, 30.0, float(genome.kernel_radius[0]), 0.5)
-    r1 = st.slider("ring radius ch1", 3.0, 30.0, float(genome.kernel_radius[1]), 0.5)
-    s0 = st.slider("ring sigma ch0", 0.5, 8.0, float(genome.kernel_sigma[0]), 0.1)
-    s1 = st.slider("ring sigma ch1", 0.5, 8.0, float(genome.kernel_sigma[1]), 0.1)
-    if [r0, r1] != list(genome.kernel_radius) or [s0, s1] != list(genome.kernel_sigma):
-        genome.kernel_radius = [r0, r1]
-        genome.kernel_sigma = [s0, s1]
-        from engine.physics import build_kernels
-        sim.kern_ft, sim.rep_ft = build_kernels(genome)
+    st.header("Physics")
+    alpha = st.slider("concentration avoidance α", 0.0, 1.5, float(cfg.alpha), 0.01)
+    gain_max = st.slider("flux gain ceiling", 0.2, 6.0, float(cfg.gain_max), 0.1)
+    theta_max = st.slider("orientation drift ceiling (rad)", 0.0, float(np.pi),
+                          float(cfg.theta_max), 0.05,
+                          help="0 makes the flow a pure gradient descent and "
+                               "the world relaxes; larger values make it "
+                               "active and it can move forever.")
+    e_scale = st.slider("growth amplitude", 0.1, 3.0, float(cfg.e_scale), 0.05)
+    max_step = st.slider("max displacement / step", 0.1, 0.95,
+                         float(cfg.max_step), 0.05)
+    if (alpha, gain_max, theta_max, e_scale, max_step) != (
+            cfg.alpha, cfg.gain_max, cfg.theta_max, cfg.e_scale, cfg.max_step):
+        import dataclasses
+        world.cfg = dataclasses.replace(
+            cfg, alpha=alpha, gain_max=gain_max, theta_max=theta_max,
+            e_scale=e_scale, max_step=max_step)
+        cfg = world.cfg
 
     st.divider()
-    st.header("Load a hunted species")
-    hunts = sorted((ROOT / "hunts").glob("HUNT_*.md"))
-    st.caption(f"{len(hunts)} hunt reports on disk")
-    genome_files = sorted((ROOT / "outputs").glob("*_genome.json"))
-    if genome_files:
-        pick = st.selectbox("genome", [p.name for p in genome_files])
-        if st.button("Load genome"):
-            build(load_genome(ROOT / "outputs" / pick))
-            st.rerun()
-    else:
-        st.caption("No genome JSON in outputs/ yet. Run scripts/run_hunt.py.")
+    st.header("Display")
+    show_flow = st.checkbox("vector flow overlay", True)
+    show_markers = st.checkbox("organism markers", True)
+    exposure = st.slider("exposure", 0.4, 4.0, 1.6, 0.1)
+    bloom = st.slider("bloom", 0.0, 1.2, 0.45, 0.05)
+
+    st.divider()
+    st.header("Auto-recorder")
+    recording = st.checkbox("record frames", False)
+    clip_len = st.number_input("auto-save every N frames", 20, 600, 120)
+    st.caption(f"buffer: {len(st.session_state.frames)} frames · "
+               f"{'ffmpeg found (MP4+GIF)' if rd.ffmpeg_available() else 'no ffmpeg (GIF only)'}")
 
 
 # --------------------------------------------------------------------------
-# Controls
+# Toolbar
 # --------------------------------------------------------------------------
 
-st.title("fun-dots — non-reciprocal active matter viewport")
+st.title("Neural Flow Lenia — discovery viewport")
 
-c1, c2, c3, c4, c5, c6 = st.columns(6)
-n_steps = c1.number_input("steps / advance", 1, 500, 25)
-if c2.button("▶ Advance", use_container_width=True):
-    sim.step(int(n_steps))
-if c3.button("💥 Noise blast", use_container_width=True):
-    sim.inject_noise(amplitude=0.5, key_seed=int(np.random.randint(1 << 30)))
-    st.toast("Gaussian pulse injected. Mass baseline re-anchored.")
-if c4.button("🔪 Scalpel", use_container_width=True):
-    sim.scalpel(axis=0, position=0.5, width=5)
-    st.toast("Sliced. Advance to watch it heal.")
-if c5.button("↺ Reset", use_container_width=True):
-    build(genome)
-    st.rerun()
-auto = c6.checkbox("auto-run")
+c = st.columns([1.3, 1, 1, 1, 1, 1.2])
+tool = c[0].radio("click tool", list(TOOLS),
+                  horizontal=False, label_visibility="collapsed")
+preset = c[1].selectbox("creature", list(PRESET_MIX), label_visibility="collapsed")
+n_steps = c[2].number_input("steps/advance", 1, 200, 12,
+                            label_visibility="collapsed")
+advance = c[3].button("▶ Advance", width='stretch')
+auto = c[4].checkbox("auto-run")
+brush = c[5].slider("brush radius", 4.0, 40.0, 14.0, 1.0)
 
-st.session_state.history.append({
-    "t": sim.t,
-    "mass": sim.mass(),
-    "drift": sim.mass_drift(),
-    "conc": concentration(sim.rho),
-    "entropy": spatial_entropy(sim.rho),
-})
-st.session_state.history = st.session_state.history[-400:]
+st.caption(f"**{tool}** tool armed — click the canvas. "
+           + {"Spawn": f"Drops a {preset} genome seed where you click.",
+              "Mutate": "Radioactive brush: perturbs the local genome of "
+                        "whatever organism is under the cursor.",
+              "Scalpel": "Excises mass (this intentionally breaks "
+                         "conservation and rebaselines the counter).",
+              "Light": "Moves the lamp; organisms sense it as an input "
+                       "channel."}[tool])
 
 
 # --------------------------------------------------------------------------
-# Canvas
+# Simulation advance
 # --------------------------------------------------------------------------
 
-rho = np.asarray(sim.rho)
-left, right = st.columns([3, 1])
+if advance or auto:
+    world.step(int(n_steps))
+    st.session_state.tracker.update(np.asarray(world.A))
+
+A = np.asarray(world.A)
+blobs = no.extract_blobs(A)
+
+img = rd.upscale(rd.composite(A, exposure=exposure, bloom=bloom), SCALE)
+if show_flow:
+    img = rd.draw_flow(img, np.asarray(world.dy), np.asarray(world.dx),
+                       scale_up=SCALE, stride=6, gain=9.0)
+if show_markers:
+    img = rd.draw_markers(img, [b.centroid for b in blobs], scale_up=SCALE)
+if world.light_pos is not None:
+    img = rd.draw_markers(img, [world.light_pos], scale_up=SCALE, radius=16,
+                          color=(1.0, 1.0, 0.6), alpha=0.5)
+
+if recording:
+    st.session_state.frames.append(img)
+
+
+def save_clip(reason: str) -> None:
+    frames = st.session_state.frames
+    if not frames:
+        log("recorder: nothing buffered, nothing written")
+        return
+    OUTPUTS.mkdir(exist_ok=True)
+    tag = f"CLIP_{time.strftime('%Y%m%d_%H%M%S')}"
+    gif = rd.save_gif(frames[::2], OUTPUTS / f"{tag}.gif", fps=18)
+    mp4 = rd.save_mp4(frames, OUTPUTS / f"{tag}.mp4", fps=30)
+    log(f"recorder ({reason}): {len(frames)} frames -> {gif.name}"
+        + (f" + {mp4.name}" if mp4 else " (no ffmpeg, GIF only)"))
+    st.session_state.frames = []
+
+
+if recording and len(st.session_state.frames) >= int(clip_len):
+    save_clip("auto")
+
+
+# --------------------------------------------------------------------------
+# Canvas with click capture
+# --------------------------------------------------------------------------
+
+left, right = st.columns([3, 1.15])
 
 with left:
-    fig, axes = plt.subplots(1, 3, figsize=(14, 4.8))
-    axes[0].imshow(rho[0], cmap="magma", interpolation="bilinear")
-    axes[0].set_title("channel 0 — magma")
-    axes[1].imshow(rho[1], cmap="viridis", interpolation="bilinear")
-    axes[1].set_title("channel 1 — viridis")
+    n = cfg.size
+    gy, gx = np.meshgrid(np.arange(0, n, CLICK_STRIDE),
+                         np.arange(0, n, CLICK_STRIDE), indexing="ij")
+    fig = go.Figure()
+    fig.add_layout_image(dict(
+        source=Image.fromarray(rd.to_uint8(img)), xref="x", yref="y",
+        x=0, y=0, sizex=n, sizey=n, sizing="stretch", layer="below"))
+    # Invisible pick targets: plotly reports the clicked marker's coordinates,
+    # which is what turns the rendered field into a clickable canvas.
+    fig.add_trace(go.Scattergl(
+        x=gx.ravel(), y=gy.ravel(), mode="markers",
+        marker=dict(size=9, color="rgba(255,255,255,0.02)"),
+        hoverinfo="x+y", name="", showlegend=False))
+    fig.update_xaxes(range=[0, n], visible=False, constrain="domain")
+    fig.update_yaxes(range=[n, 0], visible=False, scaleanchor="x")
+    fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=640,
+                      dragmode="pan", plot_bgcolor="#05060a",
+                      paper_bgcolor="#05060a")
 
-    rgb = np.zeros(rho.shape[1:] + (3,))
-    a = rho[0] / (rho[0].max() + 1e-12)
-    b = rho[1] / (rho[1].max() + 1e-12)
-    rgb[..., 0], rgb[..., 1], rgb[..., 2] = a, b, 0.35 * (a + b)
-    axes[2].imshow(np.clip(rgb, 0, 1), interpolation="bilinear")
-    axes[2].set_title("composite")
-    for ax in axes:
-        ax.axis("off")
-    fig.tight_layout()
-    st.pyplot(fig, use_container_width=True)
-    plt.close(fig)
+    ev = st.plotly_chart(fig, width='stretch', key="canvas",
+                         on_select="rerun", selection_mode="points")
+
+    pts = (ev.get("selection", {}) or {}).get("points", []) if ev else []
+    if pts:
+        cx, cy = float(pts[0]["x"]), float(pts[0]["y"])
+        stamp = (round(cx, 2), round(cy, 2), tool, world.t)
+        if st.session_state.get("last_click") != stamp:
+            st.session_state.last_click = stamp
+            log(apply_click(world, tool, cy, cx, preset, brush))
+            st.rerun()
+
+# --------------------------------------------------------------------------
+# Instrument panel
+# --------------------------------------------------------------------------
 
 with right:
     st.subheader("Invariants")
-    drift = sim.mass_drift()
-    st.metric("step", sim.t)
-    st.metric("total mass", f"{sim.mass():.6f}")
+    drift = world.mass_drift()
+    m1, m2 = st.columns(2)
+    m1.metric("step", world.t)
+    m2.metric("mass", f"{world.mass():.1f}")
     st.metric("mass drift", f"{drift:.2e}",
-              delta="within 1e-4 gate" if drift <= 1e-4 else "GATE BREACH",
+              delta="within 1e-4" if drift <= 1e-4 else "GATE BREACH",
               delta_color="normal" if drift <= 1e-4 else "inverse")
-    st.metric("concentration (peak/mean)", f"{concentration(sim.rho):.2f}")
-    st.metric("spatial entropy", f"{spatial_entropy(sim.rho):.4f}")
-    cx, cy = center_of_mass(sim.rho)
-    st.metric("centre of mass", f"({cx:.1f}, {cy:.1f})")
 
-hist = st.session_state.history
-if len(hist) > 2:
-    st.line_chart(
-        {"concentration": [h["conc"] for h in hist],
-         "entropy x10": [h["entropy"] * 10 for h in hist]},
-        height=180,
-    )
+    fc = no.frame_complexity(A)
+    st.subheader("Emergence")
+    g1, g2 = st.columns(2)
+    g1.metric("organisms", fc["n_blobs"])
+    g2.metric("Euler χ", fc["euler"])
+    g1.metric("spatial MI", f"{fc['spatial_mi']:.2f}")
+    g2.metric("cross-ch MI", f"{fc['cross_channel_mi']:.2f}")
+    g1.metric("morph diversity", f"{fc['morph_diversity']:.2f}")
+    g2.metric("peak/mean", f"{fc['concentration']:.1f}")
+
+    tr: no.SpeciationTracker = st.session_state.tracker
+    reps = tr.reproduction_events(min_child_life=3)
+    st.metric("fission events (surviving)", len(reps))
+    if tr.organisms:
+        gens = max(o.generation for o in tr.organisms.values())
+        st.caption(f"{len(tr.organisms)} organisms tracked · deepest "
+                   f"generation {gens}")
+
+    st.subheader("Genome field")
+    Gf = np.asarray(world.Gf)
+    tot = A.sum(axis=0)
+    live = tot > 0.08 * max(tot.max(), 1e-9)
+    if live.any():
+        gm = Gf[:, live]
+        st.caption(f"live-cell genome spread (std across cells): "
+                   f"{float(gm.std(axis=1).mean()):.3f} — rises when the "
+                   f"brush or hybridization creates variation")
+    else:
+        st.caption("no live cells")
+
+    if st.button("Save clip now", width='stretch'):
+        save_clip("manual")
+        st.rerun()
+
+    st.subheader("Log")
+    st.code("\n".join(st.session_state.log[:12]) or "—", language="text")
 
 if auto:
-    sim.step(int(n_steps))
     st.rerun()

@@ -1,0 +1,120 @@
+{
+  "generated": "2026-08-28T23:34:36",
+  "screened": 120,
+  "viable": 96,
+  "reproducing_found": 3,
+  "species": [
+    {
+      "species": "OSCILLIS",
+      "report": "hunts/SPECIES_001_OSCILLIS.md",
+      "genome": "outputs/species/SPECIES_001_OSCILLIS_genome.json",
+      "reproduction_events": 4,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.02021182927976376
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.038479038341430204
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.16666666666666666
+        }
+      },
+      "media": {
+        "png": "SPECIES_001_OSCILLIS_final.png",
+        "gif": "SPECIES_001_OSCILLIS.gif",
+        "mp4": "SPECIES_001_OSCILLIS.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "MITOSA",
+      "report": "hunts/SPECIES_002_MITOSA.md",
+      "genome": "outputs/species/SPECIES_002_MITOSA_genome.json",
+      "reproduction_events": 5,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.01467983531530357
+        },
+        "predatory_pursuit": {
+          "established": true,
+          "score": 0.47458006117575635
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.42034469984342515
+        }
+      },
+      "media": {
+        "png": "SPECIES_002_MITOSA_final.png",
+        "gif": "SPECIES_002_MITOSA.gif",
+        "mp4": "SPECIES_002_MITOSA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "VAGRANT",
+      "report": "hunts/SPECIES_003_VAGRANT.md",
+      "genome": "outputs/species/SPECIES_003_VAGRANT_genome.json",
+      "reproduction_events": 3,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.012871576888032107
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.19748532708237249
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.4989243197660682
+        }
+      },
+      "media": {
+        "png": "SPECIES_003_VAGRANT_final.png",
+        "gif": "SPECIES_003_VAGRANT.gif",
+        "mp4": "SPECIES_003_VAGRANT.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    }
+  ],
+  "flagged_by_bouncer": {
+    "cyclic_locomotion": 3
+  },
+  "anomaly_clips": [
+    {
+      "seed": 317,
+      "flagged": [
+        "cyclic_locomotion"
+      ],
+      "media": {
+        "png": "ANOMALY_317_CYCLIC_final.png",
+        "gif": "ANOMALY_317_CYCLIC.gif",
+        "mp4": "ANOMALY_317_CYCLIC.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "seed": 303,
+      "flagged": [
+        "cyclic_locomotion"
+      ],
+      "media": {
+        "png": "ANOMALY_303_CYCLIC_final.png",
+        "gif": "ANOMALY_303_CYCLIC.gif",
+        "mp4": "ANOMALY_303_CYCLIC.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    }
+  ]
+}
