@@ -11,9 +11,19 @@ Run date: 2026-08-28. Engine: `engine/neural_field.py` at commit `2f3ebe5`.
 
 ## 1. Results
 
-120 candidates screened in two batches of 60. 96 viable. 6 dividing under
-the strict criterion. 3 curated into species with reports, genomes and
-media.
+120 candidates screened in two batches of 60. 96 viable. 7 dividing under
+the strict criterion, of which 6 were also viable. 3 curated into species
+with reports, genomes and media.
+
+The full campaign write-up, generated from the raw records, is
+`hunts/CAMPAIGN.md`. This document covers what the numbers were and how
+several of them were wrong first; the campaign report covers method, yield,
+distributions and reproduction.
+
+Dividing while failing a viability gate is a real category and worth keeping
+separate: one candidate split its mass into surviving, substantial parts and
+still failed non-triviality, so it was never eligible for curation.
+Division is necessary for a species here, not sufficient.
 
 | species | seed | alpha | divisions (screen / recording) | largest offspring | behaviours established |
 | --- | --- | --- | --- | --- | --- |
@@ -50,7 +60,7 @@ location. Best margin observed was `+0.02` against a `+0.05` threshold.
 
 ---
 
-## 2. The four measurement failures
+## 2. The five measurement failures
 
 ### 2.1 Debris counted as offspring
 
@@ -112,7 +122,32 @@ catch in general, because both numbers were correct measurements. Only the
 juxtaposition was false, and it was caught by an internal consistency check
 (strict must be <= raw), not by any test.
 
-### 2.4 Merged organisms that never died
+### 2.4 Two candidates killed by an unresolvable kernel
+
+**Symptom.** Two of 120 screening records (seeds 356 and 400) contained
+`ValueError('empty kernel (radius=3.0, betas=[1. 0. 0.])')` instead of a
+result.
+
+**Cause.** A kernel at the minimum radius of 3 cells, divided into 3
+concentric shells, gives each shell a width of one cell. The bump profile
+`exp(4 - 1/(x(1-x)))` is zero at both ends of its interval, so every integer
+grid sample of a one-cell shell lands exactly on a zero and the whole
+profile comes out identically zero. An aliasing failure at the smallest
+radius, not a numerical one.
+
+**Fix.** Collapse to the single shell the radius can support, which is a
+plain ring at that radius. The branch is reachable only for specs that would
+otherwise be empty, so no working candidate changes behaviour. A true
+degenerate case (radius below about 1.5 cells, where no ring exists on the
+grid) still raises loudly.
+
+**Note on how it was found.** Not by a test. The error was correctly logged
+into the record rather than swallowed, and then nobody read the records
+closely for a day. It surfaced only when the campaign report started
+counting error rows. Logging a failure is not the same as noticing it, and
+the reporting layer is what closed that gap.
+
+### 2.5 Merged organisms that never died
 
 **Symptom.** Found by reading the tracker, not by a failing test.
 

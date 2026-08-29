@@ -51,6 +51,29 @@ def test_euler():
           f"two disks={vals[2]} (want 2)")
 
 
+def test_kernel_always_has_support():
+    """No sampled kernel may come out empty.
+
+    At small radii the shells are narrower than the grid can resolve and the
+    naive profile is identically zero, which killed 2 of 120 candidates in
+    the first campaign. Every radius in the configured range must yield a
+    usable kernel for every shell pattern.
+    """
+    cfg = nf.Config()
+    bad = []
+    for radius in np.linspace(cfg.r_min, cfg.r_max, 24):
+        for betas in ([1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0],
+                      [1.0, 0.5, 0.2]):
+            k = nf.build_kernel(cfg.size, float(radius), np.array(betas))
+            if not (np.isfinite(k).all() and abs(k.sum() - 1.0) < 1e-9
+                    and (k > 0).any()):
+                bad.append((round(float(radius), 2), betas))
+    check("every kernel in range has support", not bad,
+          f"96 (radius, shell) combinations across {cfg.r_min}-{cfg.r_max} "
+          f"cells, all normalized and non-empty"
+          if not bad else f"empty or malformed: {bad[:4]}")
+
+
 def test_partition_of_unity():
     """The weights of ONE source cell must sum to exactly 1 over the stencil.
 
@@ -452,7 +475,8 @@ def test_viewer_renders():
 
 def main() -> int:
     print("Neural Flow Lenia selftest\n")
-    for t in (test_euler, test_partition_of_unity, test_mass_conservation,
+    for t in (test_euler, test_kernel_always_has_support,
+              test_partition_of_unity, test_mass_conservation,
               test_no_blurring, test_differentiable, test_periodic_labelling,
               test_fission_detection, test_mi_ordering,
               test_mutation_brush_reports_zero, test_click_tools,
