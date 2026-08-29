@@ -1,0 +1,76 @@
+Screened 60 candidates: 56 viable, 2 reproducing.
+Anomaly bouncer over the whole screen: cyclic_locomotion=2
+
+1 more reproducer(s) needed. Hill-climbing from the best viable non-reproducers.
+  lineage from seed 313 (alpha=0.2, spawn r=26.0): start score 7.26 second_share=0.01
+    gen 0: score 5.68 repro=0 second_share=0.01 best_child=0.9% viable=True
+    gen 1: score 6.33 repro=0 second_share=0.00 best_child=1.4% viable=True
+    gen 2: score 6.90 repro=0 second_share=0.01 best_child=0.8% viable=True
+    gen 3: score 1.98 repro=0 second_share=0.00 best_child=0.0% viable=True
+    gen 4: score 5.36 repro=0 second_share=0.00 best_child=0.4% viable=True
+    gen 5: score 5.77 repro=0 second_share=0.00 best_child=0.6% viable=True
+    gen 6: score 6.33 repro=0 second_share=0.01 best_child=0.5% viable=True
+    gen 7: score 6.87 repro=0 second_share=0.01 best_child=0.5% viable=True
+    gen 8: score 5.84 repro=0 second_share=0.00 best_child=0.8% viable=True
+    gen 9: score -1.00 repro=0 second_share=0.01 best_child=1.0% viable=False
+  lineage from seed 320 (alpha=0.8, spawn r=16.0): start score 7.03 second_share=0.00
+    gen 0: score 3.16 repro=0 second_share=0.00 best_child=0.0% viable=True
+    gen 1: score -1.00 repro=0 second_share=0.00 best_child=0.3% viable=False
+    gen 2: score -1.00 repro=0 second_share=0.00 best_child=0.2% viable=False
+    gen 3: score 5.36 repro=0 second_share=0.00 best_child=0.3% viable=True
+    gen 4: score 1.92 repro=0 second_share=0.00 best_child=0.0% viable=True
+    gen 5: score 5.18 repro=0 second_share=0.00 best_child=0.2% viable=True
+    gen 6: score 5.14 repro=0 second_share=0.00 best_child=0.2% viable=True
+    gen 7: score 3.43 repro=0 second_share=0.00 best_child=0.0% viable=True
+    gen 8: score 5.34 repro=0 second_share=0.00 best_child=0.2% viable=True
+    gen 9: score 2.15 repro=0 second_share=0.00 best_child=0.0% viable=True
+  lineage from seed 349 (alpha=0.2, spawn r=16.0): start score 6.45 second_share=0.01
+    gen 0: score 5.15 repro=0 second_share=0.01 best_child=0.0% viable=True
+    gen 1: score -1.00 repro=0 second_share=0.01 best_child=2.4% viable=False
+    gen 2: score -1.00 repro=0 second_share=0.03 best_child=1.2% viable=False
+    gen 3: score -1.00 repro=0 second_share=0.03 best_child=2.7% viable=False
+    gen 4: score -1.00 repro=0 second_share=0.01 best_child=2.4% viable=False
+    gen 5: score -1.00 repro=1 second_share=0.02 best_child=43.0% viable=False
+    gen 6: score -1.00 repro=0 second_share=0.01 best_child=3.6% viable=False
+    gen 7: score -1.00 repro=0 second_share=0.01 best_child=5.5% viable=False
+    gen 8: score 7.19 repro=0 second_share=0.01 best_child=1.2% viable=True
+    gen 9: score -1.00 repro=0 second_share=0.01 best_child=1.6% viable=False
+  lineage from seed 312 (alpha=0.55, spawn r=26.0): start score 6.40 second_share=0.00
+    gen 0: score 6.92 repro=0 second_share=0.07 best_child=4.9% viable=True
+    gen 1: score -1.00 repro=0 second_share=0.00 best_child=0.3% viable=False
+    gen 2: score 2.75 repro=0 second_share=0.00 best_child=0.0% viable=True
+    gen 3: score 16.75 repro=1 second_share=0.01 best_child=89.7% viable=True
+    -> DIVIDER found in lineage 312
+
+Verifying and recording 3 species.
+
+=== SPECIES_001_OSCILLIS (seed 350, alpha=0.2) ===
+  phototaxis: False (lamp(26, 64): 38.4->38.4; lamp(102, 64): 38.4->39.0; lamp(64, 26): 38.5->38.4 | min approach -0.015 (needs > 0.05 for every lamp position))
+  predatory_pursuit: True (28123b60(ch2) -> 1f567d22(ch0) closed 41.3 -> 18.2 cells over 14 frames, monotone 0.85, target speed 2.876)
+  cyclic_locomotion: False (uid=2ce4c843 circling=0.05 spectral_power=0.14 period=22.0 frames (counted only if >= 4) life=23 frames)
+  wrote hunts/SPECIES_001_OSCILLIS.md
+
+=== SPECIES_002_MITOSA (seed 302, alpha=0.2) ===
+  phototaxis: False (lamp(26, 64): 38.4->38.6; lamp(102, 64): 38.4->38.7; lamp(64, 26): 38.4->38.8 | min approach -0.010 (needs > 0.05 for every lamp position))
+  predatory_pursuit: False (5c22ec74(ch2) -> 8baae535(ch0) closed 34.9 -> 34.7 cells over 14 frames, monotone 0.46, target speed 0.751)
+  cyclic_locomotion: False (uid=5c22ec74 circling=0.35 spectral_power=0.05 period=2.0 frames (counted only if >= 4) life=39 frames)
+  wrote hunts/SPECIES_002_MITOSA.md
+
+=== SPECIES_003_VAGRANT (seed 312, alpha=0.55) ===
+  phototaxis: False (lamp(26, 64): 38.4->38.4; lamp(102, 64): 38.4->38.1; lamp(64, 26): 38.4->39.1 | min approach -0.018 (needs > 0.05 for every lamp position))
+  predatory_pursuit: False (bd327c82(ch2) -> 729a3b0d(ch2) closed 20.4 -> 16.9 cells over 20 frames, monotone 0.58, target speed 0.230)
+  cyclic_locomotion: False (uid=efdde365 circling=0.24 spectral_power=0.14 period=5.5 frames (counted only if >= 4) life=23 frames)
+  wrote hunts/SPECIES_003_VAGRANT.md
+
+=== auto-recording flagged run ANOMALY_317_CYCLIC ===
+  wrote outputs/ANOMALY_317_CYCLIC.gif
+
+=== auto-recording flagged run ANOMALY_303_CYCLIC ===
+  wrote outputs/ANOMALY_303_CYCLIC.gif
+
+====================================================================
+DISCOVERY COMPLETE: 3 reproducing species from 60 screened candidates
+  OSCILLIS   repro=5  behaviours=['predatory_pursuit']
+  MITOSA     repro=1  behaviours=none established
+  VAGRANT    repro=1  behaviours=none established
+====================================================================

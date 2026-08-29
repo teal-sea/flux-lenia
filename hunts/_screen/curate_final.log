@@ -1,0 +1,35 @@
+Screened 120 candidates: 96 viable, 6 reproducing.
+Anomaly bouncer over the whole screen: cyclic_locomotion=3
+
+Verifying and recording 3 species.
+
+=== SPECIES_001_OSCILLIS (seed 442, alpha=0.35) ===
+  phototaxis: False (lamp(26, 64): 38.4->37.6; lamp(102, 64): 38.4->37.6; lamp(64, 26): 38.4->37.6 | min approach +0.020 (needs > 0.05 for every lamp position))
+  predatory_pursuit: False (76556492(ch1) -> b8e93b72(ch2) closed 12.0 -> 11.2 cells over 25 frames, monotone 0.58, target speed 0.169)
+  cyclic_locomotion: False (uid=623b149c circling=0.17 spectral_power=0.17 period=3.1 frames (counted only if >= 4) life=26 frames)
+  wrote hunts/SPECIES_001_OSCILLIS.md
+
+=== SPECIES_002_MITOSA (seed 350, alpha=0.2) ===
+  phototaxis: False (lamp(26, 64): 38.4->38.4; lamp(102, 64): 38.4->39.0; lamp(64, 26): 38.5->38.4 | min approach -0.015 (needs > 0.05 for every lamp position))
+  predatory_pursuit: True (9997bf69(ch2) -> e7e9752b(ch0) closed 41.3 -> 18.2 cells over 14 frames, monotone 0.85, target speed 2.876)
+  cyclic_locomotion: False (uid=3ca8911f circling=0.05 spectral_power=0.14 period=22.0 frames (counted only if >= 4) life=23 frames)
+  wrote hunts/SPECIES_002_MITOSA.md
+
+=== SPECIES_003_VAGRANT (seed 458, alpha=0.35) ===
+  phototaxis: False (lamp(26, 64): 38.5->38.6; lamp(102, 64): 38.3->38.8; lamp(64, 26): 38.4->38.7 | min approach -0.013 (needs > 0.05 for every lamp position))
+  predatory_pursuit: False (3c117e13(ch1) -> 274bf5ec(ch1) closed 42.2 -> 26.9 cells over 12 frames, monotone 0.55, target speed 2.908)
+  cyclic_locomotion: False (uid=e4eea9b9 circling=0.04 spectral_power=0.17 period=6.0 frames (counted only if >= 4) life=25 frames)
+  wrote hunts/SPECIES_003_VAGRANT.md
+
+=== auto-recording flagged run ANOMALY_317_CYCLIC ===
+  wrote outputs/ANOMALY_317_CYCLIC.gif
+
+=== auto-recording flagged run ANOMALY_303_CYCLIC ===
+  wrote outputs/ANOMALY_303_CYCLIC.gif
+
+====================================================================
+DISCOVERY COMPLETE: 3 reproducing species from 120 screened candidates
+  OSCILLIS   repro=4  behaviours=none established
+  MITOSA     repro=5  behaviours=['predatory_pursuit']
+  VAGRANT    repro=3  behaviours=none established
+====================================================================
