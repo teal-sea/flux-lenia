@@ -1,0 +1,17 @@
+# Verified working set (Python 3.14.7, macOS arm64, CPU-only JAX).
+# Lower bounds are where the APIs this repo relies on became available;
+# the pinned column on the right is what the 2026-08-28 results were
+# produced with, if you need to reproduce them exactly.
+
+jax>=0.4.30            # 0.11.1   float64 via jax_enable_x64, lax.scan rollouts
+numpy>=2.0             # 2.5.2
+scipy>=1.11            # 1.18.1   ndimage.label for connected components
+pillow>=10.0           # 12.3.0   GIF writing
+matplotlib>=3.8        # 3.11.1   legacy engine plots only (scripts/run_hunt.py)
+
+# Viewer only. The engine, the oracle and the discovery loop run without these.
+streamlit>=1.35        # 1.62.0   needs on_select for the clickable canvas
+plotly>=5.20           # 7.0.0    canvas click capture
+
+# MP4 recording additionally needs an `ffmpeg` binary on PATH. Without it the
+# recorder writes GIF only and says so rather than failing silently.
