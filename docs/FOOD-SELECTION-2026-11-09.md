@@ -72,4 +72,27 @@ The pilot used only `neutral_plus`, where the two lineages are genetically ident
 
 ## Results
 
-(appended after the runs)
+Appended 2026-11-09. All 90 runs finished all 30,000 steps on four InstaBox machines (one calibrated machine and three copies of it, with identical `engine/nutrient.py` and `scripts/food_selection.py` hashes), with no failures. `sum(body) + sum(food)` drifted at most 3e-15 relative in any run. Full per-run table and verdicts: `outputs/food_selection_20261109/SUMMARY.md` (from `scripts/food_selection_summary.py`); series and frames for every run are in the same folder.
+
+**Food did not make any lineage take over, and food is not the cause of selection for any species.** No winner reached a 90% share in any run; the highest final share was 0.648.
+
+| species | food | neutral envelope E | treatment seeds outside E | winner | winner's final share | verdict by the rule |
+|---|---|---|---|---|---|---|
+| OSCILLIS | on | 0.014 | 4 of 5 | +u | 0.54 to 0.60 | selection |
+| OSCILLIS | off | 0.019 | 5 of 5 | +u | 0.56 to 0.60 | selection |
+| MITOSA | on | 0.019 | 2 of 5 | -u | 0.53, 0.54 | no selection detected |
+| MITOSA | off | 0.039 | 5 of 5 | -u | 0.55 to 0.59 | selection |
+| VAGRANT | on | 0.023 | 2 of 5 | +u | 0.54, 0.65 | no selection detected |
+| VAGRANT | off | 0.007 | 5 of 5 | +u | 0.52 to 0.57 | selection |
+
+What the table says:
+
+- **Without food, every species shows a small, consistent shift toward one genome.** All 15 no-food treatment runs move the same way within each species, outside every identical-lineage run: +u gains 6.5 to 10 points in OSCILLIS, -u gains 5.5 to 9 points in MITOSA, and +u gains 1.6 to 6.4 points in VAGRANT. The identical-lineage runs move at most 0.7 to 3.9 points.
+- **Food weakens it.** With food, MITOSA and VAGRANT no longer have a consistent winner, and OSCILLIS keeps the same winner (+u) at about the same size as without food. So in OSCILLIS the shift that survives is the no-food one, not something food adds.
+- **By the end most mass carries ancestry from both lineages.** The share of mass whose ancestry is between 10% and 90% lineage A ranged from 0.18 to 1.00 in the treatment runs. "Lineage A holds 60%" therefore mostly means the average cell is 60% A, not that A's organisms hold 60% of the dish.
+
+**Where the no-food shift comes from (derived from the code, not separately measured).** With no food there is no growth, and blending at a merge is a mass-weighted average, so the mass-weighted ancestry `sum(A_tot * a)` would be exactly conserved if the genome travelled exactly with the matter. In `reintegrate` it does not quite: each body channel moves on its own displacement, while the genome (and the tag with it) moves on the cell's mass-weighted mean displacement (`dy_t`, `engine/neural_field.py` lines 355 to 382). Without food, a change in A's share can only come from that mismatch. The shifts above are real and consistent for this engine. But they are the inheritance rule handing one genome's label to matter that did not come from it, wherever the two genomes' channels move differently. They are not one lineage acquiring or holding more mass. Calling that ROADMAP step 0's selection would overstate it: it is a heredity bias of this transport scheme.
+
+**What this means for the Dish.** Food as built here (blind foraging, the same uptake and decay constants for every genome) does not give a lineage a way to win, and it washes out the small bias the engine already had. Two things stand in the way: the inheritance rule itself picks a direction, and lineages mostly merge on contact. The next measurement should remove the first. Carry the genome on each channel's own displacement, so that `sum(A_tot * genome)` is conserved exactly by transport. Then rerun the no-food arms, where the shift should vanish; if it does not, the explanation above is wrong. Only after that does a selection result in this engine mean what ROADMAP step 0 says.
+
+Deviations from the design: none in the recipe. Calibration history is above and in `outputs/food_selection_20261109/pilot/`. The machines ran about 2.7 machine-hours in total and were deleted after the results were copied back with matching checksums.
