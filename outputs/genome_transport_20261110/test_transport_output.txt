@@ -1,0 +1,16 @@
+OSCILLIS  a. max |A_mean - A_per_channel| over 400 states: 0.0e+00
+OSCILLIS  b. per_channel: max|dS_tag|/M = 1.23e-16 (/sum A|tag| = 1.23e-16), functional genome rows max = 8.84e-17
+OSCILLIS  c. mean (old):   max|dS_tag|/M = 2.05e-03 (/sum A|tag| = 2.05e-03), functional genome rows max = 1.07e-03
+MITOSA    a. max |A_mean - A_per_channel| over 400 states: 0.0e+00
+MITOSA    b. per_channel: max|dS_tag|/M = 7.88e-17 (/sum A|tag| = 7.88e-17), functional genome rows max = 6.78e-17
+MITOSA    c. mean (old):   max|dS_tag|/M = 4.26e-04 (/sum A|tag| = 4.26e-04), functional genome rows max = 2.22e-04
+VAGRANT   a. max |A_mean - A_per_channel| over 400 states: 0.0e+00
+VAGRANT   b. per_channel: max|dS_tag|/M = 1.21e-16 (/sum A|tag| = 1.21e-16), functional genome rows max = 4.71e-17
+VAGRANT   c. mean (old):   max|dS_tag|/M = 5.86e-05 (/sum A|tag| = 5.86e-05), functional genome rows max = 3.05e-05
+
+summary (steps=400):
+species | max dA | per_channel tag drift /M | /A|tag| | fn rows | old tag drift /M | /A|tag|
+OSCILLIS | 0e+00 | 1.23e-16 | 1.23e-16 | 8.84e-17 | 2.05e-03 | 2.05e-03
+MITOSA | 0e+00 | 7.88e-17 | 7.88e-17 | 6.78e-17 | 4.26e-04 | 4.26e-04
+VAGRANT | 0e+00 | 1.21e-16 | 1.21e-16 | 4.71e-17 | 5.86e-05 | 5.86e-05
+ALL OK

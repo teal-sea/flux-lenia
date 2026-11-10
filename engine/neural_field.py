@@ -99,6 +99,14 @@ class Config:
     # viewer's spawner and mutation brush need it on.
     advect_genome: bool = True
 
+    # Genome transport scheme (only matters when advect_genome is True).
+    #   "mean"        : genome moves on the cell's mass-weighted mean displacement
+    #                   (the original behaviour; every earlier result uses it).
+    #   "per_channel" : each channel carries (A_c, A_c*G) on its own displacement, so
+    #                   sum(A_tot * G) is conserved exactly by transport.
+    # See docs/GENOME-TRANSPORT-2026-11-10.md.
+    genome_transport: str = "mean"
+
     @property
     def window(self) -> int:
         """Transport stencil radius. Bilinear splitting of a displacement
@@ -351,6 +359,32 @@ def reintegrate(A, Gf, dy, dx, cfg: Config):
     w = cfg.window
     ax = (-2, -1)
     A_new = jnp.zeros_like(A)
+
+    if cfg.advect_genome and cfg.genome_transport == "per_channel":
+        # Exact: the matter arriving at x from channel c at source s is
+        # w_c(s->x) A_c(s) and carries G(s). G_new = sum(w A_c G) / sum(w A_c).
+        # Mass first, by the same loop as the other branches (so A is bit-identical).
+        for oi in range(-w, w + 1):
+            for oj in range(-w, w + 1):
+                sh = (oi, oj)
+                wy = jnp.clip(1.0 - jnp.abs(oi - jnp.roll(dy, sh, axis=ax)), 0.0, 1.0)
+                wx = jnp.clip(1.0 - jnp.abs(oj - jnp.roll(dx, sh, axis=ax)), 0.0, 1.0)
+                A_new = A_new + wy * wx * jnp.roll(A, sh, axis=ax)
+        # The barrier stops XLA from fusing the genome numerator into the mass loop,
+        # which would change the rounding of A.
+        dy2, dx2, A2, G2 = jax.lax.optimization_barrier((dy, dx, A, Gf))
+        g_num = jnp.zeros_like(Gf)
+        for oi in range(-w, w + 1):
+            for oj in range(-w, w + 1):
+                sh = (oi, oj)
+                wy = jnp.clip(1.0 - jnp.abs(oi - jnp.roll(dy2, sh, axis=ax)), 0.0, 1.0)
+                wx = jnp.clip(1.0 - jnp.abs(oj - jnp.roll(dx2, sh, axis=ax)), 0.0, 1.0)
+                arriving = jnp.sum(wy * wx * jnp.roll(A2, sh, axis=ax), axis=0)
+                g_num = g_num + arriving * jnp.roll(G2, sh, axis=ax)
+        g_den = jnp.sum(A_new, axis=0)
+        return A_new, jnp.where(g_den > 1e-30, g_num / jnp.where(g_den > 1e-30, g_den, 1.0), Gf)
+    if cfg.genome_transport not in ("mean", "per_channel"):
+        raise ValueError(f"unknown genome_transport {cfg.genome_transport!r}")
 
     if cfg.advect_genome:
         Atot = jnp.sum(A, axis=0)

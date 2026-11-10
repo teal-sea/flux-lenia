@@ -15,7 +15,8 @@ Per cell, a = (1 + tag) / 2 is the fraction of lineage-A ancestry. Lineage A's s
 dish is sum(A_tot * a) / sum(A_tot), mass-weighted over body only.
 
 Usage:
-  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR
+  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR [TRANSPORT]
+TRANSPORT is 'mean' (default, the original scheme) or 'per_channel' (docs/GENOME-TRANSPORT-2026-11-10.md).
 """
 
 from __future__ import annotations
@@ -86,13 +87,14 @@ def measure(A, G, F, u) -> dict:
 
 def main() -> None:
     species, seed, arm, food_on, steps, outdir = sys.argv[1:7]
+    transport = sys.argv[7] if len(sys.argv) > 7 else "mean"
     seed, food_on, steps = int(seed), bool(int(food_on)), int(steps)
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
 
     data = json.loads((ROOT / "outputs" / "species" / f"{species}_genome.json").read_text())
     w = nf.World.from_json(data, seed=seed)
-    w.cfg = dataclasses.replace(w.cfg, advect_genome=True)
+    w.cfg = dataclasses.replace(w.cfg, advect_genome=True, genome_transport=transport)
     cfg, params = nu.tagged(w.cfg, {k: np.asarray(v) for k, v in w.params.items()})
     p = nf.params_to_jax(params)
     food = FOOD if food_on else nu.Food(enabled=False)
@@ -142,7 +144,7 @@ def main() -> None:
     share_end = float(np.mean(series["share_A"][-tail:]))
     result = {
         "species": species, "seed": seed, "arm": arm, "food": food_on, "steps": steps,
-        "sample_every": SAMPLE, "food_params": dataclasses.asdict(food),
+        "sample_every": SAMPLE, "genome_transport": transport, "food_params": dataclasses.asdict(food),
         "genome_A_sign": ARMS[arm][0], "genome_B_sign": ARMS[arm][1],
         "spawn_centres": [[ya, xa], [yb, xb]], "lineage_axis_seed": U_SEED,
         "wall_seconds": wall,
