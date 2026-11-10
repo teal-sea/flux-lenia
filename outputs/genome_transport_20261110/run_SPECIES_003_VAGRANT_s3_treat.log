@@ -1,0 +1,1 @@
+{"species": "SPECIES_003_VAGRANT", "seed": 3, "arm": "treat", "food": false, "wall_seconds": 2967.5826845169067, "max_rel_total_drift": 5.576261440588e-16, "share_A_start": 0.499220066099889, "share_A_end": 0.49922006609988556, "body_end": 1631.01158628069, "food_end": 0.0, "n_blobs_end": 29, "largest_blob_frac": 0.4612980327535646}

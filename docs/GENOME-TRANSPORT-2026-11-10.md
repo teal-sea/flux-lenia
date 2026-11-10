@@ -67,3 +67,35 @@ Caveats stated now. The envelope is set by the neutral runs themselves, so if ex
 ## Progress note (batch launched)
 
 2026-11-10 14:03 UTC: 45 jobs (3 species x seeds 1-5 x 3 arms, food off, `per_channel`) launched on citadel by `outputs/genome_transport_20261110/run_all.sh` (scheduler `scripts/run_batch.py`, pid 1147960; 8 concurrent single-thread runs, nice 10). Jobs are ordered seed by seed, so seeds 1-3 finish first. Logs: `runs.log`, `rss.log` (peak RSS per run), `run_*.log`. Early RSS about 0.5 GiB per run; available memory 17-20 GiB. Test results before launch: `outputs/genome_transport_20261110/test_transport_output.txt` (A identical to exactly 0.0; per-channel tag drift at most 1.2e-16 of M over 400 steps; old mode 5.9e-5 to 2.1e-3). No deviation from the design so far.
+
+---
+
+## Results
+
+Appended 2026-11-10 after the batch finished (18:18 UTC; started 14:03 UTC, 4 h 15 min wall). All 45 runs (3 species x seeds 1 to 5 x 3 arms, food off, `per_channel`, 30,000 steps) finished with exit code 0; no reduction of seeds was needed. Machine: citadel (16 vCPU, 31 GiB; the brief's "32 cores / 115 GiB" was wrong, corrected by the user), 8 concurrent single-thread runs under `nice -n 10`, no pause or concurrency cut triggered, peak RSS per run at most 0.51 GiB, each run 1,566 to 3,038 s wall (host load was about 36 to 39 from other work, so wall times are not comparable to the InstaBox runs). Python 3.13.5, jax 0.11.1, numpy 2.5.2, scipy 1.18.1, float64 CPU. Commits: design `f6c43a1` (before any main run), launch note `faf4900`. Per-run table and verdicts: `outputs/genome_transport_20261110/SUMMARY.md` (from `scripts/genome_transport_summary.py`), raw series and frames in the same folder.
+
+**Tests** (`scripts/test_transport.py`, 400 steps per species, output in `outputs/genome_transport_20261110/test_transport_output.txt`): `A` is bit-identical between modes (max difference exactly 0.0) on every one of 400 states for each species. Under `per_channel`, max |S_t - S_0| / M for S = sum(A_tot * tag) was 1.23e-16 (OSCILLIS), 7.9e-17 (MITOSA), 1.21e-16 (VAGRANT); for the functional genome rows at most 8.8e-17. Under the old `mean` mode the same quantity drifted 2.05e-3, 4.26e-4 and 5.86e-5 of M, so the test discriminates. The `mean` path is textually unchanged and gives the same state hash as the pre-change code in a 300-step MITOSA rollout; `scripts/test_nutrient.py` still passes. In the 45 runs, `sum(body)` drift was at most 3.5e-15 relative.
+
+**Result by the rule as written** (neutral envelope E from the 10 neutral runs of the new mode):
+
+| species | neutral envelope E (share) | treatment seeds outside E | winner of those | verdict by the rule |
+|---|---|---|---|---|
+| OSCILLIS | 8.9e-16 | 5 of 5 | +u | persists |
+| MITOSA | 8.3e-16 | 3 of 5 | -u | vanished |
+| VAGRANT | 1.8e-15 | 2 of 5 | -u (mixed) | vanished |
+
+**What those numbers are.** The rule's envelope is set by the neutral runs, and under exact conservation the neutral runs drift by rounding error only (largest |delta| over all 30 neutral runs 1.8e-13 in share points, i.e. about 1e-15 as a fraction), so E is at rounding scale and the rule fires on rounding noise. The design flagged this case in advance ("the envelope shrinks and the rule becomes stricter; the actual sizes are always reported"). The sizes: the largest |delta| of any treatment run is 3.4e-15 of the share (treatment deltas: OSCILLIS +2.0e-15 to +3.2e-15, MITOSA -6.7e-16 to -1.7e-15, VAGRANT -3.3e-16 to -3.4e-15), and the largest excursion of `share_A` from its starting value at any sampled step in any of the 45 runs is 3.7e-15. The old mode's no-food treatment shifts were 5.5 to 10 points (0.055 to 0.10 of the share), consistent winners in all 15 runs. So the shift is smaller by about 12 orders of magnitude and its sign is not tied to a genome in MITOSA and VAGRANT (and in OSCILLIS the +3e-15 is a rounding-level offset, not a share change anyone could see). By the letter of the rule OSCILLIS is "persists"; by the size of the effect it is gone. I report both and do not change the rule after the fact. A rerun that fixes a rounding-scale floor on E would give "vanished" for all three species, but that is a different rule from the one written here.
+
+**Neutral-arm drift, new vs old** (|delta|, share points; old = food-off runs of 2026-11-09, all 5 seeds):
+
+| species | old mode, min to max | new mode, min to max |
+|---|---|---|
+| OSCILLIS | 0.24 to 1.93 | 0 to 8.9e-14 |
+| MITOSA | 0.41 to 3.89 | 5.6e-15 to 8.3e-14 |
+| VAGRANT | 0.02 to 0.66 | 0 to 1.8e-13 |
+
+The old range across species, 0.02 to 3.9 points, matches the food report's "0.7 to 3.9" at its upper end (that figure was the per-species maximum).
+
+**Conclusion.** The food report's explanation holds: the consistent no-food share shift came from the genome and tag travelling on the mass-weighted mean displacement instead of each channel's own. With exact conservation, the treatment and neutral arms differ in share by at most 3.4e-15 in all 15 treatment runs, 12 orders of magnitude below the old effect. What it does not show: the lineages still mix and still build and lose blobs under the new transport (hybrid fraction and blob counts in SUMMARY.md); only the share bookkeeping became exact. Selection in this engine now means a gain in matter, not a relabelling. Limits: 5 seeds per species, one set of species, food off only, tag-based measure.
+
+Deviations from the design: none in the recipe. The host had 16 cores and 31 GiB, not the brief's 32 and 115; the memory guards were set to 6 GiB available and 2.5 GiB RSS per the user's correction (the brief had said 20 GiB). The scheduler `scripts/run_batch.py` and the optional TRANSPORT argument on `scripts/food_selection.py` were added; with the argument omitted that script behaves as before. During test development the first per-channel implementation changed `A` by 1.8e-15 (XLA fused the genome numerator into the mass loop); the fix was an `optimization_barrier` so the mass loop is compiled as in the other branches, and A identity is then exactly 0 (this was done before the design commit and before any main run).

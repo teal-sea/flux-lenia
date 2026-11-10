@@ -38,7 +38,7 @@ def main() -> None:
     old = load(Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / "outputs/food_selection_20261109")
     print(f"{len(new)} new-mode runs, {len(old)} old-mode food-off runs\n")
     print("### Per run (new mode, per_channel)\n")
-    print("| species | arm | seed | A start | A end | delta | hybrid at end | blobs | max |share_A - start| over run | wall s |")
+    print("| species | arm | seed | A start | A end | delta | hybrid at end | blobs | max abs(share_A - start) over run | wall s |")
     print("|---|---|---|---|---|---|---|---|---|---|")
     for sp in SPECIES:
         for arm in ("treat", "neutral_plus", "neutral_minus"):
@@ -49,8 +49,8 @@ def main() -> None:
                 sh = r["series"]["share_A"]
                 f = r["final"]
                 print(f"| {sp[12:]} | {arm} | {s} | {r['share_A_start']:.3f} | {r['share_A_end']:.3f} "
-                      f"| {r['delta_share_A']:+.4f} | {f['hybrid_frac']:.2f} | {f['n_blobs']} "
-                      f"| {max(abs(x - sh[0]) for x in sh):.3f} | {r['wall_seconds']:.0f} |")
+                      f"| {r['delta_share_A']:+.2e} | {f['hybrid_frac']:.2f} | {f['n_blobs']} "
+                      f"| {max(abs(x - sh[0]) for x in sh):.2e} | {r['wall_seconds']:.0f} |")
     print("\n### Verdicts (new mode)\n")
     print("| species | n neutral | neutral envelope E | treat seeds outside E | winner(s) | treat deltas (seeds in order) | median treat delta | verdict |")
     print("|---|---|---|---|---|---|---|---|")
@@ -60,9 +60,9 @@ def main() -> None:
             continue
         winners = sorted({"+u" if r["delta_share_A"] > 0 else "-u" for r in out})
         v = "persists" if len(out) >= 4 else "vanished"
-        print(f"| {sp[12:]} | {len(neu)} | {E:.4f} | {len(out)} of {len(tr)} | {', '.join(winners) or '-'} "
-              f"| {', '.join(f'{r['delta_share_A']:+.3f}' for r in tr)} "
-              f"| {statistics.median(r['delta_share_A'] for r in tr):+.4f} | {v} |")
+        print(f"| {sp[12:]} | {len(neu)} | {E:.2e} | {len(out)} of {len(tr)} | {', '.join(winners) or '-'} "
+              f"| {', '.join(f'{r['delta_share_A']:+.2e}' for r in tr)} "
+              f"| {statistics.median(r['delta_share_A'] for r in tr):+.2e} | {v} |")
     print("\n### Neutral-arm drift, new vs old mode (|delta|, share points; old = food-off runs of 2026-11-09)\n")
     print("| species | old min | old max (=E_old) | new min | new max (=E_new) | old treat outside E_old | new treat outside E_new |")
     print("|---|---|---|---|---|---|---|")
@@ -73,7 +73,7 @@ def main() -> None:
             continue
         od = [abs(r["delta_share_A"]) * 100 for r in on]
         nd = [abs(r["delta_share_A"]) * 100 for r in nn]
-        print(f"| {sp[12:]} | {min(od):.2f} | {max(od):.2f} | {min(nd):.2f} | {max(nd):.2f} "
+        print(f"| {sp[12:]} | {min(od):.2f} | {max(od):.2f} | {min(nd):.1e} | {max(nd):.1e} "
               f"| {len(oo)} of {len(ot)} | {len(no_)} of {len(nt)} |")
 
 
