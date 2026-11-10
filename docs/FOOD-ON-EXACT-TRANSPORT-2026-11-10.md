@@ -50,3 +50,9 @@ For each species:
 - **No selection detected**: otherwise.
 
 Known limits, stated now: 5 seeds per species; the envelope is set by 10 runs; with food on, neutral drift is real, so E is meaningful again; blind foraging means selection can act only through movement and shape.
+
+---
+
+## Progress note (batch launched)
+
+2026-11-10 18:33 UTC: 45 jobs (3 species x seeds 1-5 x 3 arms, food on, `per_channel`) launched on citadel by `outputs/food_on_exact_20261110/run_all.sh` (scheduler `scripts/run_batch.py`; 8 concurrent single-thread runs, nice 10). Available memory at launch 19.7 GiB. Logs: `runs.log`, `rss.log`, `run_*.log` in `outputs/food_on_exact_20261110/`. No deviation from the design so far.

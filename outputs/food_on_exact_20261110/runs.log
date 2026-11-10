@@ -1,0 +1,9 @@
+2026-11-10 18:33:21 batch start: 45 jobs, 8 concurrent, transport=per_channel, pid=1251595
+2026-11-10 18:33:21 launch SPECIES_001_OSCILLIS 1 treat 1 pid=1251600 avail_gib=19.7
+2026-11-10 18:33:21 launch SPECIES_001_OSCILLIS 1 neutral_plus 1 pid=1251601 avail_gib=19.7
+2026-11-10 18:33:21 launch SPECIES_001_OSCILLIS 1 neutral_minus 1 pid=1251602 avail_gib=19.7
+2026-11-10 18:33:21 launch SPECIES_002_MITOSA 1 treat 1 pid=1251603 avail_gib=19.7
+2026-11-10 18:33:21 launch SPECIES_002_MITOSA 1 neutral_plus 1 pid=1251604 avail_gib=19.7
+2026-11-10 18:33:21 launch SPECIES_002_MITOSA 1 neutral_minus 1 pid=1251605 avail_gib=19.7
+2026-11-10 18:33:21 launch SPECIES_003_VAGRANT 1 treat 1 pid=1251606 avail_gib=19.7
+2026-11-10 18:33:21 launch SPECIES_003_VAGRANT 1 neutral_plus 1 pid=1251607 avail_gib=19.7
