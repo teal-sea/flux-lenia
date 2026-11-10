@@ -63,3 +63,7 @@ Per species:
 Caveats stated now. The envelope is set by the neutral runs themselves, so if exact conservation makes the neutral drift very small the envelope shrinks and the rule becomes stricter; the verdict is still computed by the rule as written, and the actual sizes are always reported. A `persists` verdict for a species cannot by itself say what causes the shift (for example genuine genome-dependent dynamics acting through the brain); it only says that the transport mismatch is not the whole explanation. A `vanished` verdict is evidence for the explanation, from 5 seeds per species. Runs from different modes are not paired one-to-one because trajectories diverge.
 
 ---
+
+## Progress note (batch launched)
+
+2026-11-10 14:03 UTC: 45 jobs (3 species x seeds 1-5 x 3 arms, food off, `per_channel`) launched on citadel by `outputs/genome_transport_20261110/run_all.sh` (scheduler `scripts/run_batch.py`, pid 1147960; 8 concurrent single-thread runs, nice 10). Jobs are ordered seed by seed, so seeds 1-3 finish first. Logs: `runs.log`, `rss.log` (peak RSS per run), `run_*.log`. Early RSS about 0.5 GiB per run; available memory 17-20 GiB. Test results before launch: `outputs/genome_transport_20261110/test_transport_output.txt` (A identical to exactly 0.0; per-channel tag drift at most 1.2e-16 of M over 400 steps; old mode 5.9e-5 to 2.1e-3). No deviation from the design so far.
