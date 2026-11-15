@@ -99,7 +99,7 @@ def step(A, Gf, F, light, p, bank, cfg: nf.Config, food: Food):
     khat, ksrc = bank
     U = nf.perceive(A, khat, ksrc)
     E, gain, theta = nf.sensorimotor(U, A, Gf, light, p, cfg)
-    dy, dx = nf.flow_field(E, gain, theta, A, cfg)
+    dy, dx = nf.flow_field(E, gain, theta, A, cfg, Gf)
     A, Gf = nf.reintegrate(A, Gf, dy, dx, cfg)
     if food.enabled:
         A, F = react(A, F, food)

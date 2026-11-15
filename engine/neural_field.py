@@ -56,7 +56,7 @@ import json
 import math
 import zlib
 from dataclasses import dataclass, asdict, field
-from functools import partial
+from functools import lru_cache, partial
 
 import jax
 import jax.numpy as jnp
@@ -106,6 +106,17 @@ class Config:
     #                   sum(A_tot * G) is conserved exactly by transport.
     # See docs/GENOME-TRANSPORT-2026-11-10.md.
     genome_transport: str = "mean"
+
+    # Self/non-self contact repulsion (ROADMAP step 2, velocity route;
+    # docs/CONDITIONAL-BLENDING-2026-11-15.md). 0.0 disables it: the code path is not
+    # traced at all, so every earlier result reproduces bit for bit.
+    #   v += -kappa * grad F,  F = (K*A_tot) * Var_K(G)   (see foreign_mass_field)
+    # K is a unit-sum smooth ring of this radius (cells); only the first
+    # `repulsion_genome_dims` genome rows enter, so the neutral tag (appended last by
+    # engine.nutrient.tagged) never does.
+    repulsion_kappa: float = 0.0
+    repulsion_radius: float = 8.0
+    repulsion_genome_dims: int = 8
 
     @property
     def window(self) -> int:
@@ -319,12 +330,48 @@ def _grad2(f: jnp.ndarray) -> tuple[jnp.ndarray, jnp.ndarray]:
     return gy, gx
 
 
-def flow_field(E, gain, theta, A, cfg: Config):
-    """v = gain * R(theta) grad(E) - alpha grad(A_total), softly bounded.
+@lru_cache(maxsize=None)
+def _repulsion_khat(size: int, radius: float) -> np.ndarray:
+    """rfft2 of the repulsion kernel: one smooth ring (existing build_kernel, single
+    shell), unit sum, support radius `radius`. A numpy constant at trace time."""
+    return np.fft.rfft2(build_kernel(size, radius, np.array([1.0])))
+
+
+def foreign_mass_field(A, Gf, cfg: Config):
+    """F(x) = (K*A_tot)(x) * Var_K(G)(x): foreign mass seen from x.
+
+    Var_K is the mass-weighted variance of the functional genome G (first
+    `repulsion_genome_dims` rows of Gf, never the neutral tag) over the kernel
+    neighbourhood of x. Equivalently F(x) = sum_y K(x-y) A_tot(y) |Gbar(x) - G(y)|^2 with
+    Gbar the neighbourhood's mass-weighted mean genome. It is zero wherever the mass in
+    the neighbourhood shares one genome, so identical-genome lineages feel nothing, and
+    it never reads the genome stored in an empty cell. Three FFT convolutions of
+    (A_tot, A_tot G, A_tot |G|^2); G is centred on its global mass-weighted mean first
+    (F is invariant to that shift; it removes cancellation).
+    """
+    n = min(cfg.repulsion_genome_dims, Gf.shape[0])
+    Atot = jnp.sum(A, axis=0)
+    G = Gf[:n]
+    Gm = jnp.sum(G * Atot, axis=(1, 2)) / (jnp.sum(Atot) + EPS)
+    Gc = G - Gm[:, None, None]
+    q = jnp.sum(Gc ** 2, axis=0)
+    stack = jnp.concatenate([Atot[None], (Atot * q)[None], Atot * Gc], axis=0)
+    khat = _repulsion_khat(A.shape[-1], float(cfg.repulsion_radius))
+    conv = jnp.fft.irfft2(jnp.fft.rfft2(stack) * khat, s=A.shape[-2:])
+    ka, kaq, kag = conv[0], conv[1], conv[2:]
+    ok = ka > 1e-12
+    var = kaq - jnp.sum(kag ** 2, axis=0) / jnp.where(ok, ka, 1.0)
+    return jnp.where(ok, jnp.maximum(var, 0.0), 0.0)
+
+
+def flow_field(E, gain, theta, A, cfg: Config, Gf=None):
+    """v = gain * R(theta) grad(E) - alpha grad(A_total) - kappa grad(F), softly bounded.
 
     The rotation is the active term: it makes the flow non-gradient, so the
     dynamics need not relax to a potential minimum. The alpha term is the
-    only thing stopping mass from collapsing to a delta.
+    only thing stopping mass from collapsing to a delta. The kappa term (off unless
+    cfg.repulsion_kappa != 0 and Gf is given) pushes every channel's mass down the
+    foreign-mass field F, away from mass of a different functional genome.
     """
     gEy, gEx = _grad2(E)
     ct, st = jnp.cos(theta), jnp.sin(theta)
@@ -334,6 +381,10 @@ def flow_field(E, gain, theta, A, cfg: Config):
     gAy, gAx = _grad2(jnp.sum(A, axis=0))
     vy = gain * ry - cfg.alpha * gAy
     vx = gain * rx - cfg.alpha * gAx
+    if cfg.repulsion_kappa != 0.0 and Gf is not None:
+        gFy, gFx = _grad2(foreign_mass_field(A, Gf, cfg))
+        vy = vy - cfg.repulsion_kappa * gFy
+        vx = vx - cfg.repulsion_kappa * gFx
 
     dy, dx = cfg.dt * vy, cfg.dt * vx
     mag = jnp.sqrt(dy ** 2 + dx ** 2) + EPS
@@ -422,7 +473,7 @@ def step(A, Gf, light, p, bank, cfg: Config):
     khat, ksrc = bank
     U = perceive(A, khat, ksrc)
     E, gain, theta = sensorimotor(U, A, Gf, light, p, cfg)
-    dy, dx = flow_field(E, gain, theta, A, cfg)
+    dy, dx = flow_field(E, gain, theta, A, cfg, Gf)
     A_new, Gf_new = reintegrate(A, Gf, dy, dx, cfg)
     return A_new, Gf_new, dy, dx
 
