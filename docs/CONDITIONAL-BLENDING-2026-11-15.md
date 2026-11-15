@@ -109,3 +109,29 @@ Compute: all on InstaBox, box `flux-lenia-step2-w1` (`m_agq6dc6cqnfwkrte3cd4jrpy
 | 30 | 0.000 | 0.000 | yes |
 
 Every candidate had total drift of `sum(body) + sum(food)` at most 8.6e-16 and no velocity saturation attributable to the term (largest single-sample fraction at the bound 4.0e-4, kappa 30). **Chosen `kappa = 3`** (the smallest qualifying candidate). `kappa` is not changed after this point.
+
+## Progress note (main batch launched)
+
+2026-11-15 23:42 UTC: 45 jobs (`outputs/conditional_blending_20261115/jobs.txt`: 3 species x seeds 1-5 x 3 arms, food on, `per_channel`, `kappa = 3`, 30,000 steps) launched on four InstaBox machines, 8 vCPU / 16 GiB each, no auto-suspend problem expected (`--auto-suspend 30m`, `--max-run-minutes -1`). The pilot box was forked three times after the venv and a pilot were proven; the code tarball (HEAD `e0db52d`, `engine/ scripts/ docs/ outputs/species/`) was extracted on w1 before forking, and the sha256 of the sorted `sha256sum scripts/*.py engine/*.py` listing is `1162c787...0edca1` on all four boxes and on citadel. jax 0.11.1 on all four.
+
+| box | id | jobs (line numbers of `jobs.txt`, `(NR-1)%4 == i`) | file |
+|---|---|---|---|
+| `flux-lenia-step2-w1` | `m_agq6dc6cqnfwkrte3cd4jrpyb4` | 12 (i = 0) | `jobs_w1.txt` |
+| `flux-lenia-step2-w2` | `m_agq6dfmjk2axjzlsqufrqy7am4` | 11 (i = 1) | `jobs_w2.txt` |
+| `flux-lenia-step2-w3` | `m_agq6dfofltr4aj5ye7gwuyxl7m` | 11 (i = 2) | `jobs_w3.txt` |
+| `flux-lenia-step2-w4` | `m_agq6dfp7yqbm76wp3dsdq4jdge` | 11 (i = 3) | `jobs_w4.txt` |
+
+Each shard runs `scripts/run_batch.py /data/fl/main per_channel 8 /data/fl/main/jobs_wN.txt` (env: `SHARD=_wN STEPS=30000 PY=/data/fl/venv/bin/python XLA_FLAGS="--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"`, working directory `/data/fl/code`; `/data/fl/env.sh` sets these) as a detached `exec --background` job; the scheduler runs on the box, so it survives the death of any controlling session. Each shard log `/data/fl/main/runs_wN.log` ends with the line `ALL_DONE` when the shard is finished; results are `/data/fl/main/*_food1.json` and `*_frames.npz`; a finished job is a line `done ... rc=0` in the log.
+
+To collect, from any machine with the `instabox-run` wrapper (key injected by the wrapper, never copied to a box), for N in 1 to 4:
+
+```
+~/bin/instabox-run exec flux-lenia-step2-wN --timeout 60 -- 'tail -1 /data/fl/main/runs_wN.log; ls /data/fl/main/*_food1.json | wc -l'      # expect ALL_DONE and the shard's job count
+~/bin/instabox-run exec flux-lenia-step2-wN --timeout 300 -- 'cd /data/fl/main && tar -czf /data/fl/main_wN.tgz . && sha256sum /data/fl/main_wN.tgz'
+~/bin/instabox-run pull flux-lenia-step2-wN /data/fl/main_wN.tgz ./main_wN.tgz     # no pipe to head/tail; compare sha256sum with the box's
+mkdir -p outputs/conditional_blending_20261115 && tar -xzf main_wN.tgz -C outputs/conditional_blending_20261115   # logs are runs_wN.log, rss_wN.log, run_*.log
+python scripts/conditional_blending_summary.py main > outputs/conditional_blending_20261115/SUMMARY.md
+~/bin/instabox-run rm --yes flux-lenia-step2-wN          # only after the verified pull of all shards; w1 holds the pilot copy too (already in the repo)
+```
+
+Pilot and tests took 4 minutes of box time at 10,000 steps per run (about 118 s per run with 8 concurrent), so each shard is expected to take about 25 to 35 minutes. No deviation from the design so far.
