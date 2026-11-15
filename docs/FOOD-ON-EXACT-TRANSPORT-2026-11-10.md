@@ -62,3 +62,35 @@ Known limits, stated now: 5 seeds per species; the envelope is set by 10 runs; w
 2026-11-10 22:06 UTC: the agent session supervising the batch died (its model route returned HTTP 403, "OAuth authentication is currently not allowed for this organization"), and the scheduler process was terminated with it. At that point 24 of 45 runs had finished (seeds 1 to 3 of every species and arm, except VAGRANT seed 3), each with its `*_food1.json` and `*_frames.npz`. The 8 runs in flight (wave 4) were killed before writing output; their `run_*.log` files are empty and nothing from them is used.
 
 2026-11-15 21:0x UTC: the 21 unfinished jobs (`jobs_remaining.txt`: VAGRANT seed 3, and seeds 4 and 5 of every species, all three arms) were relaunched on citadel from scratch by the owning Vizier session, with the same scheduler, concurrency and guards (`scripts/run_batch.py` gained an optional jobs-file argument for this; its default behaviour is unchanged). Each run is self-contained (own seed, own process), so finished and resumed runs mix without any run spanning the gap. The scheduler's own `batch start` line in `runs.log` records the new pid. Deviation from the design: none in the recipe; wall time is split across two dates.
+
+---
+
+## Results
+
+Appended 2026-11-15 after the resumed batch finished (`ALL_DONE` 22:41 UTC). All 45 runs (3 species x seeds 1 to 5 x 3 arms, food on, `per_channel`, 30,000 steps) finished with exit code 0; no seed reduction. First batch: 24 runs between 2026-11-10 18:33 and 22:06 UTC, per-run wall 3,068 to 3,377 s with a host load average near 45 (other work on the machine). Resumed batch: 21 runs between 2026-11-15 21:00 and 22:41 UTC (two waves of 8, one of 5), per-run wall 1,434 to 2,376 s with the runs mostly alone on the host, peak RSS 0.52 GiB per run. Per-run table and verdicts: `outputs/food_on_exact_20261110/SUMMARY.md`, from `scripts/food_on_exact_summary.py`, which also reads the 2026-11-09 food-on runs for the old column.
+
+**Verdicts by the rule, new beside old**
+
+| species | transport | E | treatment seeds outside E | winner | winner's final share | verdict |
+|---|---|---|---|---|---|---|
+| OSCILLIS | `per_channel` (this run) | 0.0138 | 0 of 5 | - | - | no selection detected |
+| OSCILLIS | `mean` (2026-11-09) | 0.0143 | 4 of 5 | +u | 0.54 to 0.60 | selection |
+| MITOSA | `per_channel` (this run) | 0.0577 | 0 of 5 | - | - | no selection detected |
+| MITOSA | `mean` (2026-11-09) | 0.0192 | 2 of 5 | -u | 0.53, 0.54 | no selection detected |
+| VAGRANT | `per_channel` (this run) | 0.0377 | 1 of 5 | +u | 0.66 | no selection detected |
+| VAGRANT | `mean` (2026-11-09) | 0.0228 | 2 of 5 | +u | 0.54, 0.65 | no selection detected |
+
+No envelope is below 1e-6: with food on, the identical-lineage arms drift by 1.4 (OSCILLIS), 5.8 (MITOSA) and 3.8 (VAGRANT) points, so E is meaningful, as the design expected.
+
+**Outcome.** Prediction 2 for OSCILLIS, prediction 3 for MITOSA and VAGRANT. The OSCILLIS +u selection of 2026-11-09 is gone: its five treatment deltas are now +1.3, -1.4, +0.2, -0.2 and -0.3 points, mixed in sign and all inside the 1.4-point envelope, where before four of five were +4.0 to +9.2 points in one direction. It was the transport bias. MITOSA and VAGRANT keep their verdict. No species shows selection under exact transport, and no run reaches a 0.90 share; the largest final share is 0.662 (VAGRANT, treatment, seed 3).
+
+**What else the table says.**
+
+- VAGRANT seed 3 moves +16.3 points toward +u here and moved +14.8 under the old transport (final shares 0.662 and 0.648). The same placement seed gives the same large excursion with the genome carried two different ways, so it belongs to that seed's spawn geometry (and to `+u` always taking the first position), not to the transport; one seed out of five is not selection by the rule.
+- Under exact transport every share change is growth or position. The neutral arms show that growth alone, with identical genomes, moves the share by up to 5.8 points in 30,000 steps (MITOSA, `neutral_minus`, seed 2), against rounding scale without food (`docs/GENOME-TRANSPORT-2026-11-10.md`).
+- The hybrid fraction at the end is 0.30 to 1.00; most mass still carries both ancestries. Lineages still merge on contact.
+- Conservation: `sum(body) + sum(food)` drifted at most 2.75e-15 relative in any run (OSCILLIS 2.75e-15, MITOSA 2.05e-15, VAGRANT 1.60e-15).
+
+**What this means for ROADMAP step 0.** Across the three experiments (variance decay, food selection, exact transport) the picture is consistent: in this engine with these three species, the functional genome changes nothing that food rewards. The brain cannot see food, so a genome cannot change foraging; blending on contact is unconditional, so a lineage cannot hold mass against its neighbour. Selection in step 0's sense needs at least one of those two to change: a food-sensing input to the shared brain, or ROADMAP step 2's conditional blending. Step 2 was named as the other obstacle in the 2026-11-09 report and is the next measurement.
+
+Deviations from the design: none in the recipe. Execution was split across two dates (progress notes above); `scripts/run_batch.py` gained an optional jobs-file argument for the resume, default behaviour unchanged. Hardware as designed.
