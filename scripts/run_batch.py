@@ -1,15 +1,17 @@
 """Run jobs.txt lines (SPECIES SEED ARM FOOD) with N concurrent single-thread processes.
 Pauses launching if MemAvailable < 6 GiB; drops concurrency to 6 if any run's RSS > 2.5 GiB.
-Usage: run_batch.py OUTDIR TRANSPORT [N]; logs to OUTDIR/runs.log, RSS peaks to OUTDIR/rss.log
+Usage: run_batch.py OUTDIR TRANSPORT [N] [JOBS_FILE]; logs to OUTDIR/runs.log, RSS peaks to OUTDIR/rss.log.
+JOBS_FILE defaults to OUTDIR/jobs.txt; a resume after a killed batch passes the unfinished subset.
 """
 import os, subprocess, sys, time
 from pathlib import Path
 out, transport = Path(sys.argv[1]), sys.argv[2]
 n = int(sys.argv[3]) if len(sys.argv) > 3 else 8
+jobs_file = Path(sys.argv[4]) if len(sys.argv) > 4 else out / "jobs.txt"
 root = Path(__file__).resolve().parents[1]
 py = os.environ.get("PY", str(Path.home() / "venvs/flux-lenia-20261103/bin/python"))
 env = dict(os.environ, XLA_FLAGS="--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1")
-jobs = [l.split() for l in (out / "jobs.txt").read_text().splitlines() if l.strip()]
+jobs = [l.split() for l in jobs_file.read_text().splitlines() if l.strip()]
 log = open(out / "runs.log", "a"); rss = open(out / "rss.log", "a")
 def say(m): log.write(time.strftime("%F %T ") + m + "\n"); log.flush()
 def avail_gib():

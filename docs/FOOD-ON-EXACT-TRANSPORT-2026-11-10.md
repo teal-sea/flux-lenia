@@ -56,3 +56,9 @@ Known limits, stated now: 5 seeds per species; the envelope is set by 10 runs; w
 ## Progress note (batch launched)
 
 2026-11-10 18:33 UTC: 45 jobs (3 species x seeds 1-5 x 3 arms, food on, `per_channel`) launched on citadel by `outputs/food_on_exact_20261110/run_all.sh` (scheduler `scripts/run_batch.py`; 8 concurrent single-thread runs, nice 10). Available memory at launch 19.7 GiB. Logs: `runs.log`, `rss.log`, `run_*.log` in `outputs/food_on_exact_20261110/`. No deviation from the design so far.
+
+## Progress note (batch killed, then resumed)
+
+2026-11-10 22:06 UTC: the agent session supervising the batch died (its model route returned HTTP 403, "OAuth authentication is currently not allowed for this organization"), and the scheduler process was terminated with it. At that point 24 of 45 runs had finished (seeds 1 to 3 of every species and arm, except VAGRANT seed 3), each with its `*_food1.json` and `*_frames.npz`. The 8 runs in flight (wave 4) were killed before writing output; their `run_*.log` files are empty and nothing from them is used.
+
+2026-11-15 21:0x UTC: the 21 unfinished jobs (`jobs_remaining.txt`: VAGRANT seed 3, and seeds 4 and 5 of every species, all three arms) were relaunched on citadel from scratch by the owning Vizier session, with the same scheduler, concurrency and guards (`scripts/run_batch.py` gained an optional jobs-file argument for this; its default behaviour is unchanged). Each run is self-contained (own seed, own process), so finished and resumed runs mix without any run spanning the gap. The scheduler's own `batch start` line in `runs.log` records the new pid. Deviation from the design: none in the recipe; wall time is split across two dates.
