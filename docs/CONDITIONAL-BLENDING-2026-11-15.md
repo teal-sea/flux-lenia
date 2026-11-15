@@ -88,3 +88,24 @@ Three outcomes are possible and I do not know which will occur:
 My expectation, a guess and not a measurement: outcome 2 at least for OSCILLIS and MITOSA (the functional genome does not change anything food rewards; the brain cannot see food), with a real chance of outcome 3 for VAGRANT (its control hybrid fraction is already the lowest, median 0.50, so "half of the control" is the hardest bar there). Outcomes can mix across species.
 
 Known limits, stated now: 5 seeds per species; the envelope is set by 10 runs; the radius is fixed at 8 and only `kappa` is calibrated; hybrid fraction is a threshold measure (`0.1 < a < 0.9`) and a thin interface of mixed mass counts as hybrid however narrow; `F` uses the 8 functional dimensions with equal weights, so genomes that differ in dimensions the brain barely reads repel as strongly as ones that differ in dimensions it reads strongly.
+
+---
+
+## Pilot results and tests (appended 2026-11-15, before the main runs)
+
+Compute: all on InstaBox, box `flux-lenia-step2-w1` (`m_agq6dc6cqnfwkrte3cd4jrpyb4`, 8 vCPU / 16 GiB, Debian 13, Python 3.13.5, jax 0.11.1, numpy 2.5.2, scipy 1.18.1, CPU, float64). Nothing heavy ran on citadel; there only the `quick` test (single field evaluations) ran.
+
+**Tests.** `quick` passed on citadel and on the box: tag-only state `F` is bit-identical when the tag is replaced by noise, max `F` 2.5e-18 as spawned and 5.3e-46 with `G8` exactly constant, max velocity difference with and without the term 1.4e-17; treatment state in contact has max `F` = 0.697. `full` passed on the box (300 steps, three species; log `outputs/conditional_blending_20261115/logs/test_repulsion_full_w1.log`): with `kappa = 0` the state hash equals the hash from the pre-change engine (base commit `b2cdd8b`) for OSCILLIS, MITOSA and VAGRANT; with `kappa = 3`, food off, `max |dS_tag| / M` is 1.2e-16, 6.9e-17, 1.1e-16, the functional rows 4.0e-17, 6.2e-17, 6.9e-17, and `|dM| / M` 2.5e-16 in all three; the repulsion changes the trajectory (max `|A(kappa) - A(0)|` 1.19, 9.7e-5, 1.9e-4).
+
+**Pilot** (12 runs, seed 1, treat, food on, 10,000 steps; per-run table `outputs/conditional_blending_20261115/pilot/PILOT.md`). Control hybrid fraction at step 10,000: OSCILLIS 0.857, MITOSA 0.927. End hybrid fraction by candidate:
+
+| kappa | OSCILLIS hybrid | MITOSA hybrid | both at most half the control |
+|---|---|---|---|
+| 0.1 | 0.831 | 0.899 | no |
+| 0.3 | 0.835 | 0.943 | no |
+| 1 | 0.826 | 0.312 | no (OSCILLIS) |
+| 3 | 0.139 | 0.002 | yes |
+| 10 | 0.000 | 0.000 | yes |
+| 30 | 0.000 | 0.000 | yes |
+
+Every candidate had total drift of `sum(body) + sum(food)` at most 8.6e-16 and no velocity saturation attributable to the term (largest single-sample fraction at the bound 4.0e-4, kappa 30). **Chosen `kappa = 3`** (the smallest qualifying candidate). `kappa` is not changed after this point.
