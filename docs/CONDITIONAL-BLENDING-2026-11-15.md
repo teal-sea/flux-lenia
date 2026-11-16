@@ -135,3 +135,42 @@ python scripts/conditional_blending_summary.py main > outputs/conditional_blendi
 ```
 
 Pilot and tests took 4 minutes of box time at 10,000 steps per run (about 118 s per run with 8 concurrent), so each shard is expected to take about 25 to 35 minutes. No deviation from the design so far.
+
+---
+
+## Results
+
+Appended 2026-11-16 after the 45 runs finished. All 45 runs (3 species x seeds 1 to 5 x 3 arms, food on, `per_channel`, `kappa = 3`, radius 8, 30,000 steps) finished with rc=0 in 23:42:20 to 00:05:05 UTC (per-run wall 437 to 864 s, 8 concurrent on 8 vCPU). Per-run table, verdicts and sanity check: `outputs/conditional_blending_20261115/SUMMARY.md` (from `scripts/conditional_blending_summary.py main`). **Nothing heavy ran on citadel**: all 57 simulation runs (12 pilot, 45 main) and the `full` tests ran on InstaBox boxes; citadel ran only edits, git, box control, transfers, the `quick` test and the summary script over JSON.
+
+**Step 2 verdict (rule 1), treatment arm, end hybrid fraction (mass with ancestry in 0.1 to 0.9), repulsion on versus the 2026-11-10 control (repulsion off)**
+
+| species | control median hybrid | repulsion median hybrid | seeds below control | per-seed hybrid, repulsion / control (seeds 1-5) | verdict |
+|---|---|---|---|---|---|
+| OSCILLIS | 0.939 | 0.313 | 5 of 5 | 0.31/1.00, 0.00/0.57, 0.47/0.93, 0.10/0.94, 0.96/1.00 | distinct |
+| MITOSA | 0.921 | 0.000 | 5 of 5 | 0.00/1.00, 0.00/0.68, 0.00/0.92, 0.00/1.00, 0.00/0.87 | distinct |
+| VAGRANT | 0.502 | 0.000 | 5 of 5 | 0.00/0.99, 0.00/0.30, 0.00/0.43, 0.00/0.50, 0.00/0.73 | distinct |
+
+By the rule all three species are **distinct**. The OSCILLIS result is the weakest: median ratio 0.33, and seed 5 stays at 0.96. In MITOSA and VAGRANT the hybrid fraction is at the 1e-3 level or below in every treatment run, i.e. the two lineages never share mass at ancestry 0.1 to 0.9.
+
+**Neutral-arm sanity check (prediction: no difference).** Repulsion minus control, hybrid fraction at the end, 10 paired neutral runs per species: OSCILLIS mean +0.0021 (SE 0.0196, +0.10 SE), MITOSA -0.0313 (SE 0.0250, -1.25 SE), VAGRANT +0.0133 (SE 0.0062, **+2.15 SE**). No neutral run reproduces the control's final share to 1e-12 (0 of 30). **By the pre-registered leak criterion (|mean| > 2 SE for any species) VAGRANT is flagged, so under the letter of the rule the result is void.** The other two species pass. What I can say about the flag, none of it a reason to relax the rule: the VAGRANT difference is 0.013 hybrid fraction (+0.054 at most), against treatment effects of -0.5 on the same measure; per-seed differences are of both signs in MITOSA and mixed in OSCILLIS, with several exact zeros where both runs were fully hybrid (1.00); the quick test shows `F` of 2.5e-18 in the tag-only state (bit-identical when the tag is replaced by noise), so a tag leak into `F` is excluded by construction, but a residual `F` of rounding size still perturbs a chaotic trajectory, and the control was computed on a different host and jax build path, so no neutral run is bit-identical; and I have no control-versus-control rerun to say what the run-to-run SE of this difference would be without any code change, which the criterion implicitly assumed to be zero-centred. A rerun of the control neutral arms on a box would resolve it; that was not part of the design and was not done. Per-seed differences are listed in `SUMMARY.md`.
+
+**Selection (rule 2), repulsion beside the food-on exact control**
+
+| species | run set | E | treatment seeds outside E | winner | winner's final share | treat deltas (seeds 1-5) | verdict |
+|---|---|---|---|---|---|---|---|
+| OSCILLIS | repulsion, kappa = 3 | 0.0137 | 4 of 5 | +u, -u | 0.516, 0.571, 0.52, 0.512 | -0.017, +0.004, +0.072, +0.022, -0.014 | large but inconsistent |
+| OSCILLIS | control (2026-11-10) | 0.0138 | 0 of 5 | - | - | +0.013, -0.014, +0.002, -0.002, -0.003 | no selection detected |
+| MITOSA | repulsion, kappa = 3 | 0.0752 | 1 of 5 | +u | 0.59 | +0.025, +0.045, +0.006, -0.019, +0.088 | no selection detected |
+| MITOSA | control (2026-11-10) | 0.0577 | 0 of 5 | - | - | +0.011, +0.017, -0.016, -0.007, +0.043 | no selection detected |
+| VAGRANT | repulsion, kappa = 3 | 0.0320 | 3 of 5 | +u | 0.551, 0.568, 0.695 | +0.049, +0.073, +0.196, +0.026, +0.008 | no selection detected |
+| VAGRANT | control (2026-11-10) | 0.0377 | 1 of 5 | +u | 0.662 | -0.008, -0.031, +0.163, +0.025, -0.002 | no selection detected |
+
+No species shows selection or takeover. OSCILLIS is "large but inconsistent" only in the rule's sense: four treatment seeds fall outside an envelope of 1.4 points, with both signs, and every winner-side share is 0.51 to 0.57. The largest winner-side final share in any treatment run is 0.703 (VAGRANT seed 3, the same seed that was the excursion in the control). VAGRANT's three seeds outside E all favour `+u`, one short of the 4 of 5 required. Envelope sizes are all far above 1e-6.
+
+**Conservation (rule 3).** `sum(body) + sum(food)` max relative drift over all 45 runs 2.65e-15 (OSCILLIS 2.65e-15, MITOSA 2.05e-15, VAGRANT 1.49e-15). Mass conservation and `sum(A_tot * G)` conservation under repulsion were also tested directly (food off, 300 steps, 1.2e-16 of M at most; see the pilot section). Velocity bound: the mean fraction of body velocities at the soft bound is 0.0000 in every species, with or without the term; the largest single-sample fraction in any main or pilot run is 1.0e-3.
+
+**Outcome.** Prediction 2 for MITOSA and VAGRANT as to selection (distinct, nobody wins), and a stronger repulsion effect than guessed (VAGRANT, expected to be the hardest, is the cleanest). OSCILLIS is distinct by the rule but only partly in degree (median hybrid 0.31, seed 5 at 0.96) and its treatment deltas are larger than the control's and of both signs. What this says about ROADMAP step 2 and step 0: a velocity-route repulsion calibrated once at kappa = 3 keeps lineages apart in the sense of mass that carries mixed ancestry, and with them apart no genome wins in 30,000 steps, which leaves the food-blind brain as the remaining named obstacle. The caveats are the neutral-arm flag above (VAGRANT, +2.15 SE, formally voiding the check), a threshold measure that only counts mixed ancestry (blob counts are 13 to 46 per run, so the lineages are fragments, not two bodies; `largest_blob_frac` is 0.03 to 0.49), and one calibration at one radius.
+
+**Boxes.** Four InstaBox machines, 8 vCPU / 16 GiB each, Debian 13, Python 3.13.5, jax 0.11.1, numpy 2.5.2, scipy 1.18.1, CPU, float64, `XLA_FLAGS="--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"`: `flux-lenia-step2-w1` (`m_agq6dc6cqnfwkrte3cd4jrpyb4`, created 2026-11-15 23:29, also ran tests and pilot), `-w2` (`m_agq6dfmjk2axjzlsqufrqy7am4`), `-w3` (`m_agq6dfofltr4aj5ye7gwuyxl7m`), `-w4` (`m_agq6dfp7yqbm76wp3dsdq4jdge`), forks of w1 created about 23:40. Main batch wall time: 22 min 45 s (shards done 00:04:24 to 00:05:05). All four were deleted with `rm --yes` at about 00:09 on 2026-11-16 after the tarballs were pulled and their sha256 compared with the box's (all four equal); `ls` shows no `step2` machine left. Estimated cost: about 2.2 box-hours at the 8/16 rate (4x the skill's $0.034/h for 4/8, so about $0.136/h), about $0.30, an estimate and not a bill.
+
+**Deviations from the design.** (1) The neutral-arm leak criterion is flagged for VAGRANT (+2.15 SE), see above; the rule is reported as written and the result not rescued. (2) The pilot's saturation criterion (c) is "at most 0.05 above the same fraction without the term"; it passed everywhere, so it did not discriminate. (3) The `full` tests, including the kappa = 0 hash equality, ran once on w1 against the pre-change engine extracted from the base commit; the hash was compared at 300 steps with food on. (4) The pilot-run seed-1 treatment runs are separate from the main runs (fresh runs at 30,000 steps). (5) `scripts/run_batch.py` gained optional environment variables and job fields (steps, shard suffix, kappa, output subdirectory); defaults unchanged. (6) No run was reduced, retried or repeated. Citadel was not used for any simulation.
