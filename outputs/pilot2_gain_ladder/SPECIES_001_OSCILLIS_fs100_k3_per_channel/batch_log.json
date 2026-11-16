@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_001_OSCILLIS",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_001_OSCILLIS",
+   "--arms",
+   "treat",
+   "--seeds",
+   "1-64",
+   "--steps",
+   "10000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "10000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "3",
+   "--food-sense",
+   "100",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/out/pilot2_gain_ladder/SPECIES_001_OSCILLIS_fs100_k3_per_channel"
+  ],
+  "started_unix": 1794800192.1496491,
+  "total_wall_seconds": 359.5982792377472,
+  "runs_done": 64,
+  "batch_size": 64,
+  "state_bytes_per_element": 1703936,
+  "kappa": 3.0,
+  "food_sense": 100.0,
+  "transport": "per_channel",
+  "steps": 10000,
+  "max_rel_total_drift": 1.893822262371384e-15,
+  "ms_per_batched_step": 35.36918706893921,
+  "batches": [
+   {
+    "batch": 64,
+    "build_seconds": 3.4376797676086426,
+    "compile_seconds": 0.0007295608520507812,
+    "loop_seconds": 353.6918706893921,
+    "first_chunk_seconds": 0.9040687084197998,
+    "ms_per_batched_step": 35.36918706893921,
+    "ms_per_run_step": 0.5526435479521752,
+    "max_rel_total_drift": 1.893822262371384e-15,
+    "memory_analysis": {
+     "argument": 111331720,
+     "output": 109052968,
+     "temp": 882937232
+    }
+   }
+  ]
+ }
+]

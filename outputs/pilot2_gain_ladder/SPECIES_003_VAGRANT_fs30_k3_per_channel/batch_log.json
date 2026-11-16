@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_003_VAGRANT",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_003_VAGRANT",
+   "--arms",
+   "treat",
+   "--seeds",
+   "1-64",
+   "--steps",
+   "10000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "10000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "3",
+   "--food-sense",
+   "30",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/out/pilot2_gain_ladder/SPECIES_003_VAGRANT_fs30_k3_per_channel"
+  ],
+  "started_unix": 1794800774.2501626,
+  "total_wall_seconds": 408.0230233669281,
+  "runs_done": 64,
+  "batch_size": 64,
+  "state_bytes_per_element": 1703936,
+  "kappa": 3.0,
+  "food_sense": 30.0,
+  "transport": "per_channel",
+  "steps": 10000,
+  "max_rel_total_drift": 1.1362933574228306e-15,
+  "ms_per_batched_step": 40.22547507286072,
+  "batches": [
+   {
+    "batch": 64,
+    "build_seconds": 3.4264912605285645,
+    "compile_seconds": 0.0007021427154541016,
+    "loop_seconds": 402.2547507286072,
+    "first_chunk_seconds": 0.897578239440918,
+    "ms_per_batched_step": 40.22547507286072,
+    "ms_per_run_step": 0.6285230480134487,
+    "max_rel_total_drift": 1.1362933574228306e-15,
+    "memory_analysis": {
+     "argument": 111331720,
+     "output": 109052968,
+     "temp": 882937232
+    }
+   }
+  ]
+ }
+]

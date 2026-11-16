@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_002_MITOSA",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_002_MITOSA",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "1-50",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "1000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "0",
+   "--food-sense",
+   "0",
+   "--food",
+   "1",
+   "--batch",
+   "150",
+   "--outdir",
+   "/out/food_sensing_2x2/SPECIES_002_MITOSA_fs0_k0_per_channel"
+  ],
+  "started_unix": 1794798385.439847,
+  "total_wall_seconds": 1210.4056022167206,
+  "runs_done": 150,
+  "batch_size": 150,
+  "state_bytes_per_element": 1703936,
+  "kappa": 0.0,
+  "food_sense": 0.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 1.9139778364209613e-15,
+  "ms_per_batched_step": 38.82981834411621,
+  "batches": [
+   {
+    "batch": 150,
+    "build_seconds": 5.013668775558472,
+    "compile_seconds": 0.00047659873962402344,
+    "loop_seconds": 1164.8945503234863,
+    "first_chunk_seconds": 1.243466854095459,
+    "ms_per_batched_step": 38.82981834411621,
+    "ms_per_run_step": 0.2588654556274414,
+    "max_rel_total_drift": 1.9139778364209613e-15,
+    "memory_analysis": {
+     "argument": 257864072,
+     "output": 255592840,
+     "temp": 1594657672
+    }
+   }
+  ]
+ }
+]
