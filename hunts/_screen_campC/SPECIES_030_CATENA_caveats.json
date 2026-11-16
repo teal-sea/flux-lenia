@@ -1,0 +1,27 @@
+{
+  "species": "CATENA",
+  "idx": 30,
+  "seed": 976,
+  "screen": {
+    "n_reproduction": 7,
+    "n_fission_raw": 8,
+    "best_child_mass_frac": 0.924758479406185,
+    "n_blobs_final": 10,
+    "concentration_final": 76.51429280930076,
+    "occupancy_final": 0.03070068359375,
+    "activity": 2.42839282836326,
+    "max_generation": 3,
+    "n_organisms": 34,
+    "n_survivors": 9
+  },
+  "recording": {
+    "divisions": 11,
+    "raw_fissions": 12,
+    "strict_le_raw": true,
+    "child_frac_min": 0.10495347572070209,
+    "child_frac_median": 0.5180483165600642
+  },
+  "flags": [
+    "many_bodies_final: 10 bodies at end of screen run"
+  ]
+}

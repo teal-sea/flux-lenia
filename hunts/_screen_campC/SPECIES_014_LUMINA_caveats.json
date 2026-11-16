@@ -1,0 +1,28 @@
+{
+  "species": "LUMINA",
+  "idx": 14,
+  "seed": 679,
+  "screen": {
+    "n_reproduction": 3,
+    "n_fission_raw": 12,
+    "best_child_mass_frac": 0.7278469232822526,
+    "n_blobs_final": 8,
+    "concentration_final": 76.09946636113463,
+    "occupancy_final": 0.0452880859375,
+    "activity": 3.643548367652221,
+    "max_generation": 3,
+    "n_organisms": 52,
+    "n_survivors": 7
+  },
+  "recording": {
+    "divisions": 9,
+    "raw_fissions": 21,
+    "strict_le_raw": true,
+    "child_frac_min": 0.15004599724959278,
+    "child_frac_median": 0.6337340582791782
+  },
+  "flags": [
+    "many_bodies_final: 8 bodies at end of screen run",
+    "cyclic_locomotion_flagged: uid=99e00679 circling=0.45 spectral_power=0.22 period=23.0 frames (counted only if >= 4) life=24 frames"
+  ]
+}

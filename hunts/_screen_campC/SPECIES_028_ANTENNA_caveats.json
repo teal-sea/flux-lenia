@@ -1,0 +1,28 @@
+{
+  "species": "ANTENNA",
+  "idx": 28,
+  "seed": 929,
+  "screen": {
+    "n_reproduction": 1,
+    "n_fission_raw": 6,
+    "best_child_mass_frac": 0.2636930820672171,
+    "n_blobs_final": 4,
+    "concentration_final": 34.52367881357827,
+    "occupancy_final": 0.09832763671875,
+    "activity": 4.290353562532534,
+    "max_generation": 5,
+    "n_organisms": 47,
+    "n_survivors": 2
+  },
+  "recording": {
+    "divisions": 4,
+    "raw_fissions": 17,
+    "strict_le_raw": true,
+    "child_frac_min": 0.2636930820672171,
+    "child_frac_median": 0.5355143045628243
+  },
+  "flags": [
+    "single_division_in_screen: one qualifying fission carries the whole verdict",
+    "debris_dominated: 1 divisions among 6 raw fissions (FINDINGS 2.1)"
+  ]
+}
