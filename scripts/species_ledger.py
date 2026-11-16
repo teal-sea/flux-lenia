@@ -2,12 +2,14 @@
 """Summaries over JSON for campaign 2026-11-16 (light; no simulation).
 
   ledger  SCREEN_DIR                 per-seed pass/reject table, reject histogram, passes (ascending seed)
+  index                              append the new species to hunts/SPECIES_INDEX.json (from reports + screen records)
   validate                           load every new species JSON with nf.World.from_json (the loader food_selection uses)
 """
 from __future__ import annotations
 
 import glob
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -66,6 +68,40 @@ def cmd_ledger(d):
     return 0
 
 
+def cmd_index(screen_dirs):
+    recs = {}
+    for d in screen_dirs:
+        recs.update(load(d))
+    idx_path = ROOT / "hunts" / "SPECIES_INDEX.json"
+    idx = json.loads(idx_path.read_text())
+    have = {s["species"] for s in idx["species"]}
+    added = 0
+    for rp in sorted((ROOT / "hunts").glob("SPECIES_0*_*.md")):
+        m = re.match(r"SPECIES_(\d+)_(.+)\.md", rp.name)
+        n, name = int(m.group(1)), m.group(2)
+        if n < 4 or name in have:
+            continue
+        text = rp.read_text()
+        seed = int(re.search(r"\*\*Seed:\*\* (\d+)", text).group(1))
+        beh = {}
+        for kind, est, score in re.findall(r"^\| (phototaxis|predatory_pursuit|cyclic_locomotion) \| (YES|no) \| (-?[\d.]+) \|", text, re.M):
+            beh[kind] = {"established": est == "YES", "score": float(score)}
+        tag = f"SPECIES_{n:03d}_{name}"
+        mp4 = ROOT / "outputs" / f"{tag}.mp4"
+        idx["species"].append({
+            "species": name, "report": f"hunts/{rp.name}", "genome": f"outputs/species/{tag}_genome.json",
+            "reproduction_events": recs[seed]["n_reproduction"], "behaviours": beh,
+            "media": {"png": f"{tag}_final.png", "gif": f"{tag}.gif", "mp4": f"{tag}.mp4" if mp4.exists() else None,
+                      "frames": 150, "steps_recorded": 900}})
+        added += 1
+    idx.setdefault("campaigns", []).append({
+        "id": "2026-11-16-part-c", "note": "hunts/CAMPAIGN-2026-11-16.md", "seeds_screened": len(recs),
+        "seed_range": [min(recs), max(recs)], "species_added": added})
+    idx_path.write_text(json.dumps(idx, indent=2, default=float))
+    print(f"added {added} species; total {len(idx['species'])}")
+    return 0
+
+
 def cmd_validate():
     import numpy as np
     from engine import neural_field as nf
@@ -86,4 +122,6 @@ if __name__ == "__main__":
     sys.path.insert(0, str(ROOT))
     if sys.argv[1] == "ledger":
         raise SystemExit(cmd_ledger(sys.argv[2]))
+    if sys.argv[1] == "index":
+        raise SystemExit(cmd_index(sys.argv[2:]))
     raise SystemExit(cmd_validate())
