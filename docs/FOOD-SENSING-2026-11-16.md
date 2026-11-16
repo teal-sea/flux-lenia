@@ -132,3 +132,65 @@ mkdir -p outputs/food_sensing_20261116/main && tar -xzf main_bNN.tgz -C outputs/
 python scripts/food_sensing_summary.py main > outputs/food_sensing_20261116/SUMMARY.md
 ~/bin/instabox-run rm --yes BOX      # only after the verified pull of that shard; also rm flux-campb-w1
 ```
+
+---
+
+## Results
+
+Appended 2026-11-16 after the 1,800 runs finished. All 1,800 runs (3 species x seeds 1 to 50 x 3 arms x 4 cells, food on, `per_channel`, 30,000 steps, `food_sense` in {0, 10}, `kappa` in {0, 3}) finished with rc=0 on 60 InstaBox boxes between 03:06 and 04:55 UTC; every line of `jobs.txt` has its JSON and frames file (1,800 each; 741 MB under `outputs/food_sensing_20261116/main/<cell>/`). Full tables, per-run rows and the sanity checks: `outputs/food_sensing_20261116/SUMMARY.md` (from `scripts/food_sensing_summary.py main`). **No simulation ran on citadel**: the 18 pilot runs, 6 timing runs, the `full` tests and all 1,800 main runs ran on InstaBox boxes; citadel ran only edits, git, box control, transfers, the `quick` test (single field evaluations) and the summary scripts over JSON.
+
+**Rule 1: selection per cell per species** (treatment arm, 50 seeds per cell; `E` = largest neutral `|delta|` of the cell's 100 neutral runs; `n out` = seeds with `|delta| > E`; split = outside seeds `+u` / `-u`; winner-side final share min / median / max over the outside seeds that agree; the secondary columns use `E95`, the 95th percentile of neutral `|delta|`)
+
+| species | cell | E | n out | split | winner-side share | verdict | E95 | n out (E95) | split (E95) | verdict (E95, secondary) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| OSCILLIS | F0K0 | 0.0317 | 12 | 4 / 8 | 0.535 / 0.544 / 0.584 | no selection detected | 0.0171 | 28 | 9 / 19 | no selection detected |
+| OSCILLIS | F0K3 | 0.0312 | 26 | 9 / 17 | 0.530 / 0.600 / 0.652 | no selection detected | 0.0168 | 40 | 15 / 25 | large but inconsistent |
+| OSCILLIS | F1K0 | 0.0399 | 21 | 21 / 0 | 0.539 / 0.554 / 0.598 | no selection detected | 0.0262 | 36 | 36 / 0 | no selection detected |
+| OSCILLIS | F1K3 | 0.0373 | 35 | 35 / 0 | 0.534 / 0.568 / 0.643 | no selection detected | 0.0247 | 40 | 40 / 0 | selection |
+| MITOSA | F0K0 | 0.1751 | 0 | 0 / 0 | - | no selection detected | 0.0528 | 5 | 5 / 0 | no selection detected |
+| MITOSA | F0K3 | 0.1600 | 1 | 1 / 0 | 0.673 | no selection detected | 0.0517 | 18 | 17 / 1 | no selection detected |
+| MITOSA | F1K0 | 0.0609 | 8 | 6 / 2 | 0.567 / 0.574 / 0.611 | no selection detected | 0.0450 | 11 | 7 / 4 | no selection detected |
+| MITOSA | F1K3 | 0.0652 | 6 | 6 / 0 | 0.571 / 0.603 / 0.619 | no selection detected | 0.0268 | 27 | 23 / 4 | no selection detected |
+| VAGRANT | F0K0 | 0.0447 | 16 | 10 / 6 | 0.549 / 0.583 / 0.746 | no selection detected | 0.0168 | 36 | 13 / 23 | no selection detected |
+| VAGRANT | F0K3 | 0.0330 | 28 | 26 / 2 | 0.526 / 0.563 / 0.772 | no selection detected | 0.0209 | 35 | 31 / 4 | no selection detected |
+| VAGRANT | F1K0 | 0.0473 | 12 | 12 / 0 | 0.546 / 0.569 / 0.612 | no selection detected | 0.0228 | 27 | 16 / 11 | no selection detected |
+| **VAGRANT** | **F1K3** | 0.0708 | **43** | **0 / 43** | **0.577 / 0.707 / 0.827** | **selection** | 0.0260 | 47 | 2 / 45 | selection |
+
+Cells: F0 = `food_sense` 0, F1 = `food_sense` 10; K0 / K3 = `kappa` 0 / 3. The only cell that meets the pre-registered rule is **VAGRANT with sensing and repulsion**: 43 of 50 treatment seeds are outside `E` and all 43 favour `-u` (the genome of lineage B); the winner-side final share has median 0.707 (max 0.827), so it is selection and not takeover (rule: median at least 0.90). Counting all 50 seeds, 48 have `delta < 0` (median `delta` -0.170, range -0.328 to +0.058). `E` there is 0.0708, set by a single neutral run (the next two largest neutral `|delta|` are 0.0353 and 0.0317); with the second-largest as the envelope the count could only rise. In the matched sensing-off cell (F0K3) the sign is the other way and weaker: 28 outside, 26 `+u` / 2 `-u`, median `delta` +0.035 (no selection detected); the 5-seed experiment of 2026-11-15 had also seen `+u` favoured in 3 of 5 VAGRANT seeds.
+
+Under the secondary envelope `E95` (less conservative, not the pre-registered verdict): OSCILLIS F1K3 reaches 40 outside, all `+u` ("selection"), OSCILLIS F0K3 reaches 40 outside with mixed signs ("large but inconsistent"); every other cell stays below the 40-seed bar, and VAGRANT F1K3 is selection there too. In the primary envelope OSCILLIS's sensing-on cells are one-signed but below the bar (F1K0 21 / 0 and F1K3 35 / 0, all `+u`), while its sensing-off cells are mixed-sign (4 / 8, 9 / 17). MITOSA has no selection in any cell.
+
+**Rule 2: cause (sensing-on selection and matched sensing-off null)**
+
+| species | kappa 0 | kappa 3 |
+|---|---|---|
+| OSCILLIS | no (no selection with sensing) | no (no selection with sensing; `+u` only at E95) |
+| MITOSA | no | no |
+| VAGRANT | no | **yes**: selection with sensing (43 / 50 `-u`), no selection detected without (28 outside, 26 / 2 `+u`) |
+
+Food sensing is the cause of selection in **one of three species (VAGRANT), and there only with repulsion**: in VAGRANT, repulsion is also a **necessary condition** (selection with sensing at `kappa = 3`, none at `kappa = 0`: 12 outside, all `+u`). OSCILLIS and MITOSA do not show it. Stated as a hypothesis test: prediction (i) holds in 1 of 3 species, (ii) describes OSCILLIS and MITOSA, (iii) is not what happened (see foraging below).
+
+**Rule 3: distinctness at 50 seeds (treatment arm, median end hybrid fraction, `kappa` 3 vs `kappa` 0 at the same `food_sense`)**
+
+| species | food_sense | median hybrid kappa 0 | median hybrid kappa 3 | ratio | seeds below matched kappa-0 seed | verdict |
+|---|---|---|---|---|---|---|
+| OSCILLIS | 0 | 1.000 | 0.060 | 0.06 | 50 of 50 | distinct |
+| OSCILLIS | 10 | 0.502 | 0.000 | 0.00 | 41 of 50 | distinct |
+| MITOSA | 0 | 1.000 | 0.000 | 0.00 | 50 of 50 | distinct |
+| MITOSA | 10 | 0.544 | 0.004 | 0.01 | 48 of 50 | distinct |
+| VAGRANT | 0 | 0.707 | 0.000 | 0.00 | 50 of 50 | distinct |
+| VAGRANT | 10 | 0.977 | 0.000 | 0.00 | 50 of 50 | distinct |
+
+Step 2 replicates at 50 seeds in all three species with and without sensing (OSCILLIS with sensing is the closest to the bar: 41 of 50, bar 40). Note that sensing alone lowers the `kappa = 0` hybrid fraction in OSCILLIS and MITOSA (1.000 to 0.502, 1.000 to 0.544) and raises it in VAGRANT (0.707 to 0.977).
+
+**Rule 4: neutral-arm sanity.** Mean (SE) of the 100 neutral deltas per cell, all within 1 SE of zero: OSCILLIS F0K0 -0.0005 (0.0008), F0K3 +0.0005 (0.0008), F1K0 -0.0011 (0.0011), F1K3 +0.0003 (0.0012); MITOSA -0.0011 (0.0027), -0.0003 (0.0027), +0.0007 (0.0018), +0.0004 (0.0015); VAGRANT -0.0003 (0.0010), +0.0001 (0.0010), -0.0002 (0.0012), -0.0012 (0.0014). **Flags: 0 of 12** (about 0.6 expected by chance); the VAGRANT neutral-arm flag of 2026-11-15 does not recur at 100 neutral runs. No harness asymmetry detected.
+
+**Rule 5: conservation.** Max relative drift of `sum(body) + sum(food)` over all 1,800 runs 6.76e-15 (F0K0 3.06e-15, F0K3 3.04e-15, F1K0 6.61e-15, F1K3 6.76e-15); 0 runs above 1e-12. Velocity bound: mean fraction of body velocities at the soft bound 8.8e-7 / 1.0e-6 / 1.2e-8 / 5.6e-9 (F0K0 / F0K3 / F1K0 / F1K3); the largest single sample in any run is 1.4e-3 (sensing off), 3.0e-4 (sensing on): the food input does not saturate the velocity.
+
+**Foraging (descriptive; treatment arm, median gross food eaten over 30,000 steps, sensing on minus off at the same `kappa`):** OSCILLIS -2,968 (kappa 0) and -3,013 (kappa 3), about 6%; MITOSA -4,130 and -3,645, about 8%; VAGRANT -1,139 and -10. Medians of end body mass also fall with sensing (OSCILLIS treat 3,250 to 3,201 at kappa 0; MITOSA 3,306 to 3,146; VAGRANT F1K3 near its F0K3 value). So sensing changes foraging at `food_sense = 10` (it eats a little less in two species), as the pilot's criterion was too coarse to see, and lineages end in fewer, larger blobs with sensing (median end blobs OSCILLIS treat 44 to 6, MITOSA 28 to 8 at kappa 0).
+
+**What this says (and does not).** (1) With the genome able to touch the resource, one species out of three shows selection under the pre-registered rule, only with repulsion on, and not with the brain food-blind: the ROADMAP step 0 claim has a positive instance (VAGRANT, `kappa = 3`, 43 of 50 seeds, `-u` wins at median share 0.71) and two species without one. (2) It is a single cell of 12 under a strict-envelope rule; with 12 cells a single positive is not what one would expect from chance at a 40-of-50 same-sign bar, but one random `W1f` per species, one random genome axis `u` and one gain were tried, so the result says what this brain does, not what food sensing in general does. The sign being `-u` for sensing-on and `+u` (weakly) for sensing-off in VAGRANT means the winner was not the one the pre-sensing dynamics already favoured: the response to food, not placement, drove it. (3) What consumes it: for the Dish project's measurement #4 (movement as heritable problem selection) this is a first positive in one of three organisms; the next experiment is a replicate with other `W1f` draws and other genome axes (the sensing-gradient-aligned axis of prediction (ii)) before the sign or the species are read as general. (4) Takeover did not occur anywhere; the largest winner-side final share in a treatment run of the sensing-on VAGRANT cell is 0.827.
+
+**Boxes.** 60 InstaBox machines, 8 vCPU / 16 GiB each, created fresh (not forked): `flux-campb-b00` to `b58` and `flux-campb-t2` (shard 59), ids in `outputs/food_sensing_20261116/boxes.json`; plus `flux-campb-w1` (`m_agq6ecj4h47cmr2ihp6nhd332q`, tests, 16 of 18 pilot runs, deleted 03:10) and `flux-campb-t2` (`m_agq6emkmazfmso3v4jat7ipqgi`, the rest of the pilot, six timing runs, then shard 59). Python 3.13.5, jax 0.11.1, numpy 2.5.2, scipy 1.18.1, CPU, float64 on every box. Main batch wall time: launch 03:06:09 to 03:06:29, first shard done 03:48:33, last shard `ALL_DONE` 04:55:04 UTC (1 h 49 min); per-run wall: median 839 s (sensing off 746 s, on 913 s), min 481 s, max 2,063 s (steal on some boxes); sum of run time 470 CPU-run-hours, i.e. about 59 box-hours of 8-run waves, against about 80 to 90 box-hours of existing boxes (creation to deletion); estimated cost about $5.4 to $6.1 at $0.068/h and twice that at $0.136/h (estimate, not a bill). Every shard's tarball was checksummed on the box and locally (equal) before the box was deleted with `rm --yes`; `instabox-run ls` shows no `flux-campb` machine left. Steal on fresh boxes at launch: 0 to 48% (mean about 9 to 15% by `top`).
+
+**Deviations from the design.** (1) **Pilot criterion never fired** (none of the five candidates changed `Q` by more than the seed spread); the pre-registered fallback chose `food_sense = 10`, the largest. The tests of the `full` suite ran at `food_sense = 3`, not 10 (tests precede the pilot); the tag-unread and conservation properties are independent of the gain, and the main runs satisfy the drift bound and bound saturation at 10 (rule 5). (2) **Job order**: each seed's 36-job block was rotated by `5 (seed - 1) mod 36` before the remainder split, because 60 shards share the factor 12 with the block structure (every shard would otherwise have run one cell-arm combination); every shard has all four cells (6 to 9 jobs each), all species and all arms. (3) **Frames**: the brief's "frames every 1,000 steps if the npz exceed ~2 GB" would enlarge them; I saved three float32 frames (steps 0, 15,000, 30,000) per run, 741 MB for all 1,800 runs including logs. (4) **Pilot on two boxes**: the last two `food_sense = 0` jobs (MITOSA and VAGRANT) ran on `flux-campb-t2` after the `w1` scheduler was killed because `w1` had 33 to 63% steal (the eight running children finished normally); both hosts reproduce the stored reference body at step 10,000 exactly. (5) **Placement**: 60 fresh boxes instead of 40 forks (coordinator instruction, because of measured steal and because a fork lands on the same host); the first create attempt used a name with uppercase letters (rejected) and the `instabox-run` wrapper failed intermittently under 14 to 16 parallel calls (Infisical request failures, retried; no run was affected). (6) `outputs/food_sensing_20261116/pull.log` is incomplete for six shards (02, 03, 08, 16, 23, 24), whose lines were lost when one tool call timed out after their boxes were pulled, checksum-verified and deleted by the same script; all 1,800 files are present and the six boxes are gone. (7) The decision rule's "agree on the winner" was implemented as `n_win >= 40` (the larger sign group among outside seeds has at least 40). (8) `sat_frac_without_repulsion` is kept as in the earlier doc and means "without the repulsion term" (not without sensing). (9) Engine and scripts on every box are those of commit `f42bed4`; later commits only add docs, jobs and outputs. (10) No run was reduced, retried or repeated. Citadel was not used for any simulation.
