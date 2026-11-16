@@ -5,7 +5,8 @@ JOBS_FILE defaults to OUTDIR/jobs.txt; a resume after a killed batch passes the 
 Optional extras (defaults leave the behaviour above unchanged):
   STEPS env (default 30000); SHARD env (suffix for runs/rss log names, e.g. _w2; the sentinel is
   written to runs{SHARD}.log); a job line may carry a 5th field KAPPA (repulsion, default 0) and
-  a 6th field SUBDIR (outputs go to OUTDIR/SUBDIR; used by the pilot).
+  a 6th field SUBDIR (outputs go to OUTDIR/SUBDIR; used by the pilot); SAMPLE_EVERY and FRAME_EVERY env
+  (passed to food_selection.py as trailing arguments only if set; docs/CAMPAIGN-HARNESS-2026-11-16.md).
 """
 import os, subprocess, sys, time
 from pathlib import Path
@@ -16,7 +17,10 @@ root = Path(__file__).resolve().parents[1]
 py = os.environ.get("PY", str(Path.home() / "venvs/flux-lenia-20261103/bin/python"))
 env = dict(os.environ, XLA_FLAGS="--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1")
 jobs = [l.split() for l in jobs_file.read_text().splitlines() if l.strip()]
-steps = os.environ.get("STEPS", "30000"); shard = os.environ.get("SHARD", "")
+steps = os.environ.get("STEPS", "30000")
+tail = ([os.environ.get("SAMPLE_EVERY", "100"), os.environ.get("FRAME_EVERY", "0")]
+        if "SAMPLE_EVERY" in os.environ or "FRAME_EVERY" in os.environ else [])
+shard = os.environ.get("SHARD", "")
 log = open(out / f"runs{shard}.log", "a"); rss = open(out / f"rss{shard}.log", "a")
 def say(m): log.write(time.strftime("%F %T ") + m + "\n"); log.flush()
 def avail_gib():
@@ -44,7 +48,7 @@ while todo or running:
         odir = out / sub; odir.mkdir(parents=True, exist_ok=True)
         lf = open(odir / f"run_{sp}_s{seed}_{arm}.log", "a")
         running[j] = subprocess.Popen(["nice", "-n", "10", py, str(root / "scripts/food_selection.py"),
-            sp, seed, arm, food, steps, str(odir), transport, kappa], stdout=lf, stderr=subprocess.STDOUT, env=env, cwd=root)
+            sp, seed, arm, food, steps, str(odir), transport, kappa, *tail], stdout=lf, stderr=subprocess.STDOUT, env=env, cwd=root)
         say(f"launch {j} pid={running[j].pid} avail_gib={avail_gib():.1f}")
     if todo and avail_gib() < 6: say(f"paused: avail {avail_gib():.1f} GiB")
     time.sleep(15)

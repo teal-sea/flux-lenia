@@ -15,11 +15,13 @@ Per cell, a = (1 + tag) / 2 is the fraction of lineage-A ancestry. Lineage A's s
 dish is sum(A_tot * a) / sum(A_tot), mass-weighted over body only.
 
 Usage:
-  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR [TRANSPORT [KAPPA]]
+  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR [TRANSPORT [KAPPA [SAMPLE_EVERY [FRAME_EVERY]]]]
 TRANSPORT is 'mean' (default, the original scheme) or 'per_channel' (docs/GENOME-TRANSPORT-2026-11-10.md).
 KAPPA (default 0 = off, behaviour unchanged) is Config.repulsion_kappa, the self/non-self contact
 repulsion of docs/CONDITIONAL-BLENDING-2026-11-15.md. With KAPPA > 0 each sample also records the
 fraction of (channel, cell) velocities at the soft bound, with and without the repulsion term.
+SAMPLE_EVERY (default 100) is the series sampling interval in steps; FRAME_EVERY (default 0 = frames at 0, 1/4,
+1/2, 3/4 and the end) saves frames at every multiple of it plus the end (docs/CAMPAIGN-HARNESS-2026-11-16.md).
 """
 
 from __future__ import annotations
@@ -115,6 +117,8 @@ def main() -> None:
     species, seed, arm, food_on, steps, outdir = sys.argv[1:7]
     transport = sys.argv[7] if len(sys.argv) > 7 else "mean"
     kappa = float(sys.argv[8]) if len(sys.argv) > 8 else 0.0
+    sample = int(sys.argv[9]) if len(sys.argv) > 9 else SAMPLE
+    frame_every = int(sys.argv[10]) if len(sys.argv) > 10 else 0
     seed, food_on, steps = int(seed), bool(int(food_on)), int(steps)
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
@@ -154,6 +158,8 @@ def main() -> None:
 
     rows = [measure(np.asarray(A), np.asarray(G), np.asarray(F), u) | sat(A, G)]
     keep = {0, steps // 4, steps // 2, 3 * steps // 4, steps}
+    if frame_every > 0:
+        keep = set(range(0, steps + 1, frame_every)) | {steps}
     frames = {}
 
     def snap(t, A, G, F):
@@ -165,8 +171,8 @@ def main() -> None:
     snap(0, A, G, F)
     t0 = time.time()
     while t < steps:
-        A, G, F = nu.rollout(A, G, F, w.light, p, w.bank, cfg, food, SAMPLE)
-        t += SAMPLE
+        A, G, F = nu.rollout(A, G, F, w.light, p, w.bank, cfg, food, sample)
+        t += sample
         ts.append(t)
         rows.append(measure(np.asarray(A), np.asarray(G), np.asarray(F), u) | sat(A, G))
         if t in keep:
@@ -179,7 +185,7 @@ def main() -> None:
     share_end = float(np.mean(series["share_A"][-tail:]))
     result = {
         "species": species, "seed": seed, "arm": arm, "food": food_on, "steps": steps,
-        "sample_every": SAMPLE, "genome_transport": transport,
+        "sample_every": sample, "genome_transport": transport,
         "repulsion_kappa": kappa, "repulsion_radius": cfg.repulsion_radius,
         "repulsion_genome_dims": cfg.repulsion_genome_dims, "food_params": dataclasses.asdict(food),
         "genome_A_sign": ARMS[arm][0], "genome_B_sign": ARMS[arm][1],

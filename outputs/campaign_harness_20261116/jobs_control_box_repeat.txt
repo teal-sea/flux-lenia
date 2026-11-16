@@ -1,0 +1,3 @@
+SPECIES_001_OSCILLIS 1 treat 1 0 control_box_repeat
+SPECIES_002_MITOSA 1 treat 1 0 control_box_repeat
+SPECIES_003_VAGRANT 1 treat 1 0 control_box_repeat
