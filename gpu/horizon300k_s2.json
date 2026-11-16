@@ -1,0 +1,30 @@
+{
+  "_comment": "300k horizon, seeds 18-34 (one of three seed ranges writing into the same experiment tree). Design: docs/HORIZON-300K-GPU-2026-11-16.md.",
+  "experiment": "horizon300k_20261116",
+  "defaults": {
+    "steps": 300000,
+    "sample_every": 1000,
+    "frame_every": 50000,
+    "arms": "treat,neutral_plus,neutral_minus",
+    "seeds": "18-34",
+    "food": 1,
+    "batch": 51
+  },
+  "species": [
+    "SPECIES_001_OSCILLIS",
+    "SPECIES_002_MITOSA",
+    "SPECIES_003_VAGRANT"
+  ],
+  "cells": [
+    {
+      "kappa": 3,
+      "food_sense": 0,
+      "transport": "per_channel"
+    },
+    {
+      "kappa": 3,
+      "food_sense": 10,
+      "transport": "per_channel"
+    }
+  ]
+}
