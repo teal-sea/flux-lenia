@@ -59,3 +59,44 @@ Code changes (no engine change; defaults unchanged): `scripts/food_selection.py`
 ## Common to all parts
 
 Per run also: conservation `max_rel_total_drift`, wall time, blob counts. Per box: id, size, created and deleted time, `lscpu` model, versions, cost estimate (about $0.07 per 8/16 box-hour, an estimate and not a bill). Every deviation from this design is listed in the results section. Raw outputs (`*_food1.json`, `*_frames.npz`, per-run logs, jobs and shard files, shard logs) are committed under `outputs/campaign_harness_20261116/`; `SUMMARY.md` is produced by `scripts/campaign_harness_summary.py`. Execution (the runs finishing) is reported separately from verification (the summary script's checks, the checksum comparison after the pull).
+
+
+---
+
+## Progress note (all shards launched), 2026-11-16 01:47 to 01:50 UTC
+
+Code on every box: HEAD `48f5d6e` (`engine/ scripts/ docs/ outputs/species/ outputs/campaign_harness_20261116/`) extracted to `/data/fl/code`; the sha256 of the sorted `sha256sum engine/*.py scripts/*.py` listing is `b00f97b6...fb820` on all 12 boxes and on citadel. Venv `/data/fl/venv` (Python 3.13.5, jax 0.11.1, jaxlib 0.11.1, numpy 2.5.2, scipy 1.18.1, ml_dtypes 0.6.0, opt_einsum 3.4.0, CPU, float64), CPU model `AMD EPYC`, 8 vCPU / 16 GiB, template `agent-browser` (the default of `create`; the box is used as plain Debian 13). One box (`flux-campa-w1`) was created, set up and smoke-tested, then forked 5 + 5 + 1 (fork takes at most 5 per call). Smoke (300 steps, OSCILLIS seed 1 treat, kappa 0, defaults): the series reproduces the committed 2026-11-10 citadel control to 1e-16 at step 100, 5e-14 at step 200 and **1.1e-8 (share_A), 4.1e-8 (hybrid_frac) at step 300**: the two hosts already diverge measurably at step 300, which is the first evidence for the host hypothesis (not a result of the design; recorded here because it was observed before the runs). The horizon shards were launched first (01:47); `fb` and `fc` were forked from `w1` while its horizon shard was running, so their `/data/fl/out` was emptied (`rm -rf /data/fl/out/*`) before launch (no run state is copied by a fork, only files).
+
+| box | id | shard suffix | assignment |
+|---|---|---|---|
+| `flux-campa-w1` | `m_agq6ebmuseqbisxft2o7uyqq4m` | `_h1` | horizon, jobs_h1.txt (8) |
+| `flux-campa-fa-1` | `m_agq6eb4vgg5w4qlwty5wbsgnfu` | `_h2` | horizon, jobs_h2.txt (8) |
+| `flux-campa-fa-2` | `m_agq6eb4wy3y7qlajsjqqg6gfau` | `_h3` | horizon, jobs_h3.txt (8) |
+| `flux-campa-fa-3` | `m_agq6eb4yorxm6yp7ocah7ct5wa` | `_h4` | horizon, jobs_h4.txt (7) |
+| `flux-campa-fa-4` | `m_agq6eb42gee5jxyeipnbexa5yy` | `_h5` | horizon, jobs_h5.txt (7) |
+| `flux-campa-fa-5` | `m_agq6eb43qidw6mshskaqbtaqoi` | `_h6` | horizon, jobs_h6.txt (7) |
+| `flux-campa-fc` | `m_agq6eczgglttsb7x4vvsf2qvse` | `_c1,c2` | control_box (45) then control_box_repeat (3), same box |
+| `flux-campa-fb-1` | `m_agq6ecxmg6htzkbtrfqkpxigby` | `_k1` | kappa 1 and 10, jobs_k1.txt (72) |
+| `flux-campa-fb-2` | `m_agq6ecxoenac53wurbvqbnuzdm` | `_k2` | kappa 1 and 10, jobs_k2.txt (72) |
+| `flux-campa-fb-3` | `m_agq6ecxphd6f6vmftyajpjhiyy` | `_k3` | kappa 1 and 10, jobs_k3.txt (72) |
+| `flux-campa-fb-4` | `m_agq6ecxq5o4gkj7t7ziws35fxi` | `_k4` | kappa 1 and 10, jobs_k4.txt (72) |
+| `flux-campa-fb-5` | `m_agq6ecxr6vr2yib4azme6vzwye` | `_k5` | kappa 1 and 10, jobs_k5.txt (72) |
+
+Shard commands (working directory `/data/fl/code`; `. /data/fl/env.sh` sets `PY=/data/fl/venv/bin/python` and `XLA_FLAGS="--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"`), each started with `instabox-run exec <box> --background`; the scheduler lives on the box:
+- horizon: `SHARD=_hN STEPS=300000 SAMPLE_EVERY=1000 FRAME_EVERY=50000 $PY scripts/run_batch.py /data/fl/out per_channel 8 outputs/campaign_harness_20261116/jobs_hN.txt`
+- kappa: `SHARD=_kN STEPS=30000 $PY scripts/run_batch.py /data/fl/out per_channel 8 outputs/campaign_harness_20261116/jobs_kN.txt`
+- control: `SHARD=_c1 STEPS=30000 $PY scripts/run_batch.py /data/fl/out per_channel 8 outputs/campaign_harness_20261116/jobs_control_box.txt`, then `SHARD=_c2 ... jobs_control_box_repeat.txt` (3 jobs).
+Outputs on a box: `/data/fl/out/<subdir>/` (`horizon_300k`, `kappa_1`, `kappa_10`, `control_box`, `control_box_repeat`) with `*_food1.json`, `*_frames.npz`, `run_*.log`; shard logs `/data/fl/out/runs_<suffix>.log` (the shard is finished when its last line is `ALL_DONE`; a finished job is a line `done ... rc=0`) and `rss_<suffix>.log`.
+
+Expected time: horizon about 2.5 h (a 300,000-step run is about ten times the 30,000-step wall of 437 to 864 s), kappa shards 72 jobs = 9 rounds of 8, about 2 h, control 45 + 3 jobs, about 1.5 h.
+
+To collect, from any machine with the `instabox-run` wrapper (key injected by the wrapper, never copied to a box), for each box `<b>`:
+```
+~/bin/instabox-run exec <b> --timeout 60 -- 'tail -1 /data/fl/out/runs_*.log; find /data/fl/out -name "*_food1.json" | wc -l'
+~/bin/instabox-run exec <b> --timeout 300 -- 'cd /data/fl/out && tar -czf /data/fl/out_<b>.tgz . && sha256sum /data/fl/out_<b>.tgz'
+~/bin/instabox-run pull <b> /data/fl/out_<b>.tgz ./out_<b>.tgz        # no pipe to head/tail; compare sha256sum with the box's
+mkdir -p outputs/campaign_harness_20261116 && tar -xzf out_<b>.tgz -C outputs/campaign_harness_20261116
+python scripts/campaign_harness_summary.py > outputs/campaign_harness_20261116/SUMMARY.md
+~/bin/instabox-run rm --yes <b>            # only after the verified pull, boxes named flux-campa-* only
+```
+Box count at launch: 12 (the budget). Deviation so far: the horizon shards are 8, 8, 8, 7, 7, 7 jobs (split by remainder, balanced) and not 8, 8, 8, 8, 8, 5 as written in the design; same single round. Box names are lowercase (`flux-campa-*`; the service rejects capitals). No simulation ran on citadel.
