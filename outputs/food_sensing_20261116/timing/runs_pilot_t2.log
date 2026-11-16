@@ -1,0 +1,18 @@
+2026-11-16 02:32:59 batch start: 8 jobs, 8 concurrent, transport=per_channel, pid=3194
+2026-11-16 02:32:59 launch SPECIES_002_MITOSA 1 treat 1 3 fs0 0 pid=3197 avail_gib=15.2
+2026-11-16 02:32:59 launch SPECIES_003_VAGRANT 1 treat 1 3 fs0 0 pid=3198 avail_gib=15.2
+2026-11-16 02:32:59 launch SPECIES_001_OSCILLIS 2 treat 1 3 timing_fs1 1 pid=3199 avail_gib=15.2
+2026-11-16 02:32:59 launch SPECIES_002_MITOSA 2 treat 1 3 timing_fs1 1 pid=3200 avail_gib=15.1
+2026-11-16 02:32:59 launch SPECIES_003_VAGRANT 2 treat 1 3 timing_fs1 1 pid=3201 avail_gib=15.1
+2026-11-16 02:32:59 launch SPECIES_001_OSCILLIS 3 treat 1 3 timing_fs1 1 pid=3202 avail_gib=15.1
+2026-11-16 02:32:59 launch SPECIES_002_MITOSA 3 treat 1 3 timing_fs1 1 pid=3203 avail_gib=15.1
+2026-11-16 02:32:59 launch SPECIES_003_VAGRANT 3 treat 1 3 timing_fs1 1 pid=3204 avail_gib=15.1
+2026-11-16 02:39:29 done SPECIES_002_MITOSA 1 treat 1 3 fs0 0 rc=0 peak_rss_gib=0.54
+2026-11-16 02:39:29 done SPECIES_003_VAGRANT 1 treat 1 3 fs0 0 rc=0 peak_rss_gib=0.54
+2026-11-16 02:40:29 done SPECIES_001_OSCILLIS 2 treat 1 3 timing_fs1 1 rc=0 peak_rss_gib=0.58
+2026-11-16 02:40:29 done SPECIES_002_MITOSA 2 treat 1 3 timing_fs1 1 rc=0 peak_rss_gib=0.55
+2026-11-16 02:40:29 done SPECIES_002_MITOSA 3 treat 1 3 timing_fs1 1 rc=0 peak_rss_gib=0.56
+2026-11-16 02:40:29 done SPECIES_003_VAGRANT 3 treat 1 3 timing_fs1 1 rc=0 peak_rss_gib=0.55
+2026-11-16 02:40:44 done SPECIES_003_VAGRANT 2 treat 1 3 timing_fs1 1 rc=0 peak_rss_gib=0.55
+2026-11-16 02:40:44 done SPECIES_001_OSCILLIS 3 treat 1 3 timing_fs1 1 rc=0 peak_rss_gib=0.54
+2026-11-16 02:40:59 ALL_DONE

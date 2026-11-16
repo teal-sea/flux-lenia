@@ -1,0 +1,4 @@
+OSCILLIS  Wf seed 610146212: features (32, 128, 128) max 1.47, 0 at F=0; tag noise/flip -> hidden and velocity bit-identical; max|dh| for genome change 0.42, food change 1.8; food-induced dh differs +u vs -u by 0.96
+MITOSA    Wf seed 2535044062: features (32, 128, 128) max 1.51, 0 at F=0; tag noise/flip -> hidden and velocity bit-identical; max|dh| for genome change 0.26, food change 1.6; food-induced dh differs +u vs -u by 0.63
+VAGRANT   Wf seed 1543556059: features (32, 128, 128) max 1.98, 0 at F=0; tag noise/flip -> hidden and velocity bit-identical; max|dh| for genome change 0.42, food change 1.8; food-induced dh differs +u vs -u by 0.85
+quick OK

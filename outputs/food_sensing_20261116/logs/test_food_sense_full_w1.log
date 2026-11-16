@@ -1,0 +1,16 @@
+OSCILLIS  5. kappa=0 food_sense=0 hash == pre-change engine == rollout_logged (300 steps): d745f86df5d1bf97
+OSCILLIS  5. kappa=3 food_sense=0 hash == pre-change engine == rollout_logged (300 steps): 69e76618219b7e39
+OSCILLIS  6a. food_sense=3, food on, 300 steps: max |d(sum A + sum F)|/T = 1.23e-16; 6c. |(body gain) - (eaten - decayed)|/M = 6.15e-17 (eaten 674.884, decayed 315.147)
+OSCILLIS  6b. transport under food_sense=3, 300 steps: max|dS_tag|/M = 6.15e-17, functional rows = 5.96e-17, |dM|/M = 2.46e-16
+OSCILLIS  7. food sensing changes the trajectory: max|A(on) - A(off)| = 5.24e+00; 8. tag flipped: body bit-identical = True
+MITOSA    5. kappa=0 food_sense=0 hash == pre-change engine == rollout_logged (300 steps): da6a3e1d688a82b7
+MITOSA    5. kappa=3 food_sense=0 hash == pre-change engine == rollout_logged (300 steps): edb400ec9d252a0e
+MITOSA    6a. food_sense=3, food on, 300 steps: max |d(sum A + sum F)|/T = 1.23e-16; 6c. |(body gain) - (eaten - decayed)|/M = 6.15e-17 (eaten 597.868, decayed 308.842)
+MITOSA    6b. transport under food_sense=3, 300 steps: max|dS_tag|/M = 1.69e-16, functional rows = 5.96e-17, |dM|/M = 2.46e-16
+MITOSA    7. food sensing changes the trajectory: max|A(on) - A(off)| = 5.94e+00; 8. tag flipped: body bit-identical = True
+VAGRANT   5. kappa=0 food_sense=0 hash == pre-change engine == rollout_logged (300 steps): 1e0f38ad2c3f2004
+VAGRANT   5. kappa=3 food_sense=0 hash == pre-change engine == rollout_logged (300 steps): bb012aca2ae4d19c
+VAGRANT   6a. food_sense=3, food on, 300 steps: max |d(sum A + sum F)|/T = 1.23e-16; 6c. |(body gain) - (eaten - decayed)|/M = 1.54e-16 (eaten 744.075, decayed 318.515)
+VAGRANT   6b. transport under food_sense=3, 300 steps: max|dS_tag|/M = 4.61e-17, functional rows = 6.25e-17, |dM|/M = 1.23e-16
+VAGRANT   7. food sensing changes the trajectory: max|A(on) - A(off)| = 2.66e+00; 8. tag flipped: body bit-identical = True
+full OK
