@@ -1,0 +1,26 @@
+{
+  "_comment": "First half of the species scan: the food_sense = 0 cells only (kappa 0 and 3), launched before pilot 2 picks the sensing gain. Same experiment name, so the sensing-on cells run later into the same tree and scripts/species_scan_summary.py reads all four cells together. Derived from gpu/species_scan_manifest.json by filtering cells.",
+  "experiment": "species_scan_20261116",
+  "defaults": {
+    "steps": 30000,
+    "sample_every": 100,
+    "frame_every": 15000,
+    "arms": "treat,neutral_plus,neutral_minus",
+    "seeds": "1-20",
+    "food": 1,
+    "batch": 60
+  },
+  "species": "@ALL",
+  "cells": [
+    {
+      "kappa": 0,
+      "food_sense": 0,
+      "transport": "per_channel"
+    },
+    {
+      "kappa": 3,
+      "food_sense": 0,
+      "transport": "per_channel"
+    }
+  ]
+}
