@@ -32,6 +32,7 @@ import json
 import sys
 import time
 from pathlib import Path
+from types import SimpleNamespace
 
 import jax
 import jax.numpy as jnp
@@ -115,16 +116,12 @@ def measure(A, G, F, u) -> dict:
     }
 
 
-def main() -> None:
-    species, seed, arm, food_on, steps, outdir = sys.argv[1:7]
-    transport = sys.argv[7] if len(sys.argv) > 7 else "mean"
-    kappa = float(sys.argv[8]) if len(sys.argv) > 8 else 0.0
-    food_sense_arg = len(sys.argv) > 9
-    food_sense = float(sys.argv[9]) if food_sense_arg else 0.0
-    seed, food_on, steps = int(seed), bool(int(food_on)), int(steps)
-    out = Path(outdir)
-    out.mkdir(parents=True, exist_ok=True)
+def build_run(species: str, seed: int, arm: str, food_on: bool, transport: str = "mean",
+              kappa: float = 0.0, food_sense: float = 0.0) -> SimpleNamespace:
+    """Everything one run needs before its first step (shared by scripts/gpu_batch.py).
 
+    Returns a namespace with: data, w (World), cfg, params (numpy, tagged), p (jax), food, u,
+    A, G, F (initial state), M0, total0, centres ((ya, xa), (yb, xb))."""
     data = json.loads((ROOT / "outputs" / "species" / f"{species}_genome.json").read_text())
     w = nf.World.from_json(data, seed=seed)
     w.cfg = dataclasses.replace(w.cfg, advect_genome=True, genome_transport=transport)
@@ -153,6 +150,24 @@ def main() -> None:
     n = w.cfg.size
     F = jnp.full((n, n), M0 / n ** 2) if food_on else jnp.zeros((n, n))
     total0 = M0 + float(jnp.sum(F))
+    return SimpleNamespace(data=data, w=w, cfg=cfg, params=params, p=p, food=food, u=u, A=A, G=G,
+                           F=F, M0=M0, total0=total0, centres=((ya, xa), (yb, xb)))
+
+
+def main() -> None:
+    species, seed, arm, food_on, steps, outdir = sys.argv[1:7]
+    transport = sys.argv[7] if len(sys.argv) > 7 else "mean"
+    kappa = float(sys.argv[8]) if len(sys.argv) > 8 else 0.0
+    food_sense_arg = len(sys.argv) > 9
+    food_sense = float(sys.argv[9]) if food_sense_arg else 0.0
+    seed, food_on, steps = int(seed), bool(int(food_on)), int(steps)
+    out = Path(outdir)
+    out.mkdir(parents=True, exist_ok=True)
+
+    run = build_run(species, seed, arm, food_on, transport, kappa, food_sense)
+    w, cfg, p, food, u = run.w, run.cfg, run.p, run.food, run.u
+    A, G, F, total0 = run.A, run.G, run.F, run.total0
+    (ya, xa), (yb, xb) = run.centres
 
     t, ts = 0, [0]
     def sat(A, G, F):
