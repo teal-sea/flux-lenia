@@ -120,3 +120,12 @@ Deviations recorded here: (1) `flux-campa-t1` was created as a probe (a 13th box
 | `flux-campa-g6` | `m_agq6eh4ovwy5vyyywqb4iqcolu` | `_h6` | horizon, `jobs_h6.txt` (7) | created 02:11:21 UTC, launched 02:15 to 02:17 |
 
 The kappa (`flux-campa-fb-1` to `-5`, `_k1` to `_k5`) and control (`flux-campa-fc`, `_c1` then `_c2`) shards of Progress note 1 are unchanged. Collection commands as in Progress note 1 with the new horizon box names; `<b>` in `/data/fl/out_<b>.tgz` is the box name. Nothing was simulated on citadel.
+
+
+---
+
+## Collection note (takeover), 2026-11-16 05:15 UTC
+
+Worker sa-0-d8be21d7 was interrupted at about 03:22 UTC (after relaunching the horizon shards on fresh boxes). A second worker (FORGE subagent) took over at about 05:05 UTC with the job: wait for the shards, launch the one pre-registered `_c2` repeat shard on `flux-campa-fc` after `_c1` finishes, pull every box with sha256 comparison, delete each `flux-campa-*` box only after its verified pull, run `scripts/campaign_harness_summary.py`, append Results. No new experiments, no other relaunch, nothing simulated on citadel.
+
+Box states at takeover (measured by Vizier at 05:08 UTC): `flux-campa-t1` (`_h1`) 8 of 8 json, ALL_DONE at 04:04 UTC; `g2` to `g6` (`_h2` to `_h6`) 0 json, 7 to 8 processes each; `fb-1` to `fb-5` (`_k1` to `_k5`) 40 of 72 json each; `fc` (`_c1`) 44 of 45 json, 1 process left. All 12 boxes listed Running at 05:04.
