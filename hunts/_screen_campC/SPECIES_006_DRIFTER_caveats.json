@@ -1,0 +1,27 @@
+{
+  "species": "DRIFTER",
+  "idx": 6,
+  "seed": 508,
+  "screen": {
+    "n_reproduction": 2,
+    "n_fission_raw": 6,
+    "best_child_mass_frac": 0.13059688639755307,
+    "n_blobs_final": 5,
+    "concentration_final": 99.16975006545549,
+    "occupancy_final": 0.04022216796875,
+    "activity": 4.3880715470106,
+    "max_generation": 4,
+    "n_organisms": 109,
+    "n_survivors": 2
+  },
+  "recording": {
+    "divisions": 8,
+    "raw_fissions": 17,
+    "strict_le_raw": true,
+    "child_frac_min": 0.11015210493579049,
+    "child_frac_median": 0.196174151457139
+  },
+  "flags": [
+    "fragmenting: 109 organisms tracked (shedding/merging churn, FINDINGS 2.1/2.5)"
+  ]
+}

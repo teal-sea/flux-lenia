@@ -1,0 +1,29 @@
+{
+  "species": "SPLITTER",
+  "idx": 5,
+  "seed": 506,
+  "screen": {
+    "n_reproduction": 2,
+    "n_fission_raw": 17,
+    "best_child_mass_frac": 0.9534147040001655,
+    "n_blobs_final": 17,
+    "concentration_final": 10.339189929186194,
+    "occupancy_final": 0.2779541015625,
+    "activity": 8.299335536578141,
+    "max_generation": 6,
+    "n_organisms": 123,
+    "n_survivors": 7
+  },
+  "recording": {
+    "divisions": 1,
+    "raw_fissions": 25,
+    "strict_le_raw": true,
+    "child_frac_min": 0.6680676701450675,
+    "child_frac_median": 0.6680676701450675
+  },
+  "flags": [
+    "debris_dominated: 2 divisions among 17 raw fissions (FINDINGS 2.1)",
+    "fragmenting: 123 organisms tracked (shedding/merging churn, FINDINGS 2.1/2.5)",
+    "many_bodies_final: 17 bodies at end of screen run"
+  ]
+}

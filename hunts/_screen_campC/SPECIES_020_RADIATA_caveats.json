@@ -1,0 +1,27 @@
+{
+  "species": "RADIATA",
+  "idx": 20,
+  "seed": 787,
+  "screen": {
+    "n_reproduction": 3,
+    "n_fission_raw": 9,
+    "best_child_mass_frac": 0.9858733028663876,
+    "n_blobs_final": 2,
+    "concentration_final": 24.650398764435746,
+    "occupancy_final": 0.16412353515625,
+    "activity": 8.950029837986447,
+    "max_generation": 8,
+    "n_organisms": 74,
+    "n_survivors": 1
+  },
+  "recording": {
+    "divisions": 5,
+    "raw_fissions": 14,
+    "strict_le_raw": true,
+    "child_frac_min": 0.5307387033523308,
+    "child_frac_median": 0.7159862994311719
+  },
+  "flags": [
+    "fragmenting: 74 organisms tracked (shedding/merging churn, FINDINGS 2.1/2.5)"
+  ]
+}

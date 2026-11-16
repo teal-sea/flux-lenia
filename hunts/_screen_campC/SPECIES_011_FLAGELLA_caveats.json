@@ -1,0 +1,27 @@
+{
+  "species": "FLAGELLA",
+  "idx": 11,
+  "seed": 606,
+  "screen": {
+    "n_reproduction": 1,
+    "n_fission_raw": 2,
+    "best_child_mass_frac": 0.11131697536245026,
+    "n_blobs_final": 3,
+    "concentration_final": 87.16016757865683,
+    "occupancy_final": 0.034423828125,
+    "activity": 4.419581173395414,
+    "max_generation": 4,
+    "n_organisms": 49,
+    "n_survivors": 3
+  },
+  "recording": {
+    "divisions": 6,
+    "raw_fissions": 10,
+    "strict_le_raw": true,
+    "child_frac_min": 0.11131697536245026,
+    "child_frac_median": 0.20361210262482618
+  },
+  "flags": [
+    "single_division_in_screen: one qualifying fission carries the whole verdict"
+  ]
+}

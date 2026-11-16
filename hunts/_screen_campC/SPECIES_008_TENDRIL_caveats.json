@@ -1,0 +1,28 @@
+{
+  "species": "TENDRIL",
+  "idx": 8,
+  "seed": 544,
+  "screen": {
+    "n_reproduction": 1,
+    "n_fission_raw": 2,
+    "best_child_mass_frac": 0.23196870856295,
+    "n_blobs_final": 1,
+    "concentration_final": 25.55065016385469,
+    "occupancy_final": 0.1827392578125,
+    "activity": 1.3191713924175412,
+    "max_generation": 4,
+    "n_organisms": 19,
+    "n_survivors": 1
+  },
+  "recording": {
+    "divisions": 0,
+    "raw_fissions": 1,
+    "strict_le_raw": true,
+    "child_frac_min": null,
+    "child_frac_median": null
+  },
+  "flags": [
+    "single_division_in_screen: one qualifying fission carries the whole verdict",
+    "no_division_in_recording_run: screen verdict (12-frame cadence) did not reproduce at 6-frame cadence (FINDINGS 5)"
+  ]
+}
