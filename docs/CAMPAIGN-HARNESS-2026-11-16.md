@@ -129,3 +129,143 @@ The kappa (`flux-campa-fb-1` to `-5`, `_k1` to `_k5`) and control (`flux-campa-f
 Worker sa-0-d8be21d7 was interrupted at about 03:22 UTC (after relaunching the horizon shards on fresh boxes). A second worker (FORGE subagent) took over at about 05:05 UTC with the job: wait for the shards, launch the one pre-registered `_c2` repeat shard on `flux-campa-fc` after `_c1` finishes, pull every box with sha256 comparison, delete each `flux-campa-*` box only after its verified pull, run `scripts/campaign_harness_summary.py`, append Results. No new experiments, no other relaunch, nothing simulated on citadel.
 
 Box states at takeover (measured by Vizier at 05:08 UTC): `flux-campa-t1` (`_h1`) 8 of 8 json, ALL_DONE at 04:04 UTC; `g2` to `g6` (`_h2` to `_h6`) 0 json, 7 to 8 processes each; `fb-1` to `fb-5` (`_k1` to `_k5`) 40 of 72 json each; `fc` (`_c1`) 44 of 45 json, 1 process left. All 12 boxes listed Running at 05:04.
+
+
+---
+
+## Results (collected 2026-11-16 05:06 to 06:45 UTC)
+
+All numbers below are copied from `outputs/campaign_harness_20261116/SUMMARY.md`, produced by `scripts/campaign_harness_summary.py` (unchanged, ran without error on the real layout; every rule as written in the design). **Execution** (the runs finishing: 45 + 3 + 360 + 45 = 453 run JSONs, all `rc=0`, per-shard `ALL_DONE`) is separated from **verification** (the summary script, and the sha256 of every pulled tarball on citadel equal to the box's, below). Raw outputs are under `outputs/campaign_harness_20261116/{control_box,control_box_repeat,kappa_1,kappa_10,horizon_300k,shard_logs}/`; per-box tarball sha256 are in the box table.
+
+### Part 1: same-host control and determinism
+
+**(a) Determinism: deterministic.** The three repeats (seed 1, `treat`, same box `flux-campa-fc`, 3 concurrent instead of 8) reproduce the first runs exactly: |d final share_A| and |d final hybrid_frac| are 0.000e+00 for OSCILLIS, MITOSA and VAGRANT (all six differences at most 1e-12); no sample of `share_A` differs by more than 1e-12 (first divergence: none). Wall time first / repeat: 2750 / 1347, 2739 / 1348, 2777 / 1355 s (the first runs shared the host with the other 42, the repeat ran 3 at a time).
+
+**(b) Host effect, box vs citadel, 45 runs** (box `flux-campa-fc` against `outputs/food_on_exact_20261110`; `|box - citadel|`):
+
+| set | measure | median | max | agree 1e-12 | agree 1e-6 | agree 1e-2 |
+|---|---|---|---|---|---|---|
+| all (45) | final share_A | 6.568e-03 | 5.304e-02 | 0 | 0 | 31 |
+| all (45) | final hybrid_frac | 1.416e-02 | 3.223e-01 | 11 | 11 | 19 |
+| OSCILLIS (15) | share_A / hybrid | 5.985e-03 / 1.875e-03 | 2.007e-02 / 5.539e-02 | 0 / 5 | 0 / 5 | 12 / 8 |
+| MITOSA (15) | share_A / hybrid | 8.300e-03 / 1.482e-02 | 3.477e-02 / 3.223e-01 | 0 / 5 | 0 / 5 | 8 / 6 |
+| VAGRANT (15) | share_A / hybrid | 5.107e-03 / 1.792e-02 | 5.304e-02 / 3.221e-01 | 0 / 1 | 0 / 1 | 11 / 5 |
+
+No run agrees in final `share_A` to 1e-12 or 1e-6. At step 300 the median |d share_A| is 6.79e-11 (max 6.87e-05). The first sample where box and citadel differ by more than 1e-12 in `share_A`: median step 300 (min 100, max 800), and 45 of 45 runs diverge. The host effect is order 1e-2 in final share and, for hybrid fraction, up to 0.32 in a single run. This is the prediction's first outcome (deterministic on one host, differing by order 1e-2 or more across hosts). Not shown by the script: which 11 runs agree in hybrid_frac to 1e-12 (the count is the same at 1e-12 and 1e-6).
+
+**(c) Step 2 flag re-test: cleared.** Final `hybrid_frac`, repulsion (kappa 3, step 2 neutral runs) minus control, 10 neutral pairs per species:
+
+| species | control | mean diff | SE | mean/SE | flag |
+|---|---|---|---|---|---|
+| OSCILLIS | box (this campaign) | +0.0017 | 0.0165 | +0.10 | ok |
+| MITOSA | box | -0.0426 | 0.0426 | -1.00 | ok |
+| VAGRANT | box | +0.0267 | 0.0374 | +0.71 | ok |
+| OSCILLIS | citadel (repeats step 2) | +0.0021 | 0.0196 | +0.10 | ok |
+| MITOSA | citadel | -0.0313 | 0.0250 | -1.25 | ok |
+| VAGRANT | citadel | +0.0133 | 0.0062 | **+2.15** | exceeds 2 SE |
+| OSCILLIS / MITOSA / VAGRANT | box minus citadel, same runs | -0.0003 / -0.0113 / +0.0134 | 0.0062 / 0.0191 / 0.0395 | -0.05 / -0.59 / +0.34 | ok |
+
+Against the same-host box control every species is within 2 SE (largest |mean/SE| 1.00), so by the pre-registered rule the flag is **cleared**. The citadel-control row reproduces the step 2 number (+2.15 SE) exactly. With the box control VAGRANT's difference has a larger mean (+0.0267) and a six times larger SE (0.0374 vs 0.0062): the citadel control's tight spread was what made 0.0133 look significant, and the host change moves the control values by more than that. Multiplicity: three species were tested (about 14% chance of one exceedance with no leak). Context, not evidence for this part: worker B's 50-seed 2x2 on fresh boxes found 0 of 12 neutral flags, Vizier's GPU run 1 of 12 (MITOSA, -2.19 SE); both are consistent with chance.
+
+### Part 2: kappa robustness (kappa 1 and 10, 20 seeds, 180 runs each, all present)
+
+**Distinctness** (rule 1 matched for seeds 1-5 against the citadel control; unmatched descriptive for seeds 6-20, n = 15, control seeds 1-5 median in brackets):
+
+| kappa | species | median hybrid seeds 1-5 [control median] | below matched control | rule 1 | seeds 6-20 hybrid min / q1 / med / q3 / max | seeds 6-20 below control median | distinct (unmatched) | median of all 20 |
+|---|---|---|---|---|---|---|---|---|
+| 1 | OSCILLIS | 0.915 [0.939] | 3 of 5 | **partial** | 0.263 / 0.834 / 0.965 / 1.000 / 1.000 | 7 of 15 | no | 0.940 |
+| 1 | MITOSA | 0.448 [0.921] | 4 of 5 | **distinct** | 0.020 / 0.278 / 0.758 / 0.996 / 1.000 | 9 of 15 | no | 0.699 |
+| 1 | VAGRANT | 0.035 [0.502] | 5 of 5 | **distinct** | 0.000 / 0.001 / 0.046 / 0.074 / 0.318 | 15 of 15 | yes | 0.041 |
+| 10 | OSCILLIS | 0.000 [0.939] | 5 of 5 | **distinct** | 0.000 / 0.000 / 0.000 / 0.000 / 0.000 | 15 of 15 | yes | 0.000 |
+| 10 | MITOSA | 0.000 [0.921] | 5 of 5 | **distinct** | 0.000 / 0.000 / 0.000 / 0.000 / 0.001 | 15 of 15 | yes | 0.000 |
+| 10 | VAGRANT | 0.000 [0.502] | 5 of 5 | **distinct** | 0.000 / 0.000 / 0.000 / 0.000 / 0.000 | 15 of 15 | yes | 0.000 |
+
+Seeds 1-5 medians by kappa (OSCILLIS / MITOSA / VAGRANT): kappa 0 citadel 0.939 / 0.921 / 0.502; kappa 1 0.915 / 0.448 / 0.035; kappa 3 (step 2) 0.313 / 0.000 / 0.000; kappa 10 0.000 / 0.000 / 0.000. Distinctness is robust at kappa 10 for all species and at kappa 1 for VAGRANT; at kappa 1 OSCILLIS gives no distinctness (the unmatched seeds 6-20 median 0.965 is above its control median) and MITOSA is mixed (matched seeds distinct, unmatched seeds 6-20 median 0.758, only 9 of 15 below the control median, so the unmatched label is "no"). The box control as secondary control gives the same verdicts except OSCILLIS kappa 1 "no effect" and MITOSA, VAGRANT "distinct" (see SUMMARY.md).
+
+**Selection** (rule 2 at 16 of 20; `E` = largest |delta| of the 40 neutral runs):
+
+| kappa | species | E | treat out of E | winners | max winner share | verdict | E95 | out of E95 (winners) | verdict at E95 (secondary) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | OSCILLIS | 0.0459 | 4 of 20 | +u 0 / -u 4 | 0.591 | no selection detected | 0.0173 | 12 (+u 2 / -u 10) | no selection detected |
+| 1 | MITOSA | 0.0604 | 2 of 20 | +u 2 / -u 0 | 0.588 | no selection detected | 0.0507 | 4 (+u 3 / -u 1) | no selection detected |
+| 1 | VAGRANT | 0.0477 | 8 of 20 | +u 8 / -u 0 | 0.703 | no selection detected | 0.0259 | 12 (+u 12) | no selection detected |
+| 10 | OSCILLIS | 0.0363 | 11 of 20 | +u 5 / -u 6 | 0.640 | no selection detected | 0.0212 | 15 (+u 7 / -u 8) | no selection detected |
+| 10 | MITOSA | 0.0778 | 3 of 20 | +u 3 / -u 0 | 0.641 | no selection detected | 0.0501 | 5 (+u 5) | no selection detected |
+| 10 | VAGRANT | 0.0376 | 9 of 20 | +u 9 / -u 0 | 0.685 | no selection detected | 0.0242 | 9 (+u 9) | no selection detected |
+
+No selection at either kappa, primary or secondary rule. VAGRANT's one-sided lean persists: all of its out-of-envelope seeds favour `+u` (8 of 20 at kappa 1, 9 of 20 at kappa 10, and 12 of 20 at kappa 1 with E95), below the 16-of-20 bar at both; so the question whether VAGRANT reaches the bar is answered: it does not, at either kappa, and the lean is real in sign but weak in size (max winner share 0.70).
+
+**Saturation flag: not flagged at either kappa.** Runs with max-over-samples `sat_frac` above 1e-2: 0 of 180 at kappa 1, 0 of 180 at kappa 10 (by the mean over samples also 0). Largest `sat_frac` in any sample 1.05e-03 (kappa 1 OSCILLIS, kappa 10 OSCILLIS and MITOSA). The prediction that kappa 10 might saturate velocity is not borne out. **Conservation:** max relative drift of `sum(body)+sum(food)` 3.04e-15 (kappa 1: 3.02e-15, kappa 10: 3.04e-15). Wall time per run, median / max: kappa 1 1896 to 1914 / 3111 s, kappa 10 1888 to 1896 / 3099 s (steal-affected, see deviations).
+
+### Part 3: horizon, 300,000 steps at kappa 3 (45 runs, all present)
+
+**(a) Takeover: takeover appears.** Treatment runs with winner share at least 0.90 at step 300,000: OSCILLIS 2 of 5 (seed 1: 0.955, seed 2: 0.933), MITOSA 0 of 5 (max 0.616), VAGRANT 1 of 5 (seed 2: 1.000; A's share reaches 0.000, i.e. lineage B fixes). The same counts at any sampled step are identical (2, 0, 1). Neutral runs reaching 0.90 at any sample: 0 of 10 for each species (no drift to fixation in the neutral arms). In every one of the 15 treatment runs the winner is `-u` (`d300` is negative in 15 of 15); this is a measured count from the per-run table, not a rule.
+
+**(b) Share keeps moving, tau = 0.05:**
+
+| species | arm | saturated | grows | reverses | shrinks | median |d300| - |d30| | median |d30| | median |d300| |
+|---|---|---|---|---|---|---|---|---|
+| OSCILLIS | treat | 0 | 2 | 3 | 0 | +0.365 | 0.018 | 0.386 |
+| OSCILLIS | neutral (10) | 10 | 0 | 0 | 0 | +0.006 | 0.006 | 0.009 |
+| MITOSA | treat | 0 | 1 | 4 | 0 | +0.042 | 0.025 | 0.067 |
+| MITOSA | neutral (10) | 10 | 0 | 0 | 0 | +0.000 | 0.021 | 0.022 |
+| VAGRANT | treat | 0 | 0 | 5 | 0 | +0.047 | 0.050 | 0.098 |
+| VAGRANT | neutral (10) | 7 | 3 | 0 | 0 | +0.001 | 0.011 | 0.008 |
+
+Treatment: 0 of 15 saturated (3 grows, 12 reverses: the 30,000-step sign is wrong in 12 of 15 for the 300,000-step winner). Neutral: 27 of 30 saturated; the 3 that grow are VAGRANT `neutral_plus` seeds 1-3 (d300 -0.080, +0.354, +0.264), so VAGRANT's neutral arm has large late drift too. Outcome 3 of the prediction ("nothing changes") is rejected for all three species.
+
+**(c) Distinctness at 300,000 steps:** rule 1 against the 30,000-step citadel control (limitation: early control, late state): OSCILLIS **distinct** (median 0.000 vs control 0.939, 5 of 5 below), MITOSA **distinct** (0.000 vs 0.921, 5 of 5), VAGRANT **distinct** (0.000 vs 0.502, 5 of 5). Holds / erodes per treatment run: OSCILLIS 4 / 1, MITOSA 5 / 0, VAGRANT 5 / 0 (neutral, 10 runs: 5 / 5, 7 / 3, 9 / 1). Median hybrid at 30k to 300k, treatment: OSCILLIS 0.313 to 0.000, MITOSA 0.000 to 0.000, VAGRANT 0.000 to 0.000. Exceptions in OSCILLIS: seed 3 erodes (0.466 to 0.870), seed 5 has hybrid 0.955 to 1.000, which the "holds" rule (`h300 <= max(0.10, h30 + 0.05)`) classes as holds; so for OSCILLIS the 300,000-step distinctness is 3 to 4 of 5 by eye and the rule's count of 4 includes seed 5. The medians say distinct, two runs say not.
+
+**(d) Selection at 300,000 steps** (rule 2, bar 4 of 5, `E` = largest |d300| of 10 neutral runs):
+
+| species | E | treat out of E | winners | max winner share | verdict | treat d300 seeds 1-5 |
+|---|---|---|---|---|---|---|
+| OSCILLIS | 0.0375 | 5 of 5 | +u 0 / -u 5 | 0.955 | **selection** | -0.456 -0.428 -0.343 -0.386 -0.200 |
+| MITOSA | 0.0735 | 2 of 5 | +u 0 / -u 2 | 0.616 | no selection detected | -0.067 -0.032 -0.115 -0.086 -0.048 |
+| VAGRANT | 0.3543 | 1 of 5 | +u 0 / -u 1 | 1.000 | no selection detected | -0.024 -0.495 -0.245 -0.035 -0.098 |
+
+OSCILLIS is "selection", not "takeover" under the rule (takeover requires every out-of-envelope winner at 0.90; seeds 3 and 5 are 0.843 and 0.698, seeds 1, 2, 4: 0.955, 0.933, 0.888). MITOSA: 5 of 5 treatment seeds drift to `-u` with |d300| 0.032 to 0.115, but only 2 exceed E = 0.0735 (the largest neutral |d300|, a `neutral_minus` seed at +0.074). VAGRANT: E is inflated to 0.354 by one neutral run (`neutral_plus` seed 2, +0.354, winner share 0.849), so the rule cannot detect selection there although treatment seed 2 reaches 1.000; at 30,000 steps the same neutral runs had E 0.033. The VAGRANT "no selection detected" is a property of the envelope, as the rule is written, and not evidence of absence.
+
+**Prediction check (design written before the run):** I expected outcome 2 (drift, no takeover) for OSCILLIS and VAGRANT and outcome 3 for MITOSA, with any takeover "well below one half". Measured: takeover in 3 of 15 treatment runs (OSCILLIS 2, VAGRANT 1) and 0 of 30 neutral; OSCILLIS gets selection with a consistent `-u` winner; MITOSA is not at rest (|d300| 0.03 to 0.12, 4 of 5 reverse sign). The prediction was wrong for OSCILLIS and for MITOSA's "nothing changes".
+
+**(e) Conservation, saturation, wall time:** max relative drift of `sum(body)+sum(food)` over the 45 runs 4.61e-14 (median 1.16e-14); largest `sat_frac` 5.36e-04, 0 runs above 1e-2; wall seconds per run median 11,460, min 6,089, max 13,616.
+
+### Conservation (all parts)
+
+Max relative drift of `sum(body)+sum(food)`: kappa runs 3.04e-15, horizon runs 4.61e-14, control runs: see SUMMARY.md (not part of its tables; the control JSONs carry `max_rel_total_drift`).
+
+### Wall times
+
+Control (45 runs, 8 concurrent under steal) 2750 s typical, repeat (3 concurrent) 1347 to 1355 s; kappa runs median about 1900 s; horizon runs median 11,460 s (3.2 h). None is comparable to the 836 s reference for an uncontended box (steal measured in progress note 2).
+
+### Box facts, versions, cost
+
+Instabox Pro workspace, 8 vCPU / 16 GiB, template `agent-browser`, `AMD EPYC`, Python 3.13.5, jax 0.11.1, jaxlib 0.11.1, numpy 2.5.2, scipy 1.18.1, float64, CPU, code revision as in the progress notes (sha256 of the engine and script listing compared with citadel before dispatch). Ids are in the two progress notes. Tarball sha256 (box `/data/fl/out_<box>.tgz` equal to citadel `sha256sum` in every case) and deletion time (UTC, 2026-11-16, `instabox-run rm --yes` in the same step as the verified pull):
+
+| box | shard | tarball sha256 | deleted |
+|---|---|---|---|
+| flux-campa-t1 | `_h1` | 80f0a9874e6dbc6aee442e7516bccb7af4fb6fa38491ef7929eef24302bcd0a6 | 05:06 |
+| flux-campa-fc | `_c1`, `_c2` | b9cda4dcb87c2823e209bb90b6cc43bf93d651c9ebabb57a11ae1b6924cff1b7 | 05:27 |
+| flux-campa-g2 | `_h2` | 1d78815832e12fac60e2a13a9996f202889eaca38d0cc2abbe33a671f3453efb | 05:28 |
+| flux-campa-g3 | `_h3` | d5fe78ebfb0ceae9afd44b3756dfc86539019d3d4131bf40376021edc9031920 | 05:29 |
+| flux-campa-g4 | `_h4` | 250c78268d8ab83341ea6a9a57506db5dbca1c9a794d5da079f25ffe67dc011e | 06:06 |
+| flux-campa-g5 | `_h5` | edebdf1918d9f8ec6602624a1fe37a1b89a0b4316d3601e251d62f85e42151fd | 06:06 |
+| flux-campa-g6 | `_h6` | d29399f7bbb4e7874fa062f5e40ce606e298b24791c2da50e4a56e2234702e3f | 06:06 |
+| flux-campa-fb-1 | `_k1` | a68bf4cb979c58ac91368673df29459941451cb209e60006cd6b25a57a91046d | 06:43 |
+| flux-campa-fb-2 | `_k2` | cac13d9bd3f1feff9242e1c2e13197e7548e1fd4cec17c5e52367417367c89be | 06:44 |
+| flux-campa-fb-3 | `_k3` | c42baa28863d0dd4abd30e89076a944cfb8d389b002f683e9f9ec85586bd12c6 | 06:44 |
+| flux-campa-fb-4 | `_k4` | a27fff3f74d8e7a614c2047a067802de7591e67136d02137950c733165c27a36 | 06:45 |
+| flux-campa-fb-5 | `_k5` | cf9c52a49bf03507eb90987a0e20ecdbf805dea0e5ea9749bb6f21c1805e53b7 | 06:45 |
+
+`instabox-run ls` after the last deletion shows 0 `flux-campa-*` boxes. Created: fb-1..5 01:48, fc 01:49, t1 02:07, g2..g6 02:10 to 02:11 (progress notes; ls clock to the minute). Box-hours of the surviving 12 boxes, created to deleted: about 24.7 (fb) + 3.6 (fc) + 3.0 (t1) + 3.3 + 3.3 + 3.9 x 3 (g2..g6) = about 49.6, plus the six first-launch horizon forks (`w1`, `fa-1..5`, 01:4x to about 02:1x, deletion times not recorded by me) about 2 to 3: **about 52 box-hours, about $3.6 at $0.07 per 8/16 box-hour: an estimate, not a bill.**
+
+### Deviations
+
+1. Worker sa-0-d8be21d7 was interrupted at about 03:22 UTC; this results block, the collection and the deletions were done by a second worker (Collection note above).
+2. Horizon shards moved from forks to fresh boxes at 02:15 to 02:17 after measured 59 to 71% steal; t1 was a 13th box for about 4 minutes; the first-launch tarball overwrite incident (progress note 2).
+3. **`_c2` was not launched by me.** At takeover (05:04) `flux-campa-fc` had already started `SHARD=_c2` (3 jobs, `runs_c2.log` line `batch start` at 05:03:03, the same second as the `_c1` `ALL_DONE`), i.e. chained after `_c1` on the box. I verified the processes and let it finish (all three runs `rc=0`, 05:26 ALL_DONE); I launched nothing on any box and no shard other than the pre-registered `_c2` ran.
+4. Horizon shards are 8, 8, 8, 7, 7, 7 jobs, not 8, 8, 8, 8, 8, 5 (progress note 1).
+5. Kappa and control wall times are steal-affected; the kappa and control shards were not relaunched.
+6. `t1` was resumed from Paused by Vizier at 05:07 per the handoff; I did not need to resume it myself. Citadel's clock and the box clocks agreed to the minute.
+7. I wrote the "Conservation (all parts)" line for the control runs without a number: the summary script prints no drift for part 1.
+8. Nothing heavy ran on citadel: only git, box control, `pull`, sha256 and `tar -x`, and the JSON-only summary script.
