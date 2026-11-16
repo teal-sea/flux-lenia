@@ -1,0 +1,1 @@
+{"species": "SPECIES_001_OSCILLIS", "seed": 3, "arm": "neutral_minus", "food": true, "wall_seconds": 11419.374589681625, "max_rel_total_drift": 1.5613532033646398e-14, "share_A_start": 0.499220066099889, "share_A_end": 0.5046609498502173, "body_end": 2993.251818899361, "food_end": 268.77135366196967, "n_blobs_end": 74, "largest_blob_frac": 0.019222926394762765}
