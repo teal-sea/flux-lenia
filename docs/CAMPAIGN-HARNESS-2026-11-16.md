@@ -232,7 +232,7 @@ OSCILLIS is "selection", not "takeover" under the rule (takeover requires every 
 
 ### Conservation (all parts)
 
-Max relative drift of `sum(body)+sum(food)`: kappa runs 3.04e-15, horizon runs 4.61e-14, control runs: see SUMMARY.md (not part of its tables; the control JSONs carry `max_rel_total_drift`).
+Max relative drift of `sum(body)+sum(food)`: kappa runs 3.04e-15, horizon runs 4.61e-14, control_box runs 2.75e-15 (45 runs), control_box_repeat 1.35e-15 (3 runs) (read directly from the run JSONs, `max_rel_total_drift`; the summary script prints no drift for part 1).
 
 ### Wall times
 
@@ -267,5 +267,4 @@ Instabox Pro workspace, 8 vCPU / 16 GiB, template `agent-browser`, `AMD EPYC`, P
 4. Horizon shards are 8, 8, 8, 7, 7, 7 jobs, not 8, 8, 8, 8, 8, 5 (progress note 1).
 5. Kappa and control wall times are steal-affected; the kappa and control shards were not relaunched.
 6. `t1` was resumed from Paused by Vizier at 05:07 per the handoff; I did not need to resume it myself. Citadel's clock and the box clocks agreed to the minute.
-7. I wrote the "Conservation (all parts)" line for the control runs without a number: the summary script prints no drift for part 1.
-8. Nothing heavy ran on citadel: only git, box control, `pull`, sha256 and `tar -x`, and the JSON-only summary script.
+7. Nothing heavy ran on citadel: only git, box control, `pull`, sha256 and `tar -x`, and the JSON-only summary script.
