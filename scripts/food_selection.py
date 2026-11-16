@@ -15,11 +15,14 @@ Per cell, a = (1 + tag) / 2 is the fraction of lineage-A ancestry. Lineage A's s
 dish is sum(A_tot * a) / sum(A_tot), mass-weighted over body only.
 
 Usage:
-  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR [TRANSPORT [KAPPA]]
+  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR [TRANSPORT [KAPPA [FOOD_SENSE]]]
 TRANSPORT is 'mean' (default, the original scheme) or 'per_channel' (docs/GENOME-TRANSPORT-2026-11-10.md).
 KAPPA (default 0 = off, behaviour unchanged) is Config.repulsion_kappa, the self/non-self contact
 repulsion of docs/CONDITIONAL-BLENDING-2026-11-15.md. With KAPPA > 0 each sample also records the
 fraction of (channel, cell) velocities at the soft bound, with and without the repulsion term.
+FOOD_SENSE (default absent = 0 = off, behaviour unchanged) is Config.food_sense, the food field as brain
+input (docs/FOOD-SENSING-2026-11-16.md). When the argument is present (even as 0) the run also logs
+cumulative food eaten and body decayed, sat_frac every sample, and records food_sense and the W1f seed.
 """
 
 from __future__ import annotations
@@ -69,12 +72,13 @@ BOUND_FRAC = 0.9           # a velocity is 'at the soft bound' if |d| >= 0.9 * m
 BODY_MIN = 0.05            # ... counted over (channel, cell) pairs holding at least this much of that channel
 
 
-@partial(jax.jit, static_argnums=(5,))
-def _sat(A, G, light, p, bank, cfg):
+@partial(jax.jit, static_argnums=(6,))
+def _sat(A, G, F, light, p, bank, cfg):
     """Fractions of body (channel, cell) velocities at the soft bound: (with repulsion, without)."""
     khat, ksrc = bank
     U = nf.perceive(A, khat, ksrc)
-    E, gain, theta = nf.sensorimotor(U, A, G, light, p, cfg)
+    Ff = nf.food_features(F, p, bank, cfg) if cfg.food_sense != 0.0 else None
+    E, gain, theta = nf.sensorimotor(U, A, G, light, p, cfg, Ff)
     body = A >= BODY_MIN
     n = jnp.maximum(jnp.sum(body), 1)
     out = []
@@ -115,6 +119,8 @@ def main() -> None:
     species, seed, arm, food_on, steps, outdir = sys.argv[1:7]
     transport = sys.argv[7] if len(sys.argv) > 7 else "mean"
     kappa = float(sys.argv[8]) if len(sys.argv) > 8 else 0.0
+    food_sense_arg = len(sys.argv) > 9
+    food_sense = float(sys.argv[9]) if food_sense_arg else 0.0
     seed, food_on, steps = int(seed), bool(int(food_on)), int(steps)
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
@@ -125,6 +131,9 @@ def main() -> None:
     cfg, params = nu.tagged(w.cfg, {k: np.asarray(v) for k, v in w.params.items()})
     if kappa != 0.0:
         cfg = dataclasses.replace(cfg, repulsion_kappa=kappa)
+    if food_sense != 0.0:
+        cfg = dataclasses.replace(cfg, food_sense=food_sense)
+        params = dict(params, W1f=nf.sample_food_weights(species, cfg))
     p = nf.params_to_jax(params)
     food = FOOD if food_on else nu.Food(enabled=False)
 
@@ -146,34 +155,45 @@ def main() -> None:
     total0 = M0 + float(jnp.sum(F))
 
     t, ts = 0, [0]
-    def sat(A, G):
-        if kappa == 0.0:
+    def sat(A, G, F):
+        if kappa == 0.0 and not food_sense_arg:
             return {}
-        a, b = _sat(A, G, w.light, p, w.bank, cfg)
+        a, b = _sat(A, G, F, w.light, p, w.bank, cfg)
         return {"sat_frac": float(a), "sat_frac_without_repulsion": float(b)}
 
-    rows = [measure(np.asarray(A), np.asarray(G), np.asarray(F), u) | sat(A, G)]
+    rows = [measure(np.asarray(A), np.asarray(G), np.asarray(F), u) | sat(A, G, F)]
     keep = {0, steps // 4, steps // 2, 3 * steps // 4, steps}
+    if food_sense_arg:           # 1,800-run campaign: 3 float32 frames per run keep the npz total near 1 GB
+        keep = {0, steps // 2, steps}
     frames = {}
 
     def snap(t, A, G, F):
         A_, G_ = np.asarray(A), np.asarray(G)
-        frames[f"body_{t}"] = A_.sum(0)
-        frames[f"ancestry_{t}"] = np.clip((1.0 + G_[-1]) / 2.0, 0.0, 1.0)
-        frames[f"food_{t}"] = np.asarray(F)
+        ty = np.float32 if food_sense_arg else np.float64
+        frames[f"body_{t}"] = A_.sum(0).astype(ty)
+        frames[f"ancestry_{t}"] = np.clip((1.0 + G_[-1]) / 2.0, 0.0, 1.0).astype(ty)
+        frames[f"food_{t}"] = np.asarray(F).astype(ty)
 
     snap(0, A, G, F)
+    eaten_cum, decayed_cum, eaten_s, decayed_s = 0.0, 0.0, [0.0], [0.0]
     t0 = time.time()
     while t < steps:
-        A, G, F = nu.rollout(A, G, F, w.light, p, w.bank, cfg, food, SAMPLE)
+        if food_sense_arg:
+            A, G, F, e_, d_ = nu.rollout_logged(A, G, F, w.light, p, w.bank, cfg, food, SAMPLE)
+            eaten_cum += float(e_); decayed_cum += float(d_)
+            eaten_s.append(eaten_cum); decayed_s.append(decayed_cum)
+        else:
+            A, G, F = nu.rollout(A, G, F, w.light, p, w.bank, cfg, food, SAMPLE)
         t += SAMPLE
         ts.append(t)
-        rows.append(measure(np.asarray(A), np.asarray(G), np.asarray(F), u) | sat(A, G))
+        rows.append(measure(np.asarray(A), np.asarray(G), np.asarray(F), u) | sat(A, G, F))
         if t in keep:
             snap(t, A, G, F)
     wall = time.time() - t0
 
     series = {k: [r_[k] for r_ in rows] for k in rows[0]}
+    if food_sense_arg:
+        series["food_eaten_cum"], series["body_decayed_cum"] = eaten_s, decayed_s
     tail = max(1, len(ts) // 10)
     totals = [b + f for b, f in zip(series["body"], series["food"])]
     share_end = float(np.mean(series["share_A"][-tail:]))
@@ -181,7 +201,11 @@ def main() -> None:
         "species": species, "seed": seed, "arm": arm, "food": food_on, "steps": steps,
         "sample_every": SAMPLE, "genome_transport": transport,
         "repulsion_kappa": kappa, "repulsion_radius": cfg.repulsion_radius,
-        "repulsion_genome_dims": cfg.repulsion_genome_dims, "food_params": dataclasses.asdict(food),
+        "repulsion_genome_dims": cfg.repulsion_genome_dims,
+        **({"food_sense": food_sense, "W1f_seed": nf.food_weight_seed(species),
+            "W1f_seed_rule": "crc32('W1f|<species id>')",
+            "food_eaten_total": eaten_cum, "body_decayed_total": decayed_cum} if food_sense_arg else {}),
+        "food_params": dataclasses.asdict(food),
         "genome_A_sign": ARMS[arm][0], "genome_B_sign": ARMS[arm][1],
         "spawn_centres": [[ya, xa], [yb, xb]], "lineage_axis_seed": U_SEED,
         "wall_seconds": wall,

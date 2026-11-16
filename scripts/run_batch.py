@@ -5,7 +5,8 @@ JOBS_FILE defaults to OUTDIR/jobs.txt; a resume after a killed batch passes the 
 Optional extras (defaults leave the behaviour above unchanged):
   STEPS env (default 30000); SHARD env (suffix for runs/rss log names, e.g. _w2; the sentinel is
   written to runs{SHARD}.log); a job line may carry a 5th field KAPPA (repulsion, default 0) and
-  a 6th field SUBDIR (outputs go to OUTDIR/SUBDIR; used by the pilot).
+  a 6th field SUBDIR (outputs go to OUTDIR/SUBDIR; used by the pilot), a 7th field FOOD_SENSE
+  (docs/FOOD-SENSING-2026-11-16.md; absent = old behaviour; use '-' as SUBDIR for none).
 """
 import os, subprocess, sys, time
 from pathlib import Path
@@ -41,10 +42,11 @@ while todo or running:
     while todo and len(running) < cap and avail_gib() >= 6:
         sp, seed, arm, food, *extra = todo.pop(0); j = " ".join((sp, seed, arm, food, *extra))
         kappa = extra[0] if extra else "0"; sub = extra[1] if len(extra) > 1 else ""
+        sub = "" if sub == "-" else sub; fs = extra[2:3]
         odir = out / sub; odir.mkdir(parents=True, exist_ok=True)
         lf = open(odir / f"run_{sp}_s{seed}_{arm}.log", "a")
         running[j] = subprocess.Popen(["nice", "-n", "10", py, str(root / "scripts/food_selection.py"),
-            sp, seed, arm, food, steps, str(odir), transport, kappa], stdout=lf, stderr=subprocess.STDOUT, env=env, cwd=root)
+            sp, seed, arm, food, steps, str(odir), transport, kappa, *fs], stdout=lf, stderr=subprocess.STDOUT, env=env, cwd=root)
         say(f"launch {j} pid={running[j].pid} avail_gib={avail_gib():.1f}")
     if todo and avail_gib() < 6: say(f"paused: avail {avail_gib():.1f} GiB")
     time.sleep(15)

@@ -118,6 +118,14 @@ class Config:
     repulsion_radius: float = 8.0
     repulsion_genome_dims: int = 8
 
+    # Food perception as brain input (docs/FOOD-SENSING-2026-11-16.md). 0.0 disables it: the
+    # code path is not traced, so every earlier result reproduces bit for bit. Otherwise the
+    # hidden pre-activation gains  food_sense * (X_food @ W1f)  where X_food are the food field's
+    # ring features (see food_features) and W1f is an extra weight block in the brain parameters.
+    # The genome's FiLM gamma/beta act on the sum, as on every other input. The lineage tag
+    # (last genome row) has zero FiLM weights and enters nowhere else.
+    food_sense: float = 0.0
+
     @property
     def window(self) -> int:
         """Transport stencil radius. Bilinear splitting of a displacement
@@ -128,6 +136,10 @@ class Config:
     @property
     def n_features(self) -> int:
         return 2 * self.n_kernels + self.channels + 1
+
+    @property
+    def n_food_features(self) -> int:
+        return 2 * self.n_kernels
 
 
 # ==========================================================================
@@ -243,6 +255,19 @@ def sample_params(rng: np.random.Generator, cfg: Config) -> dict:
     }
 
 
+def food_weight_seed(species_id: str) -> int:
+    """Deterministic W1f seed of a species: crc32 of 'W1f|<species id>'. The same for every arm,
+    seed and run of a species; different between species."""
+    return zlib.crc32(f"W1f|{species_id}".encode()) & 0xFFFFFFFF
+
+
+def sample_food_weights(species_id: str, cfg: Config) -> np.ndarray:
+    """W1f (n_food_features, hidden), drawn once per species, scaled like W1."""
+    rng = np.random.default_rng(food_weight_seed(species_id))
+    return rng.normal(0, 1.0 / math.sqrt(cfg.n_food_features),
+                      size=(cfg.n_food_features, cfg.hidden))
+
+
 def params_to_jax(p: dict) -> dict:
     return {k: jnp.asarray(v, dtype=jnp.float64) for k, v in p.items()}
 
@@ -296,7 +321,22 @@ def perceive(A: jnp.ndarray, khat: jnp.ndarray, ksrc: jnp.ndarray) -> jnp.ndarra
     return jnp.fft.irfft2(Ahat[ksrc] * khat, s=A.shape[-2:])
 
 
-def sensorimotor(U, A, Gf, light, p, cfg: Config):
+def food_features(F: jnp.ndarray, p: dict, bank, cfg: Config) -> jnp.ndarray:
+    """Food field F (H, W) seen through the SAME ring bank and bell machinery as the body.
+
+    Uf_k = F (*) ring_k  (perceive with every kernel reading the one food channel),
+    Bf_k = bell_k(Uf_k) - bell_k(0)  (the bell offset makes the feature exactly 0 where there is
+    no food, so a dish with no food gives the brain nothing).  Returns (2 n_kernels, H, W).
+    Reads nothing but F, the bank and the bell parameters: not the genome, not the tag."""
+    khat, ksrc = bank
+    Uf = perceive(F[None], khat, jnp.zeros_like(ksrc))
+    m = p["bell_m"][:, None, None]
+    s = jnp.abs(p["bell_s"][:, None, None]) + 1e-3
+    bell = lambda u: 2.0 * jnp.exp(-0.5 * ((u - m) / s) ** 2) - 1.0
+    return jnp.concatenate([Uf, bell(Uf) - bell(jnp.zeros_like(Uf))], axis=0)
+
+
+def sensorimotor(U, A, Gf, light, p, cfg: Config, Ff=None, return_hidden: bool = False):
     """Per-cell MLP: neighbourhood composition -> (growth, flux, drift).
 
     The genome field enters as FiLM modulation (multiplicative gain and
@@ -311,6 +351,10 @@ def sensorimotor(U, A, Gf, light, p, cfg: Config):
     X = jnp.concatenate([U, B, A, light[None]], axis=0)     # (F, H, W)
 
     pre = jnp.einsum("fh,fyx->hyx", p["W1"], X) + p["b1"][:, None, None]
+    if cfg.food_sense != 0.0:
+        if Ff is None:
+            raise ValueError("cfg.food_sense != 0 needs food features Ff (engine.nutrient.step passes them)")
+        pre = pre + cfg.food_sense * jnp.einsum("fh,fyx->hyx", p["W1f"], Ff)
     gamma = 1.0 + jnp.einsum("gh,gyx->hyx", p["Wg1"], Gf)
     beta = jnp.einsum("gh,gyx->hyx", p["Wg2"], Gf)
     h = jnp.tanh(pre * gamma + beta)
@@ -320,6 +364,8 @@ def sensorimotor(U, A, Gf, light, p, cfg: Config):
     E = cfg.e_scale * jnp.tanh(out[:c])
     gain = cfg.gain_max * jax.nn.sigmoid(out[c:2 * c])
     theta = cfg.theta_max * jnp.tanh(out[2 * c:])
+    if return_hidden:
+        return E, gain, theta, h
     return E, gain, theta
 
 

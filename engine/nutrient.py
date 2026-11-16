@@ -75,6 +75,12 @@ def tagged(cfg: nf.Config, params: dict) -> tuple[nf.Config, dict]:
 
 def react(A, F, food: Food):
     """Uptake and decay. Returns (A, F) with sum(A) + sum(F) unchanged up to rounding."""
+    A_new, F_new, _, _ = react_stats(A, F, food)
+    return A_new, F_new
+
+
+def react_stats(A, F, food: Food):
+    """react, plus the totals eaten (sum of uptake) and decayed (sum of decay) this step."""
     Atot = jnp.sum(A, axis=0)
     U = F * (1.0 - jnp.exp(-food.uptake * Atot))
     if food.threshold > 0.0:
@@ -84,7 +90,7 @@ def react(A, F, food: Food):
     loss = food.decay * A
     A_new = A - loss + gain
     F_new = F + jnp.sum(loss, axis=0) - jnp.sum(gain, axis=0)
-    return A_new, F_new
+    return A_new, F_new, jnp.sum(gain), jnp.sum(loss)
 
 
 def diffuse(F, D: float):
@@ -93,17 +99,26 @@ def diffuse(F, D: float):
     return F + D * lap
 
 
+def _step_core(A, Gf, F, light, p, bank, cfg: nf.Config, food: Food):
+    """One step; returns (A, Gf, F, eaten, decayed) with the step's food totals."""
+    khat, ksrc = bank
+    U = nf.perceive(A, khat, ksrc)
+    # food as brain input (off unless cfg.food_sense != 0: the branch is not traced at 0.0)
+    Ff = nf.food_features(F, p, bank, cfg) if cfg.food_sense != 0.0 else None
+    E, gain, theta = nf.sensorimotor(U, A, Gf, light, p, cfg, Ff)
+    dy, dx = nf.flow_field(E, gain, theta, A, cfg, Gf)
+    A, Gf = nf.reintegrate(A, Gf, dy, dx, cfg)
+    eaten = decayed = jnp.zeros(())
+    if food.enabled:
+        A, F, eaten, decayed = react_stats(A, F, food)
+        F = diffuse(F, food.diffusion)
+    return A, Gf, F, eaten, decayed
+
+
 @partial(jax.jit, static_argnums=(6, 7))
 def step(A, Gf, F, light, p, bank, cfg: nf.Config, food: Food):
     """One neural_field step, then food uptake, decay and diffusion."""
-    khat, ksrc = bank
-    U = nf.perceive(A, khat, ksrc)
-    E, gain, theta = nf.sensorimotor(U, A, Gf, light, p, cfg)
-    dy, dx = nf.flow_field(E, gain, theta, A, cfg, Gf)
-    A, Gf = nf.reintegrate(A, Gf, dy, dx, cfg)
-    if food.enabled:
-        A, F = react(A, F, food)
-        F = diffuse(F, food.diffusion)
+    A, Gf, F, _, _ = _step_core(A, Gf, F, light, p, bank, cfg, food)
     return A, Gf, F
 
 
@@ -116,3 +131,16 @@ def rollout(A, Gf, F, light, p, bank, cfg: nf.Config, food: Food, n_steps: int):
 
     (A, Gf, F), _ = jax.lax.scan(body, (A, Gf, F), None, length=n_steps)
     return A, Gf, F
+
+
+@partial(jax.jit, static_argnums=(6, 7, 8))
+def rollout_logged(A, Gf, F, light, p, bank, cfg: nf.Config, food: Food, n_steps: int):
+    """rollout that also returns the food eaten and the body decayed over the n_steps (sums)."""
+    def body(carry, _):
+        a, g, f, e, d = carry
+        a, g, f, de, dd = _step_core(a, g, f, light, p, bank, cfg, food)
+        return (a, g, f, e + de, d + dd), None
+
+    z = jnp.zeros(())
+    (A, Gf, F, eaten, decayed), _ = jax.lax.scan(body, (A, Gf, F, z, z), None, length=n_steps)
+    return A, Gf, F, eaten, decayed
