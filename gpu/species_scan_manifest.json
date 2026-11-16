@@ -1,0 +1,20 @@
+{
+  "_comment": "Species scan (docs/SPECIES-SCAN-2026-11-16.md): 30 species x 4 cells x seeds 1-20 x 3 arms = 7,200 runs in 120 batches of 60, one A100-80GB container each. food_sense '@PILOT' is the owner's gain G from pilot 2 (10 if no gain qualifies), supplied at launch with --pilot. '@ALL' expands to every outputs/species/*_genome.json (30). frame_every 15000 keeps frames at steps 0, 15000, 30000 only (frame_every 0 is invalid in gpu_batch.py).",
+  "experiment": "species_scan_20261116",
+  "defaults": {
+    "steps": 30000,
+    "sample_every": 100,
+    "frame_every": 15000,
+    "arms": "treat,neutral_plus,neutral_minus",
+    "seeds": "1-20",
+    "food": 1,
+    "batch": 60
+  },
+  "species": "@ALL",
+  "cells": [
+    {"kappa": 0, "food_sense": 0, "transport": "per_channel"},
+    {"kappa": 3, "food_sense": 0, "transport": "per_channel"},
+    {"kappa": 0, "food_sense": "@PILOT", "transport": "per_channel"},
+    {"kappa": 3, "food_sense": "@PILOT", "transport": "per_channel"}
+  ]
+}
