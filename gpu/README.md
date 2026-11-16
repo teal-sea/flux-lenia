@@ -52,7 +52,7 @@ estimate (formula above) fits the budget. Only then start `run_campaign.sh`.
    ships the NVIDIA driver, SSH key attached. Note the IP and the hourly price; the cost is stated before launch.
 2. **Tarball and copy** (on citadel, committed state only):
 
-       git -C /home/thomas/worktrees/flux-lenia-gpu-20261116 archive --format=tar.gz HEAD -o /tmp/flux-lenia-gpu.tar.gz
+       git -C /home/thomas/worktrees/flux-lenia-gpu-20261116 archive --format=tar.gz HEAD engine scripts gpu outputs/species requirements.txt -o /tmp/flux-lenia-gpu.tar.gz
        scp /tmp/flux-lenia-gpu.tar.gz root@IP:/root/flux-lenia-gpu.tar.gz
        scp gpu/vultr_setup.sh root@IP:/root/vultr_setup.sh    # the script is also inside the tarball
 
