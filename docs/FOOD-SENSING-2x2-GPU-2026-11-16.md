@@ -89,6 +89,35 @@ only with repulsion") holds for OSCILLIS; prediction (ii) ("sensing changes fora
 wins consistently") holds for MITOSA so far. Pending: B's CPU replication of the same cells; VAGRANT's
 sensing cells; the 30-species scan at gain 10 (`docs/SPECIES-SCAN-2026-11-16.md`).
 
+## Replication: worker B's CPU run of the same design (appended 2026-11-16 05:05 UTC)
+
+B's 1,800 runs (branch `vizier/food-sensing-brain-20261116` @ `25b722a`, 60 InstaBox CPU boxes, one
+process per run, same seeds, same rules, `outputs/food_sensing_20261116/SUMMARY.md`) finished at
+04:55 UTC. Seeds outside E of 50, winners +u / -u, verdict; GPU first, CPU second:
+
+| species | fs0 k0 | fs0 k3 | fs10 k0 | fs10 k3 |
+|---|---|---|---|---|
+| OSCILLIS GPU | 7 (1/6) none | 24 (7/17) none | 28 (28/0) none | **40 (40/0) selection** |
+| OSCILLIS CPU | 12 (4/8) none | 26 (9/17) none | 21 (21/0) none | 35 (35/0) none (40 under the secondary envelope) |
+| MITOSA GPU | 1 (1/0) none | 9 (9/0) none | 5 (4/1) none | 19 (19/0) none |
+| MITOSA CPU | 0 none | 1 none | 8 (6/2) none | 6 (6/0) none |
+| VAGRANT GPU | 19 (10/9) none | 25 (24/1) none | lost | lost |
+| VAGRANT CPU | 16 (10/6) none | 28 (26/2) none | 12 (12/0) none | **43 (0/43) selection** (winner share median 0.707, max 0.827) |
+
+Reading across hardware. OSCILLIS: the sensing + repulsion cell carries the same +u edge on both
+(40 of 50 and 35 of 50, every outside seed +u on both, and the same +u-only pattern without
+repulsion: 28 and 21); the pre-registered bar of 40 is met on the GPU and missed by five seeds on
+the CPU, so the honest statement is a real, borderline effect in this species. VAGRANT: rule-grade
+selection on the CPU with the opposite winner (-u, as expected: each species has its own random brain
+and `W1f`, so the favoured genome direction is species-specific), the GPU cells that would replicate
+it were lost with the Modal disable. MITOSA: nothing on either. Every sensing-off cell on both
+hardware: no selection. Every sensing-on, repulsion-off cell: no selection. Distinctness, neutral
+sanity (B: 0 of 12 flags) and conservation agree on both.
+
+**Across the two hardware runs of the one design: 2 of 3 species reach rule-grade selection in the
+sensing + repulsion cell, none without sensing, none without repulsion.** Open: the two lost VAGRANT
+GPU cells (one `modal run`, about $6, once Modal is restored) and the 30-species scan.
+
 ## Cost and deviations
 
 Ten completed containers, 20,231 container-seconds, $17.60 at $3.13 per container-hour (A100-80GB
