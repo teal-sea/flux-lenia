@@ -329,3 +329,13 @@
 2026-11-17 06:00:42 launch SPECIES_015_MEDUSA 1 treat 1 3 SPECIES_015_MEDUSA_fs0_k3_per_channel 0 pid=21713 avail_gib=24.6
 2026-11-17 06:03:57 done SPECIES_013_HELIX 1 treat 1 3 SPECIES_013_HELIX_fs10_k3_per_channel 10 rc=0 peak_rss_gib=0.58
 2026-11-17 06:03:57 launch SPECIES_015_MEDUSA 1 neutral_plus 1 3 SPECIES_015_MEDUSA_fs0_k3_per_channel 0 pid=21876 avail_gib=24.5
+2026-11-17 06:05:57 done SPECIES_013_HELIX 1 neutral_minus 1 3 SPECIES_013_HELIX_fs10_k3_per_channel 10 rc=0 peak_rss_gib=0.56
+2026-11-17 06:05:57 launch SPECIES_015_MEDUSA 1 neutral_minus 1 3 SPECIES_015_MEDUSA_fs0_k3_per_channel 0 pid=22331 avail_gib=24.4
+2026-11-17 06:06:27 done SPECIES_013_HELIX 1 neutral_plus 1 3 SPECIES_013_HELIX_fs10_k3_per_channel 10 rc=0 peak_rss_gib=0.58
+2026-11-17 06:06:27 launch SPECIES_015_MEDUSA 1 treat 1 0 SPECIES_015_MEDUSA_fs10_k0_per_channel 10 pid=22437 avail_gib=24.5
+2026-11-17 06:07:12 done SPECIES_014_LUMINA 1 treat 1 3 SPECIES_014_LUMINA_fs0_k3_per_channel 0 rc=0 peak_rss_gib=0.56
+2026-11-17 06:07:12 launch SPECIES_015_MEDUSA 1 neutral_plus 1 0 SPECIES_015_MEDUSA_fs10_k0_per_channel 10 pid=22551 avail_gib=24.5
+2026-11-17 06:09:12 done SPECIES_014_LUMINA 1 neutral_plus 1 3 SPECIES_014_LUMINA_fs0_k3_per_channel 0 rc=0 peak_rss_gib=0.57
+2026-11-17 06:09:12 launch SPECIES_015_MEDUSA 1 neutral_minus 1 0 SPECIES_015_MEDUSA_fs10_k0_per_channel 10 pid=22692 avail_gib=24.5
+2026-11-17 06:09:42 done SPECIES_014_LUMINA 1 neutral_minus 1 3 SPECIES_014_LUMINA_fs0_k3_per_channel 0 rc=0 peak_rss_gib=0.57
+2026-11-17 06:09:42 launch SPECIES_015_MEDUSA 1 treat 1 3 SPECIES_015_MEDUSA_fs10_k3_per_channel 10 pid=22798 avail_gib=24.5

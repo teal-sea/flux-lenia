@@ -127,10 +127,13 @@
    "shard": "ib11",
    "jobs_file": "campaign_cpu/scan_ib_shard_11.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:33:35Z",
    "launched_utc": "2026-11-17T02:34:02Z",
-   "json_on_box": 95
+   "json_on_box": 96,
+   "sha256": "b0feebe80f6d8c0bd088de64ec820bacb47f6344ea4b2f3a3ab12079550cbb63",
+   "pulled_at": "2026-11-17T06:11:41Z",
+   "deleted": true
   },
   "flux-scan-12": {
    "shard": "ib12",
