@@ -15,7 +15,7 @@ Per cell, a = (1 + tag) / 2 is the fraction of lineage-A ancestry. Lineage A's s
 dish is sum(A_tot * a) / sum(A_tot), mass-weighted over body only.
 
 Usage:
-  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR [TRANSPORT [KAPPA [FOOD_SENSE]]]
+  python scripts/food_selection.py SPECIES SEED ARM FOOD STEPS OUTDIR [TRANSPORT [KAPPA [FOOD_SENSE|- [SAMPLE_EVERY [FRAME_EVERY]]]]]
 TRANSPORT is 'mean' (default, the original scheme) or 'per_channel' (docs/GENOME-TRANSPORT-2026-11-10.md).
 KAPPA (default 0 = off, behaviour unchanged) is Config.repulsion_kappa, the self/non-self contact
 repulsion of docs/CONDITIONAL-BLENDING-2026-11-15.md. With KAPPA > 0 each sample also records the
@@ -23,6 +23,9 @@ fraction of (channel, cell) velocities at the soft bound, with and without the r
 FOOD_SENSE (default absent = 0 = off, behaviour unchanged) is Config.food_sense, the food field as brain
 input (docs/FOOD-SENSING-2026-11-16.md). When the argument is present (even as 0) the run also logs
 cumulative food eaten and body decayed, sat_frac every sample, and records food_sense and the W1f seed.
+'-' means absent (needed to give SAMPLE_EVERY/FRAME_EVERY without food sensing).
+SAMPLE_EVERY (default 100) is the series sampling interval in steps; FRAME_EVERY (default 0 = frames at 0, 1/4,
+1/2, 3/4 and the end) saves frames at every multiple of it plus the end (docs/CAMPAIGN-HARNESS-2026-11-16.md). Without FRAME_EVERY a run with FOOD_SENSE saves frames at 0, 1/2, end.
 """
 
 from __future__ import annotations
@@ -158,8 +161,10 @@ def main() -> None:
     species, seed, arm, food_on, steps, outdir = sys.argv[1:7]
     transport = sys.argv[7] if len(sys.argv) > 7 else "mean"
     kappa = float(sys.argv[8]) if len(sys.argv) > 8 else 0.0
-    food_sense_arg = len(sys.argv) > 9
+    food_sense_arg = len(sys.argv) > 9 and sys.argv[9] != "-"
     food_sense = float(sys.argv[9]) if food_sense_arg else 0.0
+    sample = int(sys.argv[10]) if len(sys.argv) > 10 else SAMPLE
+    frame_every = int(sys.argv[11]) if len(sys.argv) > 11 else 0
     seed, food_on, steps = int(seed), bool(int(food_on)), int(steps)
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
@@ -180,6 +185,8 @@ def main() -> None:
     keep = {0, steps // 4, steps // 2, 3 * steps // 4, steps}
     if food_sense_arg:           # 1,800-run campaign: 3 float32 frames per run keep the npz total near 1 GB
         keep = {0, steps // 2, steps}
+    if frame_every > 0:          # explicit FRAME_EVERY overrides both defaults
+        keep = set(range(0, steps + 1, frame_every)) | {steps}
     frames = {}
 
     def snap(t, A, G, F):
@@ -194,12 +201,12 @@ def main() -> None:
     t0 = time.time()
     while t < steps:
         if food_sense_arg:
-            A, G, F, e_, d_ = nu.rollout_logged(A, G, F, w.light, p, w.bank, cfg, food, SAMPLE)
+            A, G, F, e_, d_ = nu.rollout_logged(A, G, F, w.light, p, w.bank, cfg, food, sample)
             eaten_cum += float(e_); decayed_cum += float(d_)
             eaten_s.append(eaten_cum); decayed_s.append(decayed_cum)
         else:
-            A, G, F = nu.rollout(A, G, F, w.light, p, w.bank, cfg, food, SAMPLE)
-        t += SAMPLE
+            A, G, F = nu.rollout(A, G, F, w.light, p, w.bank, cfg, food, sample)
+        t += sample
         ts.append(t)
         rows.append(measure(np.asarray(A), np.asarray(G), np.asarray(F), u) | sat(A, G, F))
         if t in keep:
@@ -214,7 +221,7 @@ def main() -> None:
     share_end = float(np.mean(series["share_A"][-tail:]))
     result = {
         "species": species, "seed": seed, "arm": arm, "food": food_on, "steps": steps,
-        "sample_every": SAMPLE, "genome_transport": transport,
+        "sample_every": sample, "genome_transport": transport,
         "repulsion_kappa": kappa, "repulsion_radius": cfg.repulsion_radius,
         "repulsion_genome_dims": cfg.repulsion_genome_dims,
         **({"food_sense": food_sense, "W1f_seed": nf.food_weight_seed(species),

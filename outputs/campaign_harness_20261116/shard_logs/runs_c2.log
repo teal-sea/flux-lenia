@@ -1,0 +1,8 @@
+2026-11-16 05:03:03 batch start: 3 jobs, 8 concurrent, transport=per_channel, pid=23970
+2026-11-16 05:03:03 launch SPECIES_001_OSCILLIS 1 treat 1 0 control_box_repeat pid=23971 avail_gib=15.2
+2026-11-16 05:03:03 launch SPECIES_002_MITOSA 1 treat 1 0 control_box_repeat pid=23972 avail_gib=15.2
+2026-11-16 05:03:03 launch SPECIES_003_VAGRANT 1 treat 1 0 control_box_repeat pid=23973 avail_gib=15.2
+2026-11-16 05:25:33 done SPECIES_001_OSCILLIS 1 treat 1 0 control_box_repeat rc=0 peak_rss_gib=0.40
+2026-11-16 05:25:33 done SPECIES_002_MITOSA 1 treat 1 0 control_box_repeat rc=0 peak_rss_gib=0.43
+2026-11-16 05:25:48 done SPECIES_003_VAGRANT 1 treat 1 0 control_box_repeat rc=0 peak_rss_gib=0.44
+2026-11-16 05:26:03 ALL_DONE
