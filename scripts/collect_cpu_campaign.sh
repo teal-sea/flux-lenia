@@ -2,7 +2,7 @@
 # Collector for the CPU campaign (docs/HORIZON-300K-GPU-2026-11-16.md and docs/SPECIES-SCAN-2026-11-16.md, execution notes).
 # Idempotent, never deletes results; safe from cron (absolute paths only). Exit 0 on a quiet tick.
 #   /home/thomas/worktrees/flux-lenia-cpu-20261117/scripts/collect_cpu_campaign.sh
-# 1. rsync /root/fl/out/ from Vultr box 1 (horizon) and box 2 (scan) into outputs/horizon300k_20261117/ and
+# 1. rsync /root/fl/out/ from Vultr box 1 (horizon) and box 2 (scan), plus box 2's /root/fl/out_h2/ (horizon offload, if it exists) into outputs/horizon300k_20261117/ and
 #    outputs/species_scan_20261117/ (result files only once 2 min old, never overwritten; logs refreshed).
 # 2. For each InstaBox box in outputs/species_scan_20261117/instabox_boxes.json that shows ALL_DONE and is not
 #    pulled: tar on the box, sha256, instabox-run pull, compare, extract, rm --yes the box, record it.
@@ -22,22 +22,29 @@ mkdir -p "$H" "$S" "$(dirname "$LOG")"
 say() { echo "$(date -u +%FT%TZ) $*" | tee -a "$LOG"; }
 SSH=(ssh -i "$LIVE/gpu_key" -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$LIVE/known_hosts_cpu" -o ConnectTimeout=20 -o ServerAliveInterval=15 -o LogLevel=ERROR)
 
-vultr_pull() {   # N destdir
-  local n=$1 dest=$2 ip
+vultr_pull() {   # N destdir [srcdir, default /root/fl/out]
+  local n=$1 dest=$2 src=${3:-/root/fl/out} ip tag=$1
+  [ -n "${3:-}" ] && tag=${1}_h2
   ip=$(python3 -c "import json;print(json.load(open('$LIVE/instance-cpu-$n.json'))['main_ip'])")
   # result files: only those not modified in the last 2 minutes, never overwritten
-  timeout 120 "${SSH[@]}" "root@$ip" "cd /root/fl/out && find . -type f \( -name '*.json' -o -name '*.npz' \) -mmin +2" 2>/dev/null > "$dest/.files_$n.txt" \
+  timeout 120 "${SSH[@]}" "root@$ip" "cd $src && find . -type f \( -name '*.json' -o -name '*.npz' \) -mmin +2" 2>/dev/null > "$dest/.files_$tag.txt" \
     || { say "box $n: ssh failed (file list)"; return 1; }
-  timeout 1500 rsync -a --partial --ignore-existing --files-from="$dest/.files_$n.txt" -e "${SSH[*]}" "root@$ip:/root/fl/out/" "$dest/" 2>>"$LOG" \
+  timeout 1500 rsync -a --partial --ignore-existing --files-from="$dest/.files_$tag.txt" -e "${SSH[*]}" "root@$ip:$src/" "$dest/" 2>>"$LOG" \
     || say "box $n: rsync results rc=$?"
   # run and shard logs: refreshed every tick
-  timeout 600 rsync -a --partial -m --include='*/' --include='*.log' --exclude='*' -e "${SSH[*]}" "root@$ip:/root/fl/out/" "$dest/" 2>>"$LOG" \
+  timeout 600 rsync -a --partial -m --include='*/' --include='*.log' --exclude='*' -e "${SSH[*]}" "root@$ip:$src/" "$dest/" 2>>"$LOG" \
     || say "box $n: rsync logs rc=$?"
-  rm -f "$dest/.files_$n.txt"
+  rm -f "$dest/.files_$tag.txt"
 }
 
 vultr_pull 1 "$H"
 vultr_pull 2 "$S"
+# Horizon tail offload (scripts/offload_horizon_tail.sh): box 2 writes to /root/fl/out_h2 (never /root/fl/out, which holds the scan).
+# Same subdir and file names as box 1 = same job; --ignore-existing so the first copy wins and the count never double counts.
+ip2=$(python3 -c "import json;print(json.load(open('$LIVE/instance-cpu-2.json'))['main_ip'])")
+if [ "$(timeout 60 "${SSH[@]}" "root@$ip2" 'test -d /root/fl/out_h2 && echo yes || echo no' 2>/dev/null)" = yes ]; then
+  vultr_pull 2 "$H" /root/fl/out_h2
+fi
 
 # --- InstaBox boxes: pull finished, verify, delete ---
 if [ -f "$BOXES" ]; then
@@ -114,9 +121,11 @@ fi
 # --- status ---
 n_h=$(find "$H" -name '*_food1.json' | wc -l); n_s=$(find "$S" -name '*_food1.json' | wc -l)
 h_done=no; grep -qs ALL_DONE "$H"/runs_h1.log && h_done=yes
+# with the offload, box 1's scheduler may be stopped at the meeting point (no ALL_DONE): 900 json plus a box 2 horizon log completes it
+[ "$h_done" = no ] && [ "$n_h" -ge 900 ] && [ -f "$H"/runs_h2.log ] && h_done=yes
 v_done=no; grep -qs ALL_DONE "$S"/runs_v2.log && v_done=yes
 ib_pulled=$(python3 -c "import json;d=json.load(open('$BOXES'))['boxes'];print(sum(b.get('status')=='pulled' for b in d.values()),len(d))" 2>/dev/null || echo "0 0")
-echo "horizon (Vultr box 1): json $n_h / 900, ALL_DONE $h_done"
+echo "horizon (Vultr box 1): json $n_h / 900, ALL_DONE $h_done$([ -f "$H"/runs_h2.log ] && echo ", offload box 2 log present, ALL_DONE $(grep -qs ALL_DONE "$H"/runs_h2.log && echo yes || echo no)")"
 echo "scan (Vultr box 2 + InstaBox): json $n_s / 7200, Vultr box 2 ALL_DONE $v_done, InstaBox boxes pulled/total: ${ib_pulled% *}/${ib_pulled#* }"
 if [ "$n_h" -ge 900 ] && [ "$n_s" -ge 7200 ] && [ "$h_done" = yes ] && [ "$v_done" = yes ]; then echo CAMPAIGN_ALL_DONE; fi
 exit 0
