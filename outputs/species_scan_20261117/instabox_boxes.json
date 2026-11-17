@@ -1,0 +1,247 @@
+{
+ "experiment": "species_scan_20261117",
+ "cap_box_hours": 170,
+ "size": "8 vCPU / 16 GiB",
+ "boxes": {
+  "flux-scan-01": {
+   "shard": "ib01",
+   "jobs_file": "campaign_cpu/scan_ib_shard_01.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:21:33Z",
+   "launched_utc": "2026-11-17T02:32:39Z"
+  },
+  "flux-scan-02": {
+   "shard": "ib02",
+   "jobs_file": "campaign_cpu/scan_ib_shard_02.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:32:57Z",
+   "launched_utc": "2026-11-17T02:33:24Z"
+  },
+  "flux-scan-03": {
+   "shard": "ib03",
+   "jobs_file": "campaign_cpu/scan_ib_shard_03.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:32:56Z",
+   "launched_utc": "2026-11-17T02:33:24Z"
+  },
+  "flux-scan-04": {
+   "shard": "ib04",
+   "jobs_file": "campaign_cpu/scan_ib_shard_04.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:32:57Z",
+   "launched_utc": "2026-11-17T02:33:25Z"
+  },
+  "flux-scan-05": {
+   "shard": "ib05",
+   "jobs_file": "campaign_cpu/scan_ib_shard_05.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:32:56Z",
+   "launched_utc": "2026-11-17T02:33:24Z"
+  },
+  "flux-scan-06": {
+   "shard": "ib06",
+   "jobs_file": "campaign_cpu/scan_ib_shard_06.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:32:56Z",
+   "launched_utc": "2026-11-17T02:33:24Z"
+  },
+  "flux-scan-07": {
+   "shard": "ib07",
+   "jobs_file": "campaign_cpu/scan_ib_shard_07.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:32:57Z",
+   "launched_utc": "2026-11-17T02:33:24Z"
+  },
+  "flux-scan-08": {
+   "shard": "ib08",
+   "jobs_file": "campaign_cpu/scan_ib_shard_08.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:33:35Z",
+   "launched_utc": "2026-11-17T02:34:22Z"
+  },
+  "flux-scan-09": {
+   "shard": "ib09",
+   "jobs_file": "campaign_cpu/scan_ib_shard_09.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:33:35Z",
+   "launched_utc": "2026-11-17T02:34:10Z"
+  },
+  "flux-scan-10": {
+   "shard": "ib10",
+   "jobs_file": "campaign_cpu/scan_ib_shard_10.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:33:36Z",
+   "launched_utc": "2026-11-17T02:34:04Z"
+  },
+  "flux-scan-11": {
+   "shard": "ib11",
+   "jobs_file": "campaign_cpu/scan_ib_shard_11.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:33:35Z",
+   "launched_utc": "2026-11-17T02:34:02Z"
+  },
+  "flux-scan-12": {
+   "shard": "ib12",
+   "jobs_file": "campaign_cpu/scan_ib_shard_12.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:33:35Z",
+   "launched_utc": "2026-11-17T02:34:02Z"
+  },
+  "flux-scan-13": {
+   "shard": "ib13",
+   "jobs_file": "campaign_cpu/scan_ib_shard_13.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:33:36Z",
+   "launched_utc": "2026-11-17T02:34:12Z"
+  },
+  "flux-scan-14": {
+   "shard": "ib14",
+   "jobs_file": "campaign_cpu/scan_ib_shard_14.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:13Z",
+   "launched_utc": "2026-11-17T02:34:40Z"
+  },
+  "flux-scan-15": {
+   "shard": "ib15",
+   "jobs_file": "campaign_cpu/scan_ib_shard_15.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:14Z",
+   "launched_utc": "2026-11-17T02:34:41Z"
+  },
+  "flux-scan-16": {
+   "shard": "ib16",
+   "jobs_file": "campaign_cpu/scan_ib_shard_16.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:15Z",
+   "launched_utc": "2026-11-17T02:34:42Z"
+  },
+  "flux-scan-17": {
+   "shard": "ib17",
+   "jobs_file": "campaign_cpu/scan_ib_shard_17.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:21Z",
+   "launched_utc": "2026-11-17T02:34:48Z"
+  },
+  "flux-scan-18": {
+   "shard": "ib18",
+   "jobs_file": "campaign_cpu/scan_ib_shard_18.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:31Z",
+   "launched_utc": "2026-11-17T02:34:59Z"
+  },
+  "flux-scan-19": {
+   "shard": "ib19",
+   "jobs_file": "campaign_cpu/scan_ib_shard_19.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:34Z",
+   "launched_utc": "2026-11-17T02:35:01Z"
+  },
+  "flux-scan-20": {
+   "shard": "ib20",
+   "jobs_file": "campaign_cpu/scan_ib_shard_20.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:51Z",
+   "launched_utc": "2026-11-17T02:35:19Z"
+  },
+  "flux-scan-21": {
+   "shard": "ib21",
+   "jobs_file": "campaign_cpu/scan_ib_shard_21.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:52Z",
+   "launched_utc": "2026-11-17T02:35:25Z"
+  },
+  "flux-scan-22": {
+   "shard": "ib22",
+   "jobs_file": "campaign_cpu/scan_ib_shard_22.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:52Z",
+   "launched_utc": "2026-11-17T02:35:33Z"
+  },
+  "flux-scan-23": {
+   "shard": "ib23",
+   "jobs_file": "campaign_cpu/scan_ib_shard_23.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:34:59Z",
+   "launched_utc": "2026-11-17T02:35:31Z"
+  },
+  "flux-scan-24": {
+   "shard": "ib24",
+   "jobs_file": "campaign_cpu/scan_ib_shard_24.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:35:14Z",
+   "launched_utc": "2026-11-17T02:35:43Z"
+  },
+  "flux-scan-25": {
+   "shard": "ib25",
+   "jobs_file": "campaign_cpu/scan_ib_shard_25.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:35:15Z",
+   "launched_utc": "2026-11-17T02:35:47Z"
+  },
+  "flux-scan-26": {
+   "shard": "ib26",
+   "jobs_file": "campaign_cpu/scan_ib_shard_26.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:35:29Z",
+   "launched_utc": "2026-11-17T02:35:55Z"
+  },
+  "flux-scan-27": {
+   "shard": "ib27",
+   "jobs_file": "campaign_cpu/scan_ib_shard_27.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:35:37Z",
+   "launched_utc": "2026-11-17T02:36:05Z"
+  },
+  "flux-scan-28": {
+   "shard": "ib28",
+   "jobs_file": "campaign_cpu/scan_ib_shard_28.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:35:42Z",
+   "launched_utc": "2026-11-17T02:36:11Z"
+  },
+  "flux-scan-29": {
+   "shard": "ib29",
+   "jobs_file": "campaign_cpu/scan_ib_shard_29.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:35:43Z",
+   "launched_utc": "2026-11-17T02:36:10Z"
+  },
+  "flux-scan-30": {
+   "shard": "ib30",
+   "jobs_file": "campaign_cpu/scan_ib_shard_30.txt",
+   "expected": 96,
+   "status": "running",
+   "created_utc": "2026-11-17T02:35:53Z",
+   "launched_utc": "2026-11-17T02:36:22Z"
+  }
+ }
+}
