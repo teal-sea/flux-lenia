@@ -1443,3 +1443,11 @@
 2026-11-17 18:11:49 launch SPECIES_001_OSCILLIS 5 neutral_minus 1 0 SPECIES_001_OSCILLIS_fs10_k0_per_channel 10 pid=80952 avail_gib=24.6
 2026-11-17 18:12:49 done SPECIES_030_CATENA 3 neutral_minus 1 3 SPECIES_030_CATENA_fs0_k3_per_channel 0 rc=0 peak_rss_gib=0.57
 2026-11-17 18:12:49 launch SPECIES_001_OSCILLIS 5 treat 1 3 SPECIES_001_OSCILLIS_fs10_k3_per_channel 10 pid=81050 avail_gib=24.6
+2026-11-17 18:16:04 done SPECIES_030_CATENA 3 neutral_plus 1 0 SPECIES_030_CATENA_fs10_k0_per_channel 10 rc=0 peak_rss_gib=0.55
+2026-11-17 18:16:04 launch SPECIES_001_OSCILLIS 5 neutral_plus 1 3 SPECIES_001_OSCILLIS_fs10_k3_per_channel 10 pid=81803 avail_gib=24.5
+2026-11-17 18:16:34 done SPECIES_030_CATENA 3 treat 1 0 SPECIES_030_CATENA_fs10_k0_per_channel 10 rc=0 peak_rss_gib=0.55
+2026-11-17 18:16:34 launch SPECIES_001_OSCILLIS 5 neutral_minus 1 3 SPECIES_001_OSCILLIS_fs10_k3_per_channel 10 pid=82076 avail_gib=24.5
+2026-11-17 18:18:49 done SPECIES_030_CATENA 3 neutral_minus 1 0 SPECIES_030_CATENA_fs10_k0_per_channel 10 rc=0 peak_rss_gib=0.55
+2026-11-17 18:18:49 done SPECIES_001_OSCILLIS 5 treat 1 0 SPECIES_001_OSCILLIS_fs0_k0_per_channel 0 rc=0 peak_rss_gib=0.57
+2026-11-17 18:18:49 launch SPECIES_002_MITOSA 5 treat 1 0 SPECIES_002_MITOSA_fs0_k0_per_channel 0 pid=82295 avail_gib=24.9
+2026-11-17 18:18:49 launch SPECIES_002_MITOSA 5 neutral_plus 1 0 SPECIES_002_MITOSA_fs0_k0_per_channel 0 pid=82296 avail_gib=24.9
