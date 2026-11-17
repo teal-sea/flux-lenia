@@ -91,10 +91,13 @@
    "shard": "ib08",
    "jobs_file": "campaign_cpu/scan_ib_shard_08.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:33:35Z",
    "launched_utc": "2026-11-17T02:34:22Z",
-   "json_on_box": 89
+   "json_on_box": 96,
+   "sha256": "bc039e3f70e4b7feeeb5a332a7114d0456f4e8b3471317ae9fb78f4f824f45c5",
+   "pulled_at": "2026-11-17T06:05:30Z",
+   "deleted": true
   },
   "flux-scan-09": {
    "shard": "ib09",
@@ -127,7 +130,7 @@
    "status": "running",
    "created_utc": "2026-11-17T02:33:35Z",
    "launched_utc": "2026-11-17T02:34:02Z",
-   "json_on_box": 86
+   "json_on_box": 95
   },
   "flux-scan-12": {
    "shard": "ib12",
@@ -193,28 +196,37 @@
    "shard": "ib17",
    "jobs_file": "campaign_cpu/scan_ib_shard_17.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:34:21Z",
    "launched_utc": "2026-11-17T02:34:48Z",
-   "json_on_box": 87
+   "json_on_box": 96,
+   "sha256": "52c068fb7d14d77bb527c23415401a8e297d7c8f3413c9f557f819542c5a464e",
+   "pulled_at": "2026-11-17T06:05:51Z",
+   "deleted": true
   },
   "flux-scan-18": {
    "shard": "ib18",
    "jobs_file": "campaign_cpu/scan_ib_shard_18.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:34:31Z",
    "launched_utc": "2026-11-17T02:34:59Z",
-   "json_on_box": 88
+   "json_on_box": 96,
+   "sha256": "d650894516ae0ed0582400a7d19a53ef83cc4db8887a181e314b58178a994b06",
+   "pulled_at": "2026-11-17T06:06:09Z",
+   "deleted": true
   },
   "flux-scan-19": {
    "shard": "ib19",
    "jobs_file": "campaign_cpu/scan_ib_shard_19.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:34:34Z",
    "launched_utc": "2026-11-17T02:35:01Z",
-   "json_on_box": 86
+   "json_on_box": 96,
+   "sha256": "a835f061f7b96911191812693193bea30cabdd1f754ec50935255c9bed3739c4",
+   "pulled_at": "2026-11-17T06:06:27Z",
+   "deleted": true
   },
   "flux-scan-20": {
    "shard": "ib20",
