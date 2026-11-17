@@ -44,7 +44,7 @@ image = (
 app = modal.App("flux-lenia-gpu-campaign", image=image)
 
 
-@app.function(gpu="A100-80GB", timeout=3 * 3600, volumes={"/out": vol}, cpu=8, memory=32768)
+@app.function(gpu="A100-80GB", timeout=6 * 3600, volumes={"/out": vol}, cpu=8, memory=32768)
 def run_entry(entry: dict) -> dict:
     """One (species, cell) batch. entry: an element of manifest.expand()."""
     vol.reload()
