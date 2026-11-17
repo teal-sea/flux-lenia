@@ -1,0 +1,1 @@
+{"species": "SPECIES_028_ANTENNA", "seed": 6, "arm": "treat", "food": true, "wall_seconds": 528.6463048458099, "max_rel_total_drift": 1.2241055311137944e-15, "share_A_start": 0.4933922550245565, "share_A_end": 0.5187190461394311, "body_end": 8660.545134175421, "food_end": 255.30088062422422, "n_blobs_end": 10, "largest_blob_frac": 0.6457598592745541}
