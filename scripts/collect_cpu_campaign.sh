@@ -89,7 +89,7 @@ for name, b in st["boxes"].items():
                 if not m.name: continue
                 tgt = os.path.join(S, m.name)
                 if m.isfile() and os.path.exists(tgt) and not m.name.endswith(".log"): continue
-                t.extract(m, S)
+                t.extract(m, S, filter="data")
     r = run([IBR, "rm", "--yes", name], 120)
     if r.returncode != 0:
         say(f"{name}: pulled and verified but rm failed rc={r.returncode} {r.stderr.strip()[:200]}")
