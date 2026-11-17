@@ -4,6 +4,8 @@ Usage: python scripts/species_scan_summary.py OUTROOT [--n-seeds 20] [--expected
 
 OUTROOT/<id>/*_food1.json, id = <SPECIES>_fs<G>_k<kappa>_per_channel (as written by scripts/gpu_batch.py through
 gpu/manifest.py; run schema = scripts/food_selection.py). Cell (kappa, food_sense) is read from the directory name.
+Flat fallback: if OUTROOT has no such subdirectory, every *_food1.json under OUTROOT (recursive) is read and the cell comes
+from the JSON fields food_sense, repulsion_kappa (absent = 0), genome_transport (CPU campaigns that write one flat directory).
 Thresholds scale with n seeds as 4/5 (selection, distinct) and 3/5 (no effect): 16 and 12 of 20 (4 of 5 and 3 of 5 at
 5 seeds, which is how the CPU outputs of earlier experiments are used to test this script). Runs only over JSON, no
 simulation, pure standard library (no numpy/scipy).
@@ -13,6 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import re
 import statistics as st
 import sys
@@ -72,18 +75,34 @@ def fmt_g(x: float) -> str:
 
 
 # ---------- loading ----------
+def find_json(root: Path):
+    """All *_food1.json under root, recursive, following symlinked directories."""
+    return sorted(Path(d) / n for d, _, ns in os.walk(root, followlinks=True) for n in ns if n.endswith("_food1.json"))
+
+
 def load(root: Path):
+    """GPU layout: OUTROOT/<SPECIES>_fs<G>_k<kappa>_per_channel/*_food1.json, cell from the directory name.
+    Flat fallback (no matching subdirectory): every *_food1.json under OUTROOT (recursive); the cell comes from the
+    JSON fields food_sense (absent = 0), repulsion_kappa and genome_transport (only per_channel runs are used)."""
     cells: dict[tuple[float, float], dict[str, dict[tuple[str, int], dict]]] = {}
     n_files = 0
-    for d in sorted(p for p in root.iterdir() if p.is_dir()):
-        m = ID_RE.match(d.name)
-        if not m:
+    dirs = [d for d in sorted(p for p in root.iterdir() if p.is_dir()) if ID_RE.match(d.name)]
+    if dirs:
+        for d in dirs:
+            m = ID_RE.match(d.name)
+            sp, fs, k = m.group(1), float(m.group(2)), float(m.group(3))
+            for f in sorted(d.glob("*_food1.json")):
+                r = json.loads(f.read_text())
+                cells.setdefault((k, fs), {}).setdefault(sp, {})[(r["arm"], r["seed"])] = r
+                n_files += 1
+        return cells, n_files
+    for f in find_json(root):
+        r = json.loads(f.read_text())
+        if r.get("genome_transport", "per_channel") != "per_channel":
             continue
-        sp, fs, k = m.group(1), float(m.group(2)), float(m.group(3))
-        for f in sorted(d.glob("*_food1.json")):
-            r = json.loads(f.read_text())
-            cells.setdefault((k, fs), {}).setdefault(sp, {})[(r["arm"], r["seed"])] = r
-            n_files += 1
+        k, fs = float(r.get("repulsion_kappa") or 0.0), float(r.get("food_sense") or 0.0)  # absent = 0 (pre-repulsion schema)
+        cells.setdefault((k, fs), {}).setdefault(r["species"], {})[(r["arm"], r["seed"])] = r
+        n_files += 1
     return cells, n_files
 
 
@@ -174,6 +193,9 @@ def main() -> None:
     P("## Run counts\n")
     P(f"Expected under the design: {a.expected_species} species x {expected_cells} cells x {n} seeds x 3 arms = {expected}. "
       f"Present: **{n_files}**.\n")
+    if n_files < expected:
+        P(f"**PARTIAL: {n_files} of {expected} runs present. Every verdict below is computed only on species x cell with all arms and "
+          f"all {n} seeds present; the rest print `incomplete`, and the aggregates are over the complete species only (PARTIAL until all are present).**\n")
     P("| cell | species with any run | complete species (all arms, all seeds) | runs |")
     P("|---|---|---|---|")
     full: dict[tuple, dict[str, dict]] = {}
