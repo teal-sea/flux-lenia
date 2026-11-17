@@ -94,16 +94,19 @@
    "status": "running",
    "created_utc": "2026-11-17T02:33:35Z",
    "launched_utc": "2026-11-17T02:34:22Z",
-   "json_on_box": 65
+   "json_on_box": 89
   },
   "flux-scan-09": {
    "shard": "ib09",
    "jobs_file": "campaign_cpu/scan_ib_shard_09.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:33:35Z",
    "launched_utc": "2026-11-17T02:34:10Z",
-   "json_on_box": 84
+   "json_on_box": 96,
+   "sha256": "56e70172ed184ee473817a805714087a8bac2e28459550a2c23d71e7ccf65892",
+   "pulled_at": "2026-11-17T05:49:22Z",
+   "deleted": true
   },
   "flux-scan-10": {
    "shard": "ib10",
@@ -124,25 +127,31 @@
    "status": "running",
    "created_utc": "2026-11-17T02:33:35Z",
    "launched_utc": "2026-11-17T02:34:02Z",
-   "json_on_box": 64
+   "json_on_box": 86
   },
   "flux-scan-12": {
    "shard": "ib12",
    "jobs_file": "campaign_cpu/scan_ib_shard_12.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:33:35Z",
    "launched_utc": "2026-11-17T02:34:02Z",
-   "json_on_box": 85
+   "json_on_box": 96,
+   "sha256": "c461b34b98b6a614ced66b5fffa645f357a13a04603e06a06f0bf31605f3c848",
+   "pulled_at": "2026-11-17T05:49:43Z",
+   "deleted": true
   },
   "flux-scan-13": {
    "shard": "ib13",
    "jobs_file": "campaign_cpu/scan_ib_shard_13.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:33:36Z",
    "launched_utc": "2026-11-17T02:34:12Z",
-   "json_on_box": 83
+   "json_on_box": 96,
+   "sha256": "405d6da8d587f9444d7a0d2bdcc4d53960dd418494118f0fda8cb1af8ea25f17",
+   "pulled_at": "2026-11-17T05:50:01Z",
+   "deleted": true
   },
   "flux-scan-14": {
    "shard": "ib14",
@@ -187,7 +196,7 @@
    "status": "running",
    "created_utc": "2026-11-17T02:34:21Z",
    "launched_utc": "2026-11-17T02:34:48Z",
-   "json_on_box": 64
+   "json_on_box": 87
   },
   "flux-scan-18": {
    "shard": "ib18",
@@ -196,7 +205,7 @@
    "status": "running",
    "created_utc": "2026-11-17T02:34:31Z",
    "launched_utc": "2026-11-17T02:34:59Z",
-   "json_on_box": 64
+   "json_on_box": 88
   },
   "flux-scan-19": {
    "shard": "ib19",
@@ -205,7 +214,7 @@
    "status": "running",
    "created_utc": "2026-11-17T02:34:34Z",
    "launched_utc": "2026-11-17T02:35:01Z",
-   "json_on_box": 65
+   "json_on_box": 86
   },
   "flux-scan-20": {
    "shard": "ib20",
@@ -271,19 +280,25 @@
    "shard": "ib25",
    "jobs_file": "campaign_cpu/scan_ib_shard_25.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:35:15Z",
    "launched_utc": "2026-11-17T02:35:47Z",
-   "json_on_box": 89
+   "json_on_box": 96,
+   "sha256": "21dc67c58840b32d726a3bfaff842fcf28a4dfa73a66eac6f34feb0cc3ecdc80",
+   "pulled_at": "2026-11-17T05:50:29Z",
+   "deleted": true
   },
   "flux-scan-26": {
    "shard": "ib26",
    "jobs_file": "campaign_cpu/scan_ib_shard_26.txt",
    "expected": 96,
-   "status": "running",
+   "status": "pulled",
    "created_utc": "2026-11-17T02:35:29Z",
    "launched_utc": "2026-11-17T02:35:55Z",
-   "json_on_box": 88
+   "json_on_box": 96,
+   "sha256": "05bb345c8f4d5bc280d018a2447626a2ce3c3da8dea5e2b3caf1be0fe54e2242",
+   "pulled_at": "2026-11-17T05:50:48Z",
+   "deleted": true
   },
   "flux-scan-27": {
    "shard": "ib27",

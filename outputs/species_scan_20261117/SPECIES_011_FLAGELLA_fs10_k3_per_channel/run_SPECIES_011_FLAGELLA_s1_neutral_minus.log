@@ -1,0 +1,1 @@
+{"species": "SPECIES_011_FLAGELLA", "seed": 1, "arm": "neutral_minus", "food": true, "wall_seconds": 1445.1536207199097, "max_rel_total_drift": 1.2283971133092276e-15, "share_A_start": 0.5011852079955709, "share_A_end": 0.5026562551692862, "body_end": 3401.6141223943814, "food_end": 300.34305382692816, "n_blobs_end": 9, "largest_blob_frac": 0.06044793380986385}
