@@ -16,8 +16,12 @@
    "created_at": "2026-11-18T00:35:25Z",
    "expected": 60,
    "shard": "box03",
-   "status": "running",
-   "json_on_box": 30
+   "status": "pulled",
+   "json_on_box": 60,
+   "terminal": "ALL_DONE",
+   "sha256": "41639dfd97b8deb1b6904b9379737240c4cf80243eb66bf8b85caa88fc9e2a44",
+   "deleted_at": "2026-11-18T06:37:12Z",
+   "deleted": true
   },
   "flux-l4-04": {
    "id": "m_agq6yfi3rb5mhirxgiv2n6al2a",
@@ -33,7 +37,7 @@
    "expected": 60,
    "shard": "box05",
    "status": "running",
-   "json_on_box": 147
+   "json_on_box": 174
   },
   "flux-l4-06": {
    "id": "m_agq6yfwd2gx3cyizzi4ys6mywq",
@@ -41,7 +45,7 @@
    "expected": 60,
    "shard": "box06",
    "status": "running",
-   "json_on_box": 93
+   "json_on_box": 120
   },
   "flux-l4-07": {
    "id": "m_agq6yf3eysg2q46le3ups4nxdu",
@@ -60,8 +64,12 @@
    "created_at": "2026-11-18T00:39:20Z",
    "expected": 201,
    "shard": "box08",
-   "status": "running",
-   "json_on_box": 174
+   "status": "pulled",
+   "json_on_box": 201,
+   "terminal": "ALL_DONE",
+   "sha256": "b3ac905b2893e22873fcb0b934a1c78e6a09dfb18acd9a9033004db3426dfef6",
+   "deleted_at": "2026-11-18T06:37:53Z",
+   "deleted": true
   },
   "flux-l4-09": {
    "id": "m_agq6ygfjde5trerrhuvu4boaei",
@@ -117,7 +125,7 @@
    "expected": 282,
    "shard": "box13",
    "status": "running",
-   "json_on_box": 222
+   "json_on_box": 252
   },
   "flux-l4-14": {
    "id": "m_agq6yhbv4zt3kdtdressceguw4",
@@ -125,15 +133,19 @@
    "expected": 282,
    "shard": "box14",
    "status": "running",
-   "json_on_box": 222
+   "json_on_box": 252
   },
   "flux-l4-15": {
    "id": "m_agq6yhgwiuncymk5wsmurkabpq",
    "created_at": "2026-11-18T00:44:35Z",
    "expected": 282,
    "shard": "box15",
-   "status": "running",
-   "json_on_box": 252
+   "status": "pulled",
+   "json_on_box": 282,
+   "terminal": "ALL_DONE",
+   "sha256": "b6743c1ee7cdf356f78a6d0a824bab22208ccde2107b769ccdab2377d9c3dcbe",
+   "deleted_at": "2026-11-18T06:38:33Z",
+   "deleted": true
   },
   "flux-l4-16": {
    "id": "m_agq6yhlwzxznwweoyguu5rxsdu",
@@ -204,5 +216,5 @@
    "json_on_box": 30
   }
  },
- "spend_usd": 83.87
+ "spend_usd": 86.22
 }
