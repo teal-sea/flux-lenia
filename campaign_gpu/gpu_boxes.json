@@ -8,8 +8,12 @@
    "created_at": "2026-11-18T00:33:32Z",
    "expected": 60,
    "shard": "box02",
-   "status": "running",
-   "json_on_box": 30
+   "status": "pulled",
+   "json_on_box": 60,
+   "terminal": "ALL_DONE",
+   "sha256": "7b9a9f4af861011b318596e666fa359a85b3c1cc7583a78107de0725f2290c23",
+   "deleted_at": "2026-11-18T06:55:16Z",
+   "deleted": true
   },
   "flux-l4-03": {
    "id": "m_agq6yfdugggfg5bzhsa3bzv2by",
@@ -28,16 +32,24 @@
    "created_at": "2026-11-18T00:36:08Z",
    "expected": 60,
    "shard": "box04",
-   "status": "running",
-   "json_on_box": 30
+   "status": "pulled",
+   "json_on_box": 60,
+   "terminal": "ALL_DONE",
+   "sha256": "50a0c23363d07c593370ae33b4ba79cf1cf661575e1faf8c0b1051eb38f1b6f5",
+   "deleted_at": "2026-11-18T06:55:44Z",
+   "deleted": true
   },
   "flux-l4-05": {
    "id": "m_agq6yfowb5hv7op4rkoyw3cqiy",
    "created_at": "2026-11-18T00:36:56Z",
    "expected": 60,
    "shard": "box05",
-   "status": "running",
-   "json_on_box": 174
+   "status": "pulled",
+   "json_on_box": 201,
+   "terminal": "ALL_DONE",
+   "sha256": "2a7cbebc467d3771745eb62b4bddad6e77c2905e4a7757b786a19e8fb6c41bdc",
+   "deleted_at": "2026-11-18T06:56:09Z",
+   "deleted": true
   },
   "flux-l4-06": {
    "id": "m_agq6yfwd2gx3cyizzi4ys6mywq",
@@ -45,7 +57,7 @@
    "expected": 60,
    "shard": "box06",
    "status": "running",
-   "json_on_box": 120
+   "json_on_box": 147
   },
   "flux-l4-07": {
    "id": "m_agq6yf3eysg2q46le3ups4nxdu",
@@ -124,16 +136,24 @@
    "created_at": "2026-11-18T00:42:50Z",
    "expected": 282,
    "shard": "box13",
-   "status": "running",
-   "json_on_box": 252
+   "status": "pulled",
+   "json_on_box": 282,
+   "terminal": "ALL_DONE",
+   "sha256": "db39ed52dac4786de72c69ba6a86c58710cd846899efaaeb4e66aaf93448bf70",
+   "deleted_at": "2026-11-18T06:56:43Z",
+   "deleted": true
   },
   "flux-l4-14": {
    "id": "m_agq6yhbv4zt3kdtdressceguw4",
    "created_at": "2026-11-18T00:43:54Z",
    "expected": 282,
    "shard": "box14",
-   "status": "running",
-   "json_on_box": 252
+   "status": "pulled",
+   "json_on_box": 282,
+   "terminal": "ALL_DONE",
+   "sha256": "3c1a1e4aba0f961e37f72ab5878a2b6f169d0f956b467e6195833f15810e82dc",
+   "deleted_at": "2026-11-18T06:57:11Z",
+   "deleted": true
   },
   "flux-l4-15": {
    "id": "m_agq6yhgwiuncymk5wsmurkabpq",
@@ -212,9 +232,13 @@
    "created_at": "2026-11-18T00:15:36Z",
    "expected": 60,
    "shard": "box01",
-   "status": "running",
-   "json_on_box": 30
+   "status": "pulled",
+   "json_on_box": 60,
+   "terminal": "ALL_DONE",
+   "sha256": "54f43e4528e6fea4f13fba33458d0c419c8c89c6614d393b15c1782283701eeb",
+   "deleted_at": "2026-11-18T06:57:37Z",
+   "deleted": true
   }
  },
- "spend_usd": 86.22
+ "spend_usd": 87.83
 }
