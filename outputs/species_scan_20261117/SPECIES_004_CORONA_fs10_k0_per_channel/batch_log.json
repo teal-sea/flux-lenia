@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_004_CORONA",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_004_CORONA",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "7,9,11,13,15,17,18,19,20",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "15000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "0",
+   "--food-sense",
+   "10",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/data/fl/out/species_scan_20261117/SPECIES_004_CORONA_fs10_k0_per_channel"
+  ],
+  "started_unix": 1794963162.7408965,
+  "total_wall_seconds": 1050.9131557941437,
+  "runs_done": 27,
+  "batch_size": 27,
+  "state_bytes_per_element": 1703936,
+  "kappa": 0.0,
+  "food_sense": 10.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 1.0200681358897282e-15,
+  "ms_per_batched_step": 34.91577269236247,
+  "batches": [
+   {
+    "batch": 27,
+    "build_seconds": 1.509483814239502,
+    "compile_seconds": 0.00045943260192871094,
+    "loop_seconds": 1047.473180770874,
+    "first_chunk_seconds": 3.0548884868621826,
+    "ms_per_batched_step": 34.91577269236247,
+    "ms_per_run_step": 1.293176766383795,
+    "max_rel_total_drift": 1.0200681358897282e-15,
+    "memory_analysis": {
+     "argument": 48286088,
+     "output": 46006744,
+     "temp": 342758032
+    }
+   }
+  ]
+ }
+]

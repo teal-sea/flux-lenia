@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_030_CATENA",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_030_CATENA",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "5,7,9,11,13,15,17,18,19,20",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "15000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "0",
+   "--food-sense",
+   "0",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/data/fl/out/species_scan_20261117/SPECIES_030_CATENA_fs0_k0_per_channel"
+  ],
+  "started_unix": 1794979161.6158493,
+  "total_wall_seconds": 752.4562215805054,
+  "runs_done": 30,
+  "batch_size": 30,
+  "state_bytes_per_element": 1703936,
+  "kappa": 0.0,
+  "food_sense": 0.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 1.3589882293767117e-15,
+  "ms_per_batched_step": 24.964743041992186,
+  "batches": [
+   {
+    "batch": 30,
+    "build_seconds": 1.630316972732544,
+    "compile_seconds": 0.00046515464782714844,
+    "loop_seconds": 748.9422912597656,
+    "first_chunk_seconds": 2.4328224658966064,
+    "ms_per_batched_step": 24.964743041992186,
+    "ms_per_run_step": 0.8321581013997396,
+    "max_rel_total_drift": 1.3589882293767117e-15,
+    "memory_analysis": {
+     "argument": 53391752,
+     "output": 51118600,
+     "temp": 332434824
+    }
+   }
+  ]
+ }
+]
