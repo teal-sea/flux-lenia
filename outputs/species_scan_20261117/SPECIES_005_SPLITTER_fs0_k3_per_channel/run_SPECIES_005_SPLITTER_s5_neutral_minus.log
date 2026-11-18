@@ -1,0 +1,1 @@
+{"species": "SPECIES_005_SPLITTER", "seed": 5, "arm": "neutral_minus", "food": true, "wall_seconds": 1277.0545587539673, "max_rel_total_drift": 1.1897209243699573e-15, "share_A_start": 0.5007531670458785, "share_A_end": 0.4928827925975324, "body_end": 18165.87552362367, "food_end": 181.17746622744508, "n_blobs_end": 1, "largest_blob_frac": 1.0}
