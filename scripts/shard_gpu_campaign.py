@@ -20,7 +20,7 @@ NARM = 3
 
 HORIZON = dict(exp="horizon300k_20261117", steps=300000, sample=1000, frame=50000,
                seeds=list(range(1, 51)),
-               species=["SPECIES_001_OSCILLIS", "SPECIES_002_MITOSIS", "SPECIES_003_VAGRANT"],
+               species=["SPECIES_001_OSCILLIS", "SPECIES_002_MITOSA", "SPECIES_003_VAGRANT"],
                cells=[(3, 0), (3, 10)])
 SCAN = dict(exp="species_scan_20261117", steps=30000, sample=100, frame=15000,
             seeds=list(range(1, 21)), cells=[(0, 0), (3, 0), (0, 10), (3, 10)])

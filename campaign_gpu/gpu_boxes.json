@@ -38,7 +38,7 @@
   "flux-l4-06": {
    "id": "m_agq6yfwd2gx3cyizzi4ys6mywq",
    "created_at": "2026-11-18T00:37:57Z",
-   "expected": 60,
+   "expected": 201,
    "shard": "box06",
    "status": "running",
    "json_on_box": 0
@@ -46,7 +46,7 @@
   "flux-l4-07": {
    "id": "m_agq6yf3eysg2q46le3ups4nxdu",
    "created_at": "2026-11-18T00:38:38Z",
-   "expected": 228,
+   "expected": 201,
    "shard": "box07",
    "status": "running",
    "json_on_box": 0
@@ -78,7 +78,7 @@
   "flux-l4-11": {
    "id": "m_agq6ygpo6rqix3c2lxflrwg6jq",
    "created_at": "2026-11-18T00:41:24Z",
-   "expected": 282,
+   "expected": 174,
    "shard": "box11",
    "status": "running",
    "json_on_box": 0
@@ -86,7 +86,7 @@
   "flux-l4-12": {
    "id": "m_agq6yguqdkpc5iuklot6cd65bu",
    "created_at": "2026-11-18T00:42:06Z",
-   "expected": 282,
+   "expected": 255,
    "shard": "box12",
    "status": "running",
    "json_on_box": 0
@@ -94,7 +94,7 @@
   "flux-l4-13": {
    "id": "m_agq6ygz36fu3wg77y2chnn7lsa",
    "created_at": "2026-11-18T00:42:50Z",
-   "expected": 282,
+   "expected": 255,
    "shard": "box13",
    "status": "running",
    "json_on_box": 0
@@ -102,7 +102,7 @@
   "flux-l4-14": {
    "id": "m_agq6yhbv4zt3kdtdressceguw4",
    "created_at": "2026-11-18T00:43:54Z",
-   "expected": 282,
+   "expected": 255,
    "shard": "box14",
    "status": "running",
    "json_on_box": 0
@@ -110,7 +110,7 @@
   "flux-l4-15": {
    "id": "m_agq6yhgwiuncymk5wsmurkabpq",
    "created_at": "2026-11-18T00:44:35Z",
-   "expected": 282,
+   "expected": 255,
    "shard": "box15",
    "status": "running",
    "json_on_box": 0
@@ -118,7 +118,7 @@
   "flux-l4-16": {
    "id": "m_agq6yhlwzxznwweoyguu5rxsdu",
    "created_at": "2026-11-18T00:45:16Z",
-   "expected": 306,
+   "expected": 255,
    "shard": "box16",
    "status": "running",
    "json_on_box": 0
@@ -126,7 +126,7 @@
   "flux-l4-17": {
    "id": "m_agq6yhq3dstj73dtj26vi4xgja",
    "created_at": "2026-11-18T00:45:58Z",
-   "expected": 306,
+   "expected": 279,
    "shard": "box17",
    "status": "running",
    "json_on_box": 0
@@ -134,7 +134,7 @@
   "flux-l4-18": {
    "id": "m_agq6yhvy7y45nj5lmm4x5dsy2a",
    "created_at": "2026-11-18T00:46:38Z",
-   "expected": 306,
+   "expected": 279,
    "shard": "box18",
    "status": "running",
    "json_on_box": 0
@@ -142,7 +142,7 @@
   "flux-l4-19": {
    "id": "m_agq6yh23hztijibdr6srvtxzgi",
    "created_at": "2026-11-18T00:47:20Z",
-   "expected": 306,
+   "expected": 279,
    "shard": "box19",
    "status": "running",
    "json_on_box": 0
@@ -150,7 +150,7 @@
   "flux-l4-20": {
    "id": "m_agq6yh7v2gfuc5rzuh3brzerti",
    "created_at": "2026-11-18T00:47:59Z",
-   "expected": 306,
+   "expected": 279,
    "shard": "box20",
    "status": "running",
    "json_on_box": 0
@@ -158,7 +158,7 @@
   "flux-gpu-l4smoke": {
    "id": "m_agq6yasonohn7gjlvkk4wgfcyi",
    "created_at": "2026-11-18T00:15:36Z",
-   "expected": 60,
+   "expected": 279,
    "shard": "box01",
    "status": "running",
    "json_on_box": 0
