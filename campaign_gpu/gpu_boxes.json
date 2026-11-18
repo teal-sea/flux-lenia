@@ -57,7 +57,7 @@
    "expected": 60,
    "shard": "box06",
    "status": "running",
-   "json_on_box": 147
+   "json_on_box": 174
   },
   "flux-l4-07": {
    "id": "m_agq6yf3eysg2q46le3ups4nxdu",
@@ -240,5 +240,5 @@
    "deleted": true
   }
  },
- "spend_usd": 87.83
+ "spend_usd": 88.06
 }
