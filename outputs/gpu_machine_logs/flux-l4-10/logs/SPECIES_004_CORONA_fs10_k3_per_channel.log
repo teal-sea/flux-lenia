@@ -1,0 +1,16 @@
+SPECIES_004_CORONA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.34 GB = 0.44 GB (16.19 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  122s elapsed
+  t=6000/30000  243s elapsed
+  t=9000/30000  365s elapsed
+  t=12000/30000  488s elapsed
+  t=15000/30000  613s elapsed
+  t=18000/30000  737s elapsed
+  t=21000/30000  861s elapsed
+  t=24000/30000  986s elapsed
+  t=27000/30000  1111s elapsed
+  t=30000/30000  1233s elapsed
+  done: 41.11 ms per batched step (1.522 ms per run-step; CPU reference 27.9), max total drift 8.74e-16
+{"runs_done": 27, "total_wall_seconds": 1236.4819123744965, "ms_per_batched_step": 41.10731667677562, "max_rel_total_drift": 8.743441164769099e-16}

@@ -1,0 +1,16 @@
+SPECIES_023_UNDULA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.30 GB = 0.39 GB (14.58 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  68s elapsed
+  t=6000/30000  134s elapsed
+  t=9000/30000  200s elapsed
+  t=12000/30000  266s elapsed
+  t=15000/30000  332s elapsed
+  t=18000/30000  398s elapsed
+  t=21000/30000  464s elapsed
+  t=24000/30000  530s elapsed
+  t=27000/30000  596s elapsed
+  t=30000/30000  662s elapsed
+  done: 22.07 ms per batched step (0.817 ms per run-step; CPU reference 27.9), max total drift 1.15e-15
+{"runs_done": 27, "total_wall_seconds": 665.0995810031891, "ms_per_batched_step": 22.06786228020986, "max_rel_total_drift": 1.1511328480059794e-15}

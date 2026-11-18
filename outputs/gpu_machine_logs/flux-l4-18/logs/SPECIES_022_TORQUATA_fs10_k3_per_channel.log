@@ -1,0 +1,16 @@
+SPECIES_022_TORQUATA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.34 GB = 0.44 GB (16.19 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  118s elapsed
+  t=6000/30000  238s elapsed
+  t=9000/30000  357s elapsed
+  t=12000/30000  475s elapsed
+  t=15000/30000  595s elapsed
+  t=18000/30000  715s elapsed
+  t=21000/30000  835s elapsed
+  t=24000/30000  956s elapsed
+  t=27000/30000  1077s elapsed
+  t=30000/30000  1195s elapsed
+  done: 39.84 ms per batched step (1.475 ms per run-step; CPU reference 27.9), max total drift 7.22e-16
+{"runs_done": 27, "total_wall_seconds": 1198.3389716148376, "ms_per_batched_step": 39.836001912752785, "max_rel_total_drift": 7.222840026478234e-16}

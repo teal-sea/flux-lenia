@@ -1,0 +1,24 @@
+SPECIES_002_MITOSIS: 30 runs requested, 30 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+Traceback (most recent call last):
+  File "/data/fl/code/scripts/gpu_batch.py", line 364, in <module>
+    main()
+    ~~~~^^
+  File "/data/fl/code/scripts/gpu_batch.py", line 309, in main
+    cfg, mem = estimate(a.species, probe, a)
+               ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/data/fl/code/scripts/gpu_batch.py", line 259, in estimate
+    r = fs.build_run(species, pairs[0][0], pairs[0][1], bool(args.food), args.transport, args.kappa,
+                     args.food_sense or 0.0)
+  File "/data/fl/code/scripts/food_selection.py", line 128, in build_run
+    data = json.loads((ROOT / "outputs" / "species" / f"{species}_genome.json").read_text())
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/pathlib/_local.py", line 548, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/pathlib/_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/pathlib/_local.py", line 539, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/fl/code/outputs/species/SPECIES_002_MITOSIS_genome.json'

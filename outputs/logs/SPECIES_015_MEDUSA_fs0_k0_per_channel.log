@@ -1,0 +1,16 @@
+SPECIES_015_MEDUSA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.30 GB = 0.39 GB (14.58 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  66s elapsed
+  t=6000/30000  131s elapsed
+  t=9000/30000  196s elapsed
+  t=12000/30000  260s elapsed
+  t=15000/30000  325s elapsed
+  t=18000/30000  389s elapsed
+  t=21000/30000  454s elapsed
+  t=24000/30000  518s elapsed
+  t=27000/30000  582s elapsed
+  t=30000/30000  646s elapsed
+  done: 21.55 ms per batched step (0.798 ms per run-step; CPU reference 27.9), max total drift 1.29e-15
+{"runs_done": 27, "total_wall_seconds": 649.4205412864685, "ms_per_batched_step": 21.54983332157135, "max_rel_total_drift": 1.2922179031727241e-15}

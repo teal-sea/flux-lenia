@@ -1,0 +1,8 @@
+SPECIES_008_TENDRIL: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.34 GB = 0.44 GB (16.19 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  101s elapsed
+  t=6000/30000  200s elapsed
+  t=9000/30000  300s elapsed
+  t=12000/30000  399s elapsed

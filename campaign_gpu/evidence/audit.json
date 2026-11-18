@@ -1,0 +1,196 @@
+{
+  "totals": {
+    "L4": 4059,
+    "rented CPU": 4014,
+    "A100": 1500
+  },
+  "runs_labelled": 9573,
+  "l4_archive_json_members": 4170,
+  "l4_archive_unique_paths": 4062,
+  "l4_duplicate_paths_by_cell": {
+    "outputs/species_scan_20261117/SPECIES_004_CORONA_fs10_k0_per_channel": 27,
+    "outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs0_k0_per_channel": 27,
+    "outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs0_k3_per_channel": 27,
+    "outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs10_k0_per_channel": 27
+  },
+  "mixed_cells": 125,
+  "missing": [
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      7,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      7,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      7,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      9,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      9,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      9,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      11,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      11,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      11,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      13,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      13,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      13,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      15,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      15,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      15,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      17,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      17,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      17,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      18,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      18,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      18,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      19,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      19,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      19,
+      "neutral_minus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      20,
+      "treat"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      20,
+      "neutral_plus"
+    ],
+    [
+      "species_scan_20261117",
+      "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      20,
+      "neutral_minus"
+    ]
+  ],
+  "id_collisions": [
+    {
+      "shard": "campaign_gpu/shards/box20.tsv",
+      "id": "SPECIES_003_VAGRANT_fs0_k3_per_channel",
+      "outputs": [
+        "horizon300k_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel",
+        "species_scan_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel"
+      ]
+    }
+  ],
+  "cpu_log_result_mismatches": [
+    "outputs/species_scan_20261117/SPECIES_025_XENIA_fs0_k0_per_channel/SPECIES_025_XENIA_s5_neutral_minus_food1.json",
+    "outputs/species_scan_20261117/SPECIES_025_XENIA_fs0_k0_per_channel/SPECIES_025_XENIA_s5_neutral_plus_food1.json"
+  ],
+  "method": "CPU requires exact wall_seconds equality with retained per-run stdout JSON. Other final-campaign runs require membership in an L4 shard and an exact SHA-256 match with a JSON member of a checksum-verified machine archive. A100 venue is recorded in the 2x2 execution doc. CudaDevice logs corroborate the fleet. Raw result hashes pin the labelled bytes."
+}

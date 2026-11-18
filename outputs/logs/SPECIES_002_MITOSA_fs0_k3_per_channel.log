@@ -1,0 +1,25 @@
+SPECIES_002_MITOSA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.30 GB = 0.39 GB (14.58 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  78s elapsed
+  t=6000/30000  155s elapsed
+  t=9000/30000  231s elapsed
+  t=12000/30000  308s elapsed
+  t=15000/30000  385s elapsed
+SPECIES_002_MITOSA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.30 GB = 0.39 GB (14.58 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  78s elapsed
+  t=6000/30000  154s elapsed
+  t=9000/30000  231s elapsed
+  t=12000/30000  307s elapsed
+  t=15000/30000  384s elapsed
+  t=18000/30000  460s elapsed
+  t=21000/30000  536s elapsed
+  t=24000/30000  613s elapsed
+  t=27000/30000  689s elapsed
+  t=30000/30000  764s elapsed
+  done: 25.48 ms per batched step (0.944 ms per run-step; CPU reference 27.9), max total drift 2.55e-15
+{"runs_done": 27, "total_wall_seconds": 767.4234380722046, "ms_per_batched_step": 25.478695670763653, "max_rel_total_drift": 2.5519704485612816e-15}

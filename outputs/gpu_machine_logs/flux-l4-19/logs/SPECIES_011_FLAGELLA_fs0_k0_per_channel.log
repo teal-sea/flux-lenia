@@ -1,0 +1,16 @@
+SPECIES_011_FLAGELLA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.30 GB = 0.39 GB (14.58 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  65s elapsed
+  t=6000/30000  130s elapsed
+  t=9000/30000  195s elapsed
+  t=12000/30000  259s elapsed
+  t=15000/30000  324s elapsed
+  t=18000/30000  389s elapsed
+  t=21000/30000  453s elapsed
+  t=24000/30000  518s elapsed
+  t=27000/30000  583s elapsed
+  t=30000/30000  648s elapsed
+  done: 21.59 ms per batched step (0.800 ms per run-step; CPU reference 27.9), max total drift 2.42e-15
+{"runs_done": 27, "total_wall_seconds": 650.7202641963959, "ms_per_batched_step": 21.590135256449383, "max_rel_total_drift": 2.4159790744474874e-15}
