@@ -1,5 +1,5 @@
 {
- "cap_usd": 95,
+ "cap_usd": 98,
  "rate_per_gpu_h": 0.765,
  "launch_at": "2026-11-18T00:49:31Z",
  "boxes": {
@@ -164,5 +164,5 @@
    "json_on_box": 0
   }
  },
- "spend_usd": 14.29
+ "spend_usd": 15.78
 }
