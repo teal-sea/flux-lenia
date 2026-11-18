@@ -81,7 +81,7 @@
    "expected": 282,
    "shard": "box11",
    "status": "running",
-   "json_on_box": 57
+   "json_on_box": 111
   },
   "flux-l4-12": {
    "id": "m_agq6yguqdkpc5iuklot6cd65bu",
@@ -89,7 +89,7 @@
    "expected": 282,
    "shard": "box12",
    "status": "running",
-   "json_on_box": 30
+   "json_on_box": 57
   },
   "flux-l4-13": {
    "id": "m_agq6ygz36fu3wg77y2chnn7lsa",
@@ -129,7 +129,7 @@
    "expected": 306,
    "shard": "box17",
    "status": "running",
-   "json_on_box": 57
+   "json_on_box": 84
   },
   "flux-l4-18": {
    "id": "m_agq6yhvy7y45nj5lmm4x5dsy2a",
@@ -137,7 +137,7 @@
    "expected": 306,
    "shard": "box18",
    "status": "running",
-   "json_on_box": 57
+   "json_on_box": 84
   },
   "flux-l4-19": {
    "id": "m_agq6yh23hztijibdr6srvtxzgi",
@@ -145,7 +145,7 @@
    "expected": 306,
    "shard": "box19",
    "status": "running",
-   "json_on_box": 30
+   "json_on_box": 57
   },
   "flux-l4-20": {
    "id": "m_agq6yh7v2gfuc5rzuh3brzerti",
@@ -153,7 +153,7 @@
    "expected": 306,
    "shard": "box20",
    "status": "running",
-   "json_on_box": 30
+   "json_on_box": 57
   },
   "flux-gpu-l4smoke": {
    "id": "m_agq6yasonohn7gjlvkk4wgfcyi",
@@ -164,5 +164,5 @@
    "json_on_box": 30
   }
  },
- "spend_usd": 46.13
+ "spend_usd": 50.47
 }
