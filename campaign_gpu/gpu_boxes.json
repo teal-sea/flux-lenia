@@ -65,7 +65,7 @@
    "expected": 201,
    "shard": "box09",
    "status": "running",
-   "json_on_box": 66
+   "json_on_box": 93
   },
   "flux-l4-10": {
    "id": "m_agq6ygklxzoom36nw5enrlbrmy",
@@ -73,7 +73,7 @@
    "expected": 201,
    "shard": "box10",
    "status": "running",
-   "json_on_box": 39
+   "json_on_box": 66
   },
   "flux-l4-11": {
    "id": "m_agq6ygpo6rqix3c2lxflrwg6jq",
@@ -89,7 +89,7 @@
    "expected": 282,
    "shard": "box12",
    "status": "running",
-   "json_on_box": 111
+   "json_on_box": 165
   },
   "flux-l4-13": {
    "id": "m_agq6ygz36fu3wg77y2chnn7lsa",
@@ -97,7 +97,7 @@
    "expected": 282,
    "shard": "box13",
    "status": "running",
-   "json_on_box": 57
+   "json_on_box": 84
   },
   "flux-l4-14": {
    "id": "m_agq6yhbv4zt3kdtdressceguw4",
@@ -105,7 +105,7 @@
    "expected": 282,
    "shard": "box14",
    "status": "running",
-   "json_on_box": 57
+   "json_on_box": 84
   },
   "flux-l4-15": {
    "id": "m_agq6yhgwiuncymk5wsmurkabpq",
@@ -113,7 +113,7 @@
    "expected": 282,
    "shard": "box15",
    "status": "running",
-   "json_on_box": 57
+   "json_on_box": 111
   },
   "flux-l4-16": {
    "id": "m_agq6yhlwzxznwweoyguu5rxsdu",
@@ -121,7 +121,7 @@
    "expected": 306,
    "shard": "box16",
    "status": "running",
-   "json_on_box": 57
+   "json_on_box": 84
   },
   "flux-l4-17": {
    "id": "m_agq6yhq3dstj73dtj26vi4xgja",
@@ -129,7 +129,7 @@
    "expected": 306,
    "shard": "box17",
    "status": "running",
-   "json_on_box": 138
+   "json_on_box": 165
   },
   "flux-l4-18": {
    "id": "m_agq6yhvy7y45nj5lmm4x5dsy2a",
@@ -145,7 +145,7 @@
    "expected": 306,
    "shard": "box19",
    "status": "running",
-   "json_on_box": 138
+   "json_on_box": 192
   },
   "flux-l4-20": {
    "id": "m_agq6yh7v2gfuc5rzuh3brzerti",
@@ -153,7 +153,7 @@
    "expected": 306,
    "shard": "box20",
    "status": "running",
-   "json_on_box": 138
+   "json_on_box": 165
   },
   "flux-gpu-l4smoke": {
    "id": "m_agq6yasonohn7gjlvkk4wgfcyi",
@@ -164,5 +164,5 @@
    "json_on_box": 30
   }
  },
- "spend_usd": 59.14
+ "spend_usd": 63.47
 }
