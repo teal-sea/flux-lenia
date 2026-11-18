@@ -33,7 +33,7 @@
    "expected": 60,
    "shard": "box05",
    "status": "running",
-   "json_on_box": 93
+   "json_on_box": 120
   },
   "flux-l4-06": {
    "id": "m_agq6yfwd2gx3cyizzi4ys6mywq",
@@ -49,7 +49,7 @@
    "expected": 228,
    "shard": "box07",
    "status": "running",
-   "json_on_box": 147
+   "json_on_box": 174
   },
   "flux-l4-08": {
    "id": "m_agq6ygahcxz55r2yup5kmdirf4",
@@ -57,23 +57,31 @@
    "expected": 201,
    "shard": "box08",
    "status": "running",
-   "json_on_box": 93
+   "json_on_box": 120
   },
   "flux-l4-09": {
    "id": "m_agq6ygfjde5trerrhuvu4boaei",
    "created_at": "2026-11-18T00:40:01Z",
    "expected": 201,
    "shard": "box09",
-   "status": "running",
-   "json_on_box": 174
+   "status": "pulled",
+   "json_on_box": 201,
+   "terminal": "ALL_DONE",
+   "sha256": "842f4c5c298e79a20fab183a755e84085aea39a986acf477caaa6b569ec26566",
+   "deleted_at": "2026-11-18T05:59:37Z",
+   "deleted": true
   },
   "flux-l4-10": {
    "id": "m_agq6ygklxzoom36nw5enrlbrmy",
    "created_at": "2026-11-18T00:40:43Z",
    "expected": 201,
    "shard": "box10",
-   "status": "running",
-   "json_on_box": 120
+   "status": "pulled",
+   "json_on_box": 174,
+   "terminal": "ALL_DONE",
+   "sha256": "8321c10bd519d75768d28fa40d2d12f2f0c981f7c9690d0114e42afb021e3fae",
+   "deleted_at": "2026-11-18T06:00:01Z",
+   "deleted": true
   },
   "flux-l4-11": {
    "id": "m_agq6ygpo6rqix3c2lxflrwg6jq",
@@ -105,7 +113,7 @@
    "expected": 282,
    "shard": "box13",
    "status": "running",
-   "json_on_box": 165
+   "json_on_box": 192
   },
   "flux-l4-14": {
    "id": "m_agq6yhbv4zt3kdtdressceguw4",
@@ -113,7 +121,7 @@
    "expected": 282,
    "shard": "box14",
    "status": "running",
-   "json_on_box": 165
+   "json_on_box": 192
   },
   "flux-l4-15": {
    "id": "m_agq6yhgwiuncymk5wsmurkabpq",
@@ -121,7 +129,7 @@
    "expected": 282,
    "shard": "box15",
    "status": "running",
-   "json_on_box": 192
+   "json_on_box": 252
   },
   "flux-l4-16": {
    "id": "m_agq6yhlwzxznwweoyguu5rxsdu",
@@ -129,15 +137,19 @@
    "expected": 306,
    "shard": "box16",
    "status": "running",
-   "json_on_box": 192
+   "json_on_box": 249
   },
   "flux-l4-17": {
    "id": "m_agq6yhq3dstj73dtj26vi4xgja",
    "created_at": "2026-11-18T00:45:58Z",
    "expected": 306,
    "shard": "box17",
-   "status": "running",
-   "json_on_box": 249
+   "status": "pulled",
+   "json_on_box": 279,
+   "terminal": "ALL_DONE",
+   "sha256": "9e51e97d34cd9c9accf42809ce59d8dcd6372d7f65a96f7ac2c8f6f83420946d",
+   "deleted_at": "2026-11-18T06:00:53Z",
+   "deleted": true
   },
   "flux-l4-18": {
    "id": "m_agq6yhvy7y45nj5lmm4x5dsy2a",
@@ -145,7 +157,7 @@
    "expected": 306,
    "shard": "box18",
    "status": "running",
-   "json_on_box": 219
+   "json_on_box": 249
   },
   "flux-l4-19": {
    "id": "m_agq6yh23hztijibdr6srvtxzgi",
@@ -180,5 +192,5 @@
    "json_on_box": 30
   }
  },
- "spend_usd": 76.82
+ "spend_usd": 80.76
 }

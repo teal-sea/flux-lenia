@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_008_TENDRIL",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_008_TENDRIL",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "7,9,11,13,15,17,18,19,20",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "15000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "0",
+   "--food-sense",
+   "10",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/data/fl/out/species_scan_20261117/SPECIES_008_TENDRIL_fs10_k0_per_channel"
+  ],
+  "started_unix": 1794975937.7613745,
+  "total_wall_seconds": 1006.5531055927277,
+  "runs_done": 27,
+  "batch_size": 27,
+  "state_bytes_per_element": 1703936,
+  "kappa": 0.0,
+  "food_sense": 10.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 8.009452389085395e-16,
+  "ms_per_batched_step": 33.44291555086772,
+  "batches": [
+   {
+    "batch": 27,
+    "build_seconds": 1.4762516021728516,
+    "compile_seconds": 0.0003886222839355469,
+    "loop_seconds": 1003.2874665260315,
+    "first_chunk_seconds": 3.096191883087158,
+    "ms_per_batched_step": 33.44291555086772,
+    "ms_per_run_step": 1.2386265018839895,
+    "max_rel_total_drift": 8.009452389085395e-16,
+    "memory_analysis": {
+     "argument": 48286088,
+     "output": 46006744,
+     "temp": 342758032
+    }
+   }
+  ]
+ }
+]

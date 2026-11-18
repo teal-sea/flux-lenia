@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_020_RADIATA",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_020_RADIATA",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "7,9,11,13,15,17,18,19,20",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "15000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "0",
+   "--food-sense",
+   "10",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/data/fl/out/species_scan_20261117/SPECIES_020_RADIATA_fs10_k0_per_channel"
+  ],
+  "started_unix": 1794979009.805164,
+  "total_wall_seconds": 1010.5260226726532,
+  "runs_done": 27,
+  "batch_size": 27,
+  "state_bytes_per_element": 1703936,
+  "kappa": 0.0,
+  "food_sense": 10.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 6.452225345204384e-16,
+  "ms_per_batched_step": 33.5752409140269,
+  "batches": [
+   {
+    "batch": 27,
+    "build_seconds": 1.3892943859100342,
+    "compile_seconds": 0.0003752708435058594,
+    "loop_seconds": 1007.2572274208069,
+    "first_chunk_seconds": 3.129901647567749,
+    "ms_per_batched_step": 33.5752409140269,
+    "ms_per_run_step": 1.2435274412602555,
+    "max_rel_total_drift": 6.452225345204384e-16,
+    "memory_analysis": {
+     "argument": 48286088,
+     "output": 46006744,
+     "temp": 342758032
+    }
+   }
+  ]
+ }
+]
