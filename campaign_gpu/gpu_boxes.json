@@ -56,8 +56,12 @@
    "created_at": "2026-11-18T00:37:57Z",
    "expected": 60,
    "shard": "box06",
-   "status": "running",
-   "json_on_box": 174
+   "status": "pulled",
+   "json_on_box": 201,
+   "terminal": "ALL_DONE",
+   "sha256": "3e5c6bc0559fe66102b8f583532466437f2e198d59d8a6bba33727d84718a3bc",
+   "deleted_at": "2026-11-18T07:32:14Z",
+   "deleted": true
   },
   "flux-l4-07": {
    "id": "m_agq6yf3eysg2q46le3ups4nxdu",
@@ -240,5 +244,5 @@
    "deleted": true
   }
  },
- "spend_usd": 88.06
+ "spend_usd": 88.27
 }
