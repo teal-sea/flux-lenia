@@ -1,0 +1,16 @@
+SPECIES_030_CATENA: 30 runs requested, 30 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 30: arguments 0.05 GB + outputs 0.05 GB + temp 0.33 GB = 0.44 GB (14.56 MB per element); device limit 17.7 GB
+batch 1/1: 30 runs, seeds 5..20
+  t=3000/30000  90s elapsed
+  t=6000/30000  178s elapsed
+  t=9000/30000  267s elapsed
+  t=12000/30000  359s elapsed
+  t=15000/30000  453s elapsed
+  t=18000/30000  548s elapsed
+  t=21000/30000  645s elapsed
+  t=24000/30000  741s elapsed
+  t=27000/30000  837s elapsed
+  t=30000/30000  931s elapsed
+  done: 31.03 ms per batched step (1.034 ms per run-step; CPU reference 27.9), max total drift 2.12e-15
+{"runs_done": 30, "total_wall_seconds": 934.2958257198334, "ms_per_batched_step": 31.026193396250406, "max_rel_total_drift": 2.1160868858882335e-15}

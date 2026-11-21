@@ -1,0 +1,26 @@
+2026-11-15 23:42:20 batch start: 12 jobs, 8 concurrent, transport=per_channel, pid=6254
+2026-11-15 23:42:20 launch SPECIES_001_OSCILLIS 1 treat 1 3 pid=6255 avail_gib=15.2
+2026-11-15 23:42:20 launch SPECIES_002_MITOSA 1 neutral_plus 1 3 pid=6256 avail_gib=15.2
+2026-11-15 23:42:20 launch SPECIES_003_VAGRANT 1 neutral_minus 1 3 pid=6257 avail_gib=15.2
+2026-11-15 23:42:20 launch SPECIES_002_MITOSA 2 treat 1 3 pid=6258 avail_gib=15.2
+2026-11-15 23:42:20 launch SPECIES_003_VAGRANT 2 neutral_plus 1 3 pid=6259 avail_gib=15.2
+2026-11-15 23:42:20 launch SPECIES_001_OSCILLIS 3 neutral_minus 1 3 pid=6260 avail_gib=15.2
+2026-11-15 23:42:20 launch SPECIES_003_VAGRANT 3 treat 1 3 pid=6261 avail_gib=15.2
+2026-11-15 23:42:20 launch SPECIES_001_OSCILLIS 4 neutral_plus 1 3 pid=6262 avail_gib=15.2
+2026-11-15 23:56:05 done SPECIES_003_VAGRANT 1 neutral_minus 1 3 rc=0 peak_rss_gib=0.50
+2026-11-15 23:56:05 done SPECIES_002_MITOSA 2 treat 1 3 rc=0 peak_rss_gib=0.54
+2026-11-15 23:56:05 done SPECIES_003_VAGRANT 3 treat 1 3 rc=0 peak_rss_gib=0.53
+2026-11-15 23:56:05 launch SPECIES_002_MITOSA 4 neutral_minus 1 3 pid=7923 avail_gib=13.5
+2026-11-15 23:56:05 launch SPECIES_001_OSCILLIS 5 treat 1 3 pid=7924 avail_gib=13.5
+2026-11-15 23:56:05 launch SPECIES_002_MITOSA 5 neutral_plus 1 3 pid=7925 avail_gib=13.5
+2026-11-15 23:56:20 done SPECIES_001_OSCILLIS 1 treat 1 3 rc=0 peak_rss_gib=0.51
+2026-11-15 23:56:20 done SPECIES_002_MITOSA 1 neutral_plus 1 3 rc=0 peak_rss_gib=0.50
+2026-11-15 23:56:20 done SPECIES_003_VAGRANT 2 neutral_plus 1 3 rc=0 peak_rss_gib=0.51
+2026-11-15 23:56:20 done SPECIES_001_OSCILLIS 4 neutral_plus 1 3 rc=0 peak_rss_gib=0.55
+2026-11-15 23:56:20 launch SPECIES_003_VAGRANT 5 neutral_minus 1 3 pid=8028 avail_gib=14.0
+2026-11-15 23:56:35 done SPECIES_001_OSCILLIS 3 neutral_minus 1 3 rc=0 peak_rss_gib=0.51
+2026-11-16 00:04:35 done SPECIES_002_MITOSA 4 neutral_minus 1 3 rc=0 peak_rss_gib=0.51
+2026-11-16 00:04:35 done SPECIES_002_MITOSA 5 neutral_plus 1 3 rc=0 peak_rss_gib=0.51
+2026-11-16 00:04:50 done SPECIES_001_OSCILLIS 5 treat 1 3 rc=0 peak_rss_gib=0.51
+2026-11-16 00:04:50 done SPECIES_003_VAGRANT 5 neutral_minus 1 3 rc=0 peak_rss_gib=0.51
+2026-11-16 00:05:05 ALL_DONE

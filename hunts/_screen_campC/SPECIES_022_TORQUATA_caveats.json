@@ -1,0 +1,28 @@
+{
+  "species": "TORQUATA",
+  "idx": 22,
+  "seed": 800,
+  "screen": {
+    "n_reproduction": 1,
+    "n_fission_raw": 1,
+    "best_child_mass_frac": 0.7419020025155099,
+    "n_blobs_final": 2,
+    "concentration_final": 11.256465409768852,
+    "occupancy_final": 0.333984375,
+    "activity": 0.42164510605432676,
+    "max_generation": 3,
+    "n_organisms": 33,
+    "n_survivors": 1
+  },
+  "recording": {
+    "divisions": 0,
+    "raw_fissions": 1,
+    "strict_le_raw": true,
+    "child_frac_min": null,
+    "child_frac_median": null
+  },
+  "flags": [
+    "single_division_in_screen: one qualifying fission carries the whole verdict",
+    "no_division_in_recording_run: screen verdict (12-frame cadence) did not reproduce at 6-frame cadence (FINDINGS 5)"
+  ]
+}

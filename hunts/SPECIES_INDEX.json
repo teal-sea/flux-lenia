@@ -84,6 +84,735 @@
         "frames": 150,
         "steps_recorded": 900
       }
+    },
+    {
+      "species": "CORONA",
+      "report": "hunts/SPECIES_004_CORONA.md",
+      "genome": "outputs/species/SPECIES_004_CORONA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.002
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.166
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.4
+        }
+      },
+      "media": {
+        "png": "SPECIES_004_CORONA_final.png",
+        "gif": "SPECIES_004_CORONA.gif",
+        "mp4": "SPECIES_004_CORONA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "SPLITTER",
+      "report": "hunts/SPECIES_005_SPLITTER.md",
+      "genome": "outputs/species/SPECIES_005_SPLITTER_genome.json",
+      "reproduction_events": 2,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.003
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.247
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.419
+        }
+      },
+      "media": {
+        "png": "SPECIES_005_SPLITTER_final.png",
+        "gif": "SPECIES_005_SPLITTER.gif",
+        "mp4": "SPECIES_005_SPLITTER.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "DRIFTER",
+      "report": "hunts/SPECIES_006_DRIFTER.md",
+      "genome": "outputs/species/SPECIES_006_DRIFTER_genome.json",
+      "reproduction_events": 2,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.007
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.295
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.565
+        }
+      },
+      "media": {
+        "png": "SPECIES_006_DRIFTER_final.png",
+        "gif": "SPECIES_006_DRIFTER.gif",
+        "mp4": "SPECIES_006_DRIFTER.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "NUCLEUS",
+      "report": "hunts/SPECIES_007_NUCLEUS.md",
+      "genome": "outputs/species/SPECIES_007_NUCLEUS_genome.json",
+      "reproduction_events": 2,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.002
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.005
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.458
+        }
+      },
+      "media": {
+        "png": "SPECIES_007_NUCLEUS_final.png",
+        "gif": "SPECIES_007_NUCLEUS.gif",
+        "mp4": "SPECIES_007_NUCLEUS.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "TENDRIL",
+      "report": "hunts/SPECIES_008_TENDRIL.md",
+      "genome": "outputs/species/SPECIES_008_TENDRIL_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.002
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.191
+        }
+      },
+      "media": {
+        "png": "SPECIES_008_TENDRIL_final.png",
+        "gif": "SPECIES_008_TENDRIL.gif",
+        "mp4": "SPECIES_008_TENDRIL.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "ARBORIS",
+      "report": "hunts/SPECIES_009_ARBORIS.md",
+      "genome": "outputs/species/SPECIES_009_ARBORIS_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.031
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.118
+        }
+      },
+      "media": {
+        "png": "SPECIES_009_ARBORIS_final.png",
+        "gif": "SPECIES_009_ARBORIS.gif",
+        "mp4": "SPECIES_009_ARBORIS.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "CILIATA",
+      "report": "hunts/SPECIES_010_CILIATA.md",
+      "genome": "outputs/species/SPECIES_010_CILIATA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.01
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.173
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.327
+        }
+      },
+      "media": {
+        "png": "SPECIES_010_CILIATA_final.png",
+        "gif": "SPECIES_010_CILIATA.gif",
+        "mp4": "SPECIES_010_CILIATA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "FLAGELLA",
+      "report": "hunts/SPECIES_011_FLAGELLA.md",
+      "genome": "outputs/species/SPECIES_011_FLAGELLA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.02
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.242
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.424
+        }
+      },
+      "media": {
+        "png": "SPECIES_011_FLAGELLA_final.png",
+        "gif": "SPECIES_011_FLAGELLA.gif",
+        "mp4": "SPECIES_011_FLAGELLA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "GLOBULA",
+      "report": "hunts/SPECIES_012_GLOBULA.md",
+      "genome": "outputs/species/SPECIES_012_GLOBULA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.004
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.007
+        }
+      },
+      "media": {
+        "png": "SPECIES_012_GLOBULA_final.png",
+        "gif": "SPECIES_012_GLOBULA.gif",
+        "mp4": "SPECIES_012_GLOBULA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "HELIX",
+      "report": "hunts/SPECIES_013_HELIX.md",
+      "genome": "outputs/species/SPECIES_013_HELIX_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.013
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.057
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.441
+        }
+      },
+      "media": {
+        "png": "SPECIES_013_HELIX_final.png",
+        "gif": "SPECIES_013_HELIX.gif",
+        "mp4": "SPECIES_013_HELIX.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "LUMINA",
+      "report": "hunts/SPECIES_014_LUMINA.md",
+      "genome": "outputs/species/SPECIES_014_LUMINA_genome.json",
+      "reproduction_events": 3,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.01
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.277
+        },
+        "cyclic_locomotion": {
+          "established": true,
+          "score": 0.666
+        }
+      },
+      "media": {
+        "png": "SPECIES_014_LUMINA_final.png",
+        "gif": "SPECIES_014_LUMINA.gif",
+        "mp4": "SPECIES_014_LUMINA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "MEDUSA",
+      "report": "hunts/SPECIES_015_MEDUSA.md",
+      "genome": "outputs/species/SPECIES_015_MEDUSA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.017
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.098
+        }
+      },
+      "media": {
+        "png": "SPECIES_015_MEDUSA_final.png",
+        "gif": "SPECIES_015_MEDUSA.gif",
+        "mp4": "SPECIES_015_MEDUSA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "NODULUS",
+      "report": "hunts/SPECIES_016_NODULUS.md",
+      "genome": "outputs/species/SPECIES_016_NODULUS_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.013
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.066
+        }
+      },
+      "media": {
+        "png": "SPECIES_016_NODULUS_final.png",
+        "gif": "SPECIES_016_NODULUS.gif",
+        "mp4": "SPECIES_016_NODULUS.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "ORBITA",
+      "report": "hunts/SPECIES_017_ORBITA.md",
+      "genome": "outputs/species/SPECIES_017_ORBITA_genome.json",
+      "reproduction_events": 3,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.008
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.042
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.333
+        }
+      },
+      "media": {
+        "png": "SPECIES_017_ORBITA_final.png",
+        "gif": "SPECIES_017_ORBITA.gif",
+        "mp4": "SPECIES_017_ORBITA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "PULSARA",
+      "report": "hunts/SPECIES_018_PULSARA.md",
+      "genome": "outputs/species/SPECIES_018_PULSARA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.009
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.175
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.548
+        }
+      },
+      "media": {
+        "png": "SPECIES_018_PULSARA_final.png",
+        "gif": "SPECIES_018_PULSARA.gif",
+        "mp4": "SPECIES_018_PULSARA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "QUASARIA",
+      "report": "hunts/SPECIES_019_QUASARIA.md",
+      "genome": "outputs/species/SPECIES_019_QUASARIA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.008
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.015
+        }
+      },
+      "media": {
+        "png": "SPECIES_019_QUASARIA_final.png",
+        "gif": "SPECIES_019_QUASARIA.gif",
+        "mp4": "SPECIES_019_QUASARIA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "RADIATA",
+      "report": "hunts/SPECIES_020_RADIATA.md",
+      "genome": "outputs/species/SPECIES_020_RADIATA_genome.json",
+      "reproduction_events": 3,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.005
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.189
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.312
+        }
+      },
+      "media": {
+        "png": "SPECIES_020_RADIATA_final.png",
+        "gif": "SPECIES_020_RADIATA.gif",
+        "mp4": "SPECIES_020_RADIATA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "SPIRALIS",
+      "report": "hunts/SPECIES_021_SPIRALIS.md",
+      "genome": "outputs/species/SPECIES_021_SPIRALIS_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.001
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.069
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.372
+        }
+      },
+      "media": {
+        "png": "SPECIES_021_SPIRALIS_final.png",
+        "gif": "SPECIES_021_SPIRALIS.gif",
+        "mp4": "SPECIES_021_SPIRALIS.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "TORQUATA",
+      "report": "hunts/SPECIES_022_TORQUATA.md",
+      "genome": "outputs/species/SPECIES_022_TORQUATA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.008
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.031
+        }
+      },
+      "media": {
+        "png": "SPECIES_022_TORQUATA_final.png",
+        "gif": "SPECIES_022_TORQUATA.gif",
+        "mp4": "SPECIES_022_TORQUATA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "UNDULA",
+      "report": "hunts/SPECIES_023_UNDULA.md",
+      "genome": "outputs/species/SPECIES_023_UNDULA_genome.json",
+      "reproduction_events": 8,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.031
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.344
+        },
+        "cyclic_locomotion": {
+          "established": true,
+          "score": 0.63
+        }
+      },
+      "media": {
+        "png": "SPECIES_023_UNDULA_final.png",
+        "gif": "SPECIES_023_UNDULA.gif",
+        "mp4": "SPECIES_023_UNDULA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "VESICA",
+      "report": "hunts/SPECIES_024_VESICA.md",
+      "genome": "outputs/species/SPECIES_024_VESICA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.003
+        },
+        "predatory_pursuit": {
+          "established": true,
+          "score": 0.399
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.549
+        }
+      },
+      "media": {
+        "png": "SPECIES_024_VESICA_final.png",
+        "gif": "SPECIES_024_VESICA.gif",
+        "mp4": "SPECIES_024_VESICA.mp4",
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "XENIA",
+      "report": "hunts/SPECIES_025_XENIA.md",
+      "genome": "outputs/species/SPECIES_025_XENIA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.003
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.233
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.311
+        }
+      },
+      "media": {
+        "png": "SPECIES_025_XENIA_final.png",
+        "gif": "SPECIES_025_XENIA.gif",
+        "mp4": null,
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "YGGRA",
+      "report": "hunts/SPECIES_026_YGGRA.md",
+      "genome": "outputs/species/SPECIES_026_YGGRA_genome.json",
+      "reproduction_events": 2,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": 0.001
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.334
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.492
+        }
+      },
+      "media": {
+        "png": "SPECIES_026_YGGRA_final.png",
+        "gif": "SPECIES_026_YGGRA.gif",
+        "mp4": null,
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "ZONATA",
+      "report": "hunts/SPECIES_027_ZONATA.md",
+      "genome": "outputs/species/SPECIES_027_ZONATA_genome.json",
+      "reproduction_events": 3,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.022
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.252
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.468
+        }
+      },
+      "media": {
+        "png": "SPECIES_027_ZONATA_final.png",
+        "gif": "SPECIES_027_ZONATA.gif",
+        "mp4": null,
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "ANTENNA",
+      "report": "hunts/SPECIES_028_ANTENNA.md",
+      "genome": "outputs/species/SPECIES_028_ANTENNA_genome.json",
+      "reproduction_events": 1,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.004
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.223
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.359
+        }
+      },
+      "media": {
+        "png": "SPECIES_028_ANTENNA_final.png",
+        "gif": "SPECIES_028_ANTENNA.gif",
+        "mp4": null,
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "BIFIDA",
+      "report": "hunts/SPECIES_029_BIFIDA.md",
+      "genome": "outputs/species/SPECIES_029_BIFIDA_genome.json",
+      "reproduction_events": 2,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.015
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.0
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.096
+        }
+      },
+      "media": {
+        "png": "SPECIES_029_BIFIDA_final.png",
+        "gif": "SPECIES_029_BIFIDA.gif",
+        "mp4": null,
+        "frames": 150,
+        "steps_recorded": 900
+      }
+    },
+    {
+      "species": "CATENA",
+      "report": "hunts/SPECIES_030_CATENA.md",
+      "genome": "outputs/species/SPECIES_030_CATENA_genome.json",
+      "reproduction_events": 7,
+      "behaviours": {
+        "phototaxis": {
+          "established": false,
+          "score": -0.025
+        },
+        "predatory_pursuit": {
+          "established": false,
+          "score": 0.334
+        },
+        "cyclic_locomotion": {
+          "established": false,
+          "score": 0.564
+        }
+      },
+      "media": {
+        "png": "SPECIES_030_CATENA_final.png",
+        "gif": "SPECIES_030_CATENA.gif",
+        "mp4": null,
+        "frames": 150,
+        "steps_recorded": 900
+      }
     }
   ],
   "flagged_by_bouncer": {
@@ -115,6 +844,18 @@
         "frames": 150,
         "steps_recorded": 900
       }
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "2026-11-16-part-c",
+      "note": "hunts/CAMPAIGN-2026-11-16.md",
+      "seeds_screened": 640,
+      "seed_range": [
+        460,
+        1099
+      ],
+      "species_added": 27
     }
   ]
 }

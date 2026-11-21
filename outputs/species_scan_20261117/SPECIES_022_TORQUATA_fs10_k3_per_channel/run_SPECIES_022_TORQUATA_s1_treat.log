@@ -1,0 +1,1 @@
+{"species": "SPECIES_022_TORQUATA", "seed": 1, "arm": "treat", "food": true, "wall_seconds": 1456.13751578331, "max_rel_total_drift": 1.1798966164083699e-15, "share_A_start": 0.5001471992763683, "share_A_end": 0.5154784943785422, "body_end": 7466.109689856049, "food_end": 242.14787377226472, "n_blobs_end": 1, "largest_blob_frac": 0.9999348813483705}

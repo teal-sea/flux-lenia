@@ -1,0 +1,22 @@
+{
+  "_comment": "First real GPU job: the food_sense=0 half of the owner's 2x2 at 50 seeds (kappa 0 and kappa 3, 3 species, seeds 1-50, 3 arms = 900 runs in 6 batches of 150). Seeds 1-5 replicate outputs/food_on_exact_20261110 (kappa 0) and outputs/conditional_blending_20261115 (kappa 3) run on CPU: the CPU-vs-GPU cross-check (chaotic trajectories differ per run across hardware; the statistics and verdicts must agree). Needs no pilot value.",
+  "experiment": "sense_off_50",
+  "defaults": {
+    "steps": 30000,
+    "sample_every": 100,
+    "frame_every": 1000,
+    "arms": "treat,neutral_plus,neutral_minus",
+    "seeds": "1-50",
+    "food": 1,
+    "batch": 150
+  },
+  "species": [
+    "SPECIES_001_OSCILLIS",
+    "SPECIES_002_MITOSA",
+    "SPECIES_003_VAGRANT"
+  ],
+  "cells": [
+    {"kappa": 0, "food_sense": 0, "transport": "per_channel"},
+    {"kappa": 3, "food_sense": 0, "transport": "per_channel"}
+  ]
+}

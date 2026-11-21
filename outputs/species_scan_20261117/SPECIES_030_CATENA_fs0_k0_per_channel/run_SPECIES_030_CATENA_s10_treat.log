@@ -1,0 +1,1 @@
+{"species": "SPECIES_030_CATENA", "seed": 10, "arm": "treat", "food": true, "wall_seconds": 533.8485267162323, "max_rel_total_drift": 6.582120002217269e-16, "share_A_start": 0.505995226565868, "share_A_end": 0.5958444946522483, "body_end": 3103.5892410708657, "food_end": 350.82476789035445, "n_blobs_end": 60, "largest_blob_frac": 0.025310571359287343}

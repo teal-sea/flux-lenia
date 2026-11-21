@@ -1,0 +1,4 @@
+2026-11-17 02:22:27 batch start: 1 jobs, 1 concurrent, transport=per_channel, pid=3185
+2026-11-17 02:22:27 launch SPECIES_001_OSCILLIS 1 treat 1 0 smoke_fs0 0 pid=3186 avail_gib=15.2
+2026-11-17 02:22:42 done SPECIES_001_OSCILLIS 1 treat 1 0 smoke_fs0 0 rc=0 peak_rss_gib=0.00
+2026-11-17 02:22:57 ALL_DONE

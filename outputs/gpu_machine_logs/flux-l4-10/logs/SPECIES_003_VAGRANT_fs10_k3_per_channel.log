@@ -1,0 +1,24 @@
+SPECIES_003_VAGRANT: 9 runs requested, 9 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 9: arguments 0.02 GB + outputs 0.02 GB + temp 0.12 GB = 0.15 GB (17.04 MB per element); device limit 17.7 GB
+batch 1/1: 9 runs, seeds 48..50
+  t=30000/300000  278s elapsed
+  t=60000/300000  545s elapsed
+  t=90000/300000  811s elapsed
+SPECIES_003_VAGRANT: 9 runs requested, 9 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+W1118 03:34:28.581590   13807 cuda_timer.cc:88] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 9: arguments 0.02 GB + outputs 0.02 GB + temp 0.12 GB = 0.15 GB (17.04 MB per element); device limit 17.7 GB
+batch 1/1: 9 runs, seeds 48..50
+  t=30000/300000  279s elapsed
+  t=60000/300000  545s elapsed
+  t=90000/300000  811s elapsed
+  t=120000/300000  1075s elapsed
+  t=150000/300000  1338s elapsed
+  t=180000/300000  1600s elapsed
+  t=210000/300000  1863s elapsed
+  t=240000/300000  2128s elapsed
+  t=270000/300000  2392s elapsed
+  t=300000/300000  2648s elapsed
+  done: 8.83 ms per batched step (0.981 ms per run-step; CPU reference 27.9), max total drift 1.03e-14
+{"runs_done": 9, "total_wall_seconds": 2649.8984503746033, "ms_per_batched_step": 8.826986056168874, "max_rel_total_drift": 1.0331890976623558e-14}

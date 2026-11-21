@@ -1,0 +1,186 @@
+{
+  "base_commit": "7404b8ab3e05ef30b2c83987babf551571c16c3d",
+  "python": "3.14.9 (main, Oct 21 2026, 17:48:02) [Clang 23.1.3 ]",
+  "checks": [
+    {
+      "name": "historical-runner-regression",
+      "command": [
+        "python",
+        "scripts/test_run_shard.py"
+      ],
+      "environment": {
+        "RUN_SHARD": "/home/thomas/.hermes/cache/scratch/flux-run-shard-baseline-20261118.sh"
+      },
+      "exit": 1,
+      "expected_exit": 1,
+      "wall_seconds": 0.2616970509989187,
+      "stdout": "",
+      "stderr": "FF\n======================================================================\nFAIL: test_batch_identity_resume_and_failure (__main__.RunnerTest.test_batch_identity_resume_and_failure) (legacy_marker=False)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/thomas/worktrees/flux-lenia-writeup-20261118/scripts/test_run_shard.py\", line 15, in test_batch_identity_resume_and_failure\n    self.exercise(legacy)\n    ~~~~~~~~~~~~~^^^^^^^^\n  File \"/home/thomas/worktrees/flux-lenia-writeup-20261118/scripts/test_run_shard.py\", line 43, in exercise\n    self.assertTrue((root / 'out/scan/cell/s1_food1.json').exists())\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n======================================================================\nFAIL: test_batch_identity_resume_and_failure (__main__.RunnerTest.test_batch_identity_resume_and_failure) (legacy_marker=True)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/thomas/worktrees/flux-lenia-writeup-20261118/scripts/test_run_shard.py\", line 15, in test_batch_identity_resume_and_failure\n    self.exercise(legacy)\n    ~~~~~~~~~~~~~^^^^^^^^\n  File \"/home/thomas/worktrees/flux-lenia-writeup-20261118/scripts/test_run_shard.py\", line 42, in exercise\n    self.assertTrue((root / 'out/horizon/cell/s1_food1.json').exists())\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.122s\n\nFAILED (failures=2)\n"
+    },
+    {
+      "name": "fixed-runner-regression",
+      "command": [
+        "python",
+        "scripts/test_run_shard.py"
+      ],
+      "environment": {},
+      "exit": 0,
+      "expected_exit": 0,
+      "wall_seconds": 1.0178607310008374,
+      "stdout": "",
+      "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.884s\n\nOK\n"
+    },
+    {
+      "name": "shell-syntax",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/run_shard.sh"
+      ],
+      "environment": {},
+      "exit": 0,
+      "expected_exit": 0,
+      "wall_seconds": 0.0036291470023570582,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "hardware-and-missing-pair-audit",
+      "command": [
+        "python",
+        "scripts/gpu_campaign_audit.py"
+      ],
+      "environment": {},
+      "exit": 0,
+      "expected_exit": 0,
+      "wall_seconds": 27.45898306500021,
+      "stdout": "{\n  \"totals\": {\n    \"L4\": 4059,\n    \"rented CPU\": 4014,\n    \"A100\": 1500\n  },\n  \"runs_labelled\": 9573,\n  \"l4_archive_json_members\": 4170,\n  \"l4_archive_unique_paths\": 4062,\n  \"l4_duplicate_paths_by_cell\": {\n    \"outputs/species_scan_20261117/SPECIES_004_CORONA_fs10_k0_per_channel\": 27,\n    \"outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs0_k0_per_channel\": 27,\n    \"outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs0_k3_per_channel\": 27,\n    \"outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs10_k0_per_channel\": 27\n  },\n  \"mixed_cells\": 125,\n  \"id_collisions\": [\n    {\n      \"shard\": \"campaign_gpu/shards/box20.tsv\",\n      \"id\": \"SPECIES_003_VAGRANT_fs0_k3_per_channel\",\n      \"outputs\": [\n        \"horizon300k_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel\",\n        \"species_scan_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel\"\n      ]\n    }\n  ],\n  \"cpu_log_result_mismatches\": [\n    \"outputs/species_scan_20261117/SPECIES_025_XENIA_fs0_k0_per_channel/SPECIES_025_XENIA_s5_neutral_minus_food1.json\",\n    \"outputs/species_scan_20261117/SPECIES_025_XENIA_fs0_k0_per_channel/SPECIES_025_XENIA_s5_neutral_plus_food1.json\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "credential-pattern-scan",
+      "command": [
+        "python",
+        "scripts/scan_campaign_logs.py"
+      ],
+      "environment": {},
+      "exit": 0,
+      "expected_exit": 0,
+      "wall_seconds": 1.4235197230009362,
+      "stdout": "{\"files\": 423, \"hits\": []}\n",
+      "stderr": ""
+    },
+    {
+      "name": "horizon-summary",
+      "command": [
+        "python",
+        "scripts/horizon300k_summary.py",
+        "outputs/horizon300k_20261117",
+        "-o",
+        "docs/HORIZON-300K-SUMMARY-2026-11-18.md"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.696029976999853,
+      "output": "docs/HORIZON-300K-SUMMARY-2026-11-18.md",
+      "output_sha256": "30ec8475318521324823e4e217aaac996fb6bbe39ffa77c8d26875475de5b9fc",
+      "stderr": ""
+    },
+    {
+      "name": "species-summary",
+      "command": [
+        "python",
+        "scripts/species_scan_summary.py",
+        "outputs/species_scan_20261117",
+        "-o",
+        "docs/SPECIES-SCAN-SUMMARY-2026-11-18.md"
+      ],
+      "exit": 0,
+      "wall_seconds": 19.543863496000995,
+      "output": "docs/SPECIES-SCAN-SUMMARY-2026-11-18.md",
+      "output_sha256": "900ababf2b98675b61dd3b54edc239bcfdbdc1f768083c6be675244de4f3cd42",
+      "stderr": ""
+    },
+    {
+      "name": "archive-recovery-final",
+      "command": [
+        "python",
+        "scripts/recover_gpu_logs.py",
+        "/home/thomas/work/flux-gpu-20261116/live/pulled"
+      ],
+      "exit": 0,
+      "wall_seconds": 15.962791271005699,
+      "stdout": "{\"archives_verified\": 20, \"logs_recovered\": 188, \"json_members\": 4170}\n",
+      "stderr": ""
+    },
+    {
+      "name": "hardware-audit-final",
+      "command": [
+        "python",
+        "scripts/gpu_campaign_audit.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 30.163800592999905,
+      "stdout": "{\n  \"totals\": {\n    \"L4\": 4059,\n    \"rented CPU\": 4014,\n    \"A100\": 1500\n  },\n  \"runs_labelled\": 9573,\n  \"l4_archive_json_members\": 4170,\n  \"l4_archive_unique_paths\": 4062,\n  \"l4_duplicate_paths_by_cell\": {\n    \"outputs/species_scan_20261117/SPECIES_004_CORONA_fs10_k0_per_channel\": 27,\n    \"outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs0_k0_per_channel\": 27,\n    \"outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs0_k3_per_channel\": 27,\n    \"outputs/species_scan_20261117/SPECIES_005_SPLITTER_fs10_k0_per_channel\": 27\n  },\n  \"mixed_cells\": 125,\n  \"id_collisions\": [\n    {\n      \"shard\": \"campaign_gpu/shards/box20.tsv\",\n      \"id\": \"SPECIES_003_VAGRANT_fs0_k3_per_channel\",\n      \"outputs\": [\n        \"horizon300k_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel\",\n        \"species_scan_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel\"\n      ]\n    }\n  ],\n  \"cpu_log_result_mismatches\": [\n    \"outputs/species_scan_20261117/SPECIES_025_XENIA_fs0_k0_per_channel/SPECIES_025_XENIA_s5_neutral_minus_food1.json\",\n    \"outputs/species_scan_20261117/SPECIES_025_XENIA_fs0_k0_per_channel/SPECIES_025_XENIA_s5_neutral_plus_food1.json\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "runner-final",
+      "command": [
+        "python",
+        "scripts/test_run_shard.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 1.0280340559984324,
+      "stdout": "",
+      "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.903s\n\nOK\n"
+    },
+    {
+      "name": "scan-final",
+      "command": [
+        "python",
+        "scripts/scan_campaign_logs.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 1.0423625580006046,
+      "stdout": "{\"files\": 423, \"hits\": []}\n",
+      "stderr": ""
+    },
+    {
+      "name": "authored-whitespace",
+      "exit": 0,
+      "excluded_unchanged_evidence": [
+        "campaign_gpu/evidence/food-sensing-cpu-summary.md",
+        "docs/HORIZON-300K-SUMMARY-2026-11-18.md",
+        "docs/SPECIES-SCAN-SUMMARY-2026-11-18.md"
+      ]
+    }
+  ],
+  "hash_checks": {
+    "design_results": 9573,
+    "recovered_files": 423,
+    "failures": 0
+  },
+  "cost": {
+    "source": "campaign_gpu/gpu_boxes.json",
+    "gpu_hours": 115.38777777777779,
+    "rate_usd_per_gpu_hour": 0.765,
+    "computed_usd": 88.27165000000001,
+    "launch_to_last_deletion_seconds": 24163.0
+  },
+  "scope": "No simulations, GPU work, machines created, network writes or spend. Historical runner fails both synthetic subcases; fixed runner passes. This is result-file reanalysis and runner-bookkeeping verification, not independent engine replay.",
+  "merged_log_copy": {
+    "files_equal_to_archive": 123,
+    "archive_sha256": "fbe74c721b601994a1840bbb55754cf4138c92ce09a2b45ced18a2ce1ad1cae3"
+  },
+  "alternate_archived_results_retained": 111,
+  "independent_missing_set_check": {
+    "present": 33,
+    "expected": 60,
+    "prepared_pairs": 27,
+    "already_present_requested": 0,
+    "passed": true
+  },
+  "whitespace_note": "Historical CPU summary preserved byte-for-byte, including one trailing space. Unmodified summary scripts generate one extra blank EOF line in each new summary. Those three evidence files are excluded from the authored-file whitespace check.",
+  "historical_cpu_summaries_match_git_bytes": true,
+  "verbatim_criteria_blocks_checked": 8
+}

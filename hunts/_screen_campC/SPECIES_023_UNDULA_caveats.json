@@ -1,0 +1,29 @@
+{
+  "species": "UNDULA",
+  "idx": 23,
+  "seed": 807,
+  "screen": {
+    "n_reproduction": 8,
+    "n_fission_raw": 20,
+    "best_child_mass_frac": 0.997236778569761,
+    "n_blobs_final": 32,
+    "concentration_final": 23.51076878860559,
+    "occupancy_final": 0.18145751953125,
+    "activity": 6.202071470425191,
+    "max_generation": 5,
+    "n_organisms": 198,
+    "n_survivors": 13
+  },
+  "recording": {
+    "divisions": 19,
+    "raw_fissions": 58,
+    "strict_le_raw": true,
+    "child_frac_min": 0.11006943737509735,
+    "child_frac_median": 0.6860762650700208
+  },
+  "flags": [
+    "fragmenting: 198 organisms tracked (shedding/merging churn, FINDINGS 2.1/2.5)",
+    "many_bodies_final: 32 bodies at end of screen run",
+    "cyclic_locomotion_flagged: uid=d7eae613 circling=0.26 spectral_power=0.21 period=10.0 frames (counted only if >= 4) life=21 frames"
+  ]
+}

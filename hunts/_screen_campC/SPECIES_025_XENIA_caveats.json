@@ -1,0 +1,29 @@
+{
+  "species": "XENIA",
+  "idx": 25,
+  "seed": 882,
+  "screen": {
+    "n_reproduction": 1,
+    "n_fission_raw": 6,
+    "best_child_mass_frac": 0.24915841361262203,
+    "n_blobs_final": 6,
+    "concentration_final": 19.485329570329597,
+    "occupancy_final": 0.19976806640625,
+    "activity": 0.8393219519865206,
+    "max_generation": 2,
+    "n_organisms": 33,
+    "n_survivors": 5
+  },
+  "recording": {
+    "divisions": 2,
+    "raw_fissions": 11,
+    "strict_le_raw": true,
+    "child_frac_min": 0.20210796927436456,
+    "child_frac_median": 0.2256331914434933
+  },
+  "flags": [
+    "single_division_in_screen: one qualifying fission carries the whole verdict",
+    "debris_dominated: 1 divisions among 6 raw fissions (FINDINGS 2.1)",
+    "many_bodies_final: 6 bodies at end of screen run"
+  ]
+}

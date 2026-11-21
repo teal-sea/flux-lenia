@@ -1,0 +1,16 @@
+SPECIES_029_BIFIDA: 30 runs requested, 30 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 30: arguments 0.05 GB + outputs 0.05 GB + temp 0.38 GB = 0.49 GB (16.17 MB per element); device limit 17.7 GB
+batch 1/1: 30 runs, seeds 5..20
+  t=3000/30000  117s elapsed
+  t=6000/30000  231s elapsed
+  t=9000/30000  345s elapsed
+  t=12000/30000  459s elapsed
+  t=15000/30000  573s elapsed
+  t=18000/30000  688s elapsed
+  t=21000/30000  803s elapsed
+  t=24000/30000  917s elapsed
+  t=27000/30000  1032s elapsed
+  t=30000/30000  1146s elapsed
+  done: 38.20 ms per batched step (1.273 ms per run-step; CPU reference 27.9), max total drift 6.87e-16
+{"runs_done": 30, "total_wall_seconds": 1149.931334733963, "ms_per_batched_step": 38.196627314885454, "max_rel_total_drift": 6.865244904930339e-16}

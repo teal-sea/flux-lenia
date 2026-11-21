@@ -1,0 +1,36 @@
+{
+ "_comment": "Template: ~30 species x seeds 1-20 x the same 4 cells (the species list '@ALL' expands to every outputs/species/*_genome.json present in the tarball, so add the ~30 genome files first). 60 elements per batch underfills an A100; raise --seeds or run several species per card concurrently if the smoke shows headroom.",
+ "experiment": "species_scan_2x2",
+ "defaults": {
+  "steps": 30000,
+  "sample_every": 100,
+  "frame_every": 1000,
+  "arms": "treat,neutral_plus,neutral_minus",
+  "seeds": "1-20",
+  "food": 1,
+  "batch": 150
+ },
+ "species": "@ALL",
+ "cells": [
+  {
+   "kappa": 0,
+   "food_sense": 0,
+   "transport": "per_channel"
+  },
+  {
+   "kappa": 3,
+   "food_sense": 0,
+   "transport": "per_channel"
+  },
+  {
+   "kappa": 0,
+   "food_sense": "@PILOT",
+   "transport": "per_channel"
+  },
+  {
+   "kappa": 3,
+   "food_sense": "@PILOT",
+   "transport": "per_channel"
+  }
+ ]
+}

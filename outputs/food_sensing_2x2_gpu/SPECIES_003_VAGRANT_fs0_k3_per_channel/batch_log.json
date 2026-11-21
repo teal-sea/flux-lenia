@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_003_VAGRANT",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_003_VAGRANT",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "1-50",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "1000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "3",
+   "--food-sense",
+   "0",
+   "--food",
+   "1",
+   "--batch",
+   "150",
+   "--outdir",
+   "/out/food_sensing_2x2/SPECIES_003_VAGRANT_fs0_k3_per_channel"
+  ],
+  "started_unix": 1794798419.305253,
+  "total_wall_seconds": 2892.1385114192963,
+  "runs_done": 150,
+  "batch_size": 150,
+  "state_bytes_per_element": 1703936,
+  "kappa": 3.0,
+  "food_sense": 0.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 1.8687668277756434e-15,
+  "ms_per_batched_step": 94.36669948895772,
+  "batches": [
+   {
+    "batch": 150,
+    "build_seconds": 6.984370231628418,
+    "compile_seconds": 0.0005135536193847656,
+    "loop_seconds": 2831.0009846687317,
+    "first_chunk_seconds": 1.6379575729370117,
+    "ms_per_batched_step": 94.36669948895772,
+    "ms_per_run_step": 0.6291113299263849,
+    "max_rel_total_drift": 1.8687668277756434e-15,
+    "memory_analysis": {
+     "argument": 257864072,
+     "output": 255592840,
+     "temp": 1594657928
+    }
+   }
+  ]
+ }
+]

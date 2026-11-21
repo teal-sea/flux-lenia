@@ -1,0 +1,16 @@
+SPECIES_005_SPLITTER: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.34 GB = 0.44 GB (16.19 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  104s elapsed
+  t=6000/30000  203s elapsed
+  t=9000/30000  303s elapsed
+  t=12000/30000  404s elapsed
+  t=15000/30000  505s elapsed
+  t=18000/30000  605s elapsed
+  t=21000/30000  705s elapsed
+  t=24000/30000  805s elapsed
+  t=27000/30000  906s elapsed
+  t=30000/30000  1004s elapsed
+  done: 33.47 ms per batched step (1.239 ms per run-step; CPU reference 27.9), max total drift 7.29e-16
+{"runs_done": 27, "total_wall_seconds": 1007.447380065918, "ms_per_batched_step": 33.465890034039816, "max_rel_total_drift": 7.286200970640916e-16}

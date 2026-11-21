@@ -1,0 +1,1 @@
+SPECIES_003_VAGRANT_fs0_k3_per_channel	species_scan_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel	27	--species SPECIES_003_VAGRANT --arms treat,neutral_plus,neutral_minus --seeds 7,9,11,13,15,17,18,19,20 --steps 30000 --sample-every 100 --frame-every 15000 --transport per_channel --kappa 3 --food-sense 0 --food 1 --batch 64

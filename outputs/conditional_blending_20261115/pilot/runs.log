@@ -1,0 +1,26 @@
+2026-11-15 23:33:59 batch start: 12 jobs, 8 concurrent, transport=per_channel, pid=3708
+2026-11-15 23:33:59 launch SPECIES_001_OSCILLIS 1 treat 1 0.1 k0.1 pid=3709 avail_gib=15.2
+2026-11-15 23:33:59 launch SPECIES_002_MITOSA 1 treat 1 0.1 k0.1 pid=3710 avail_gib=15.2
+2026-11-15 23:33:59 launch SPECIES_001_OSCILLIS 1 treat 1 0.3 k0.3 pid=3711 avail_gib=15.2
+2026-11-15 23:33:59 launch SPECIES_002_MITOSA 1 treat 1 0.3 k0.3 pid=3712 avail_gib=15.2
+2026-11-15 23:33:59 launch SPECIES_001_OSCILLIS 1 treat 1 1 k1 pid=3713 avail_gib=15.2
+2026-11-15 23:33:59 launch SPECIES_002_MITOSA 1 treat 1 1 k1 pid=3714 avail_gib=15.2
+2026-11-15 23:33:59 launch SPECIES_001_OSCILLIS 1 treat 1 3 k3 pid=3715 avail_gib=15.2
+2026-11-15 23:33:59 launch SPECIES_002_MITOSA 1 treat 1 3 k3 pid=3716 avail_gib=15.2
+2026-11-15 23:35:59 done SPECIES_001_OSCILLIS 1 treat 1 0.1 k0.1 rc=0 peak_rss_gib=0.57
+2026-11-15 23:35:59 done SPECIES_001_OSCILLIS 1 treat 1 0.3 k0.3 rc=0 peak_rss_gib=0.55
+2026-11-15 23:35:59 done SPECIES_002_MITOSA 1 treat 1 0.3 k0.3 rc=0 peak_rss_gib=0.53
+2026-11-15 23:35:59 done SPECIES_002_MITOSA 1 treat 1 1 k1 rc=0 peak_rss_gib=0.55
+2026-11-15 23:35:59 done SPECIES_001_OSCILLIS 1 treat 1 3 k3 rc=0 peak_rss_gib=0.55
+2026-11-15 23:35:59 launch SPECIES_001_OSCILLIS 1 treat 1 10 k10 pid=4028 avail_gib=14.2
+2026-11-15 23:35:59 launch SPECIES_002_MITOSA 1 treat 1 10 k10 pid=4029 avail_gib=14.2
+2026-11-15 23:35:59 launch SPECIES_001_OSCILLIS 1 treat 1 30 k30 pid=4030 avail_gib=14.2
+2026-11-15 23:35:59 launch SPECIES_002_MITOSA 1 treat 1 30 k30 pid=4031 avail_gib=14.2
+2026-11-15 23:36:14 done SPECIES_002_MITOSA 1 treat 1 0.1 k0.1 rc=0 peak_rss_gib=0.54
+2026-11-15 23:36:14 done SPECIES_001_OSCILLIS 1 treat 1 1 k1 rc=0 peak_rss_gib=0.54
+2026-11-15 23:36:14 done SPECIES_002_MITOSA 1 treat 1 3 k3 rc=0 peak_rss_gib=0.55
+2026-11-15 23:37:59 done SPECIES_001_OSCILLIS 1 treat 1 10 k10 rc=0 peak_rss_gib=0.56
+2026-11-15 23:37:59 done SPECIES_002_MITOSA 1 treat 1 10 k10 rc=0 peak_rss_gib=0.56
+2026-11-15 23:37:59 done SPECIES_001_OSCILLIS 1 treat 1 30 k30 rc=0 peak_rss_gib=0.56
+2026-11-15 23:37:59 done SPECIES_002_MITOSA 1 treat 1 30 k30 rc=0 peak_rss_gib=0.56
+2026-11-15 23:38:14 ALL_DONE

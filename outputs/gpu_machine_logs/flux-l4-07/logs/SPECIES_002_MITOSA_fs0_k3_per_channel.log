@@ -1,0 +1,17 @@
+SPECIES_002_MITOSA: 9 runs requested, 9 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+W1118 04:18:58.922080   14290 cuda_timer.cc:88] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 9: arguments 0.02 GB + outputs 0.02 GB + temp 0.12 GB = 0.15 GB (16.87 MB per element); device limit 17.7 GB
+batch 1/1: 9 runs, seeds 48..50
+  t=30000/300000  207s elapsed
+  t=60000/300000  408s elapsed
+  t=90000/300000  609s elapsed
+  t=120000/300000  809s elapsed
+  t=150000/300000  1009s elapsed
+  t=180000/300000  1210s elapsed
+  t=210000/300000  1410s elapsed
+  t=240000/300000  1611s elapsed
+  t=270000/300000  1812s elapsed
+  t=300000/300000  2006s elapsed
+  done: 6.69 ms per batched step (0.743 ms per run-step; CPU reference 27.9), max total drift 3.08e-14
+{"runs_done": 9, "total_wall_seconds": 2007.6309642791748, "ms_per_batched_step": 6.686167289415995, "max_rel_total_drift": 3.0834652658298116e-14}

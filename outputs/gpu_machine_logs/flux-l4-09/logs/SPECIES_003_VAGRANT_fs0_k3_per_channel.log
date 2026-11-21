@@ -1,0 +1,27 @@
+SPECIES_003_VAGRANT: 9 runs requested, 9 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+W1118 00:52:06.230758   10393 cuda_timer.cc:88] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 9: arguments 0.02 GB + outputs 0.02 GB + temp 0.12 GB = 0.15 GB (16.87 MB per element); device limit 17.7 GB
+batch 1/1: 9 runs, seeds 48..50
+  t=30000/300000  213s elapsed
+  t=60000/300000  415s elapsed
+  t=90000/300000  615s elapsed
+  t=120000/300000  813s elapsed
+  t=150000/300000  1012s elapsed
+SPECIES_003_VAGRANT: 9 runs requested, 9 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+W1118 03:34:59.937263   12265 cuda_timer.cc:88] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 9: arguments 0.02 GB + outputs 0.02 GB + temp 0.12 GB = 0.15 GB (16.87 MB per element); device limit 17.7 GB
+batch 1/1: 9 runs, seeds 48..50
+  t=30000/300000  215s elapsed
+  t=60000/300000  416s elapsed
+  t=90000/300000  614s elapsed
+  t=120000/300000  812s elapsed
+  t=150000/300000  1010s elapsed
+  t=180000/300000  1208s elapsed
+  t=210000/300000  1406s elapsed
+  t=240000/300000  1603s elapsed
+  t=270000/300000  1801s elapsed
+  t=300000/300000  1992s elapsed
+  done: 6.64 ms per batched step (0.738 ms per run-step; CPU reference 27.9), max total drift 2.38e-14
+{"runs_done": 9, "total_wall_seconds": 1994.2423753738403, "ms_per_batched_step": 6.6415407212575275, "max_rel_total_drift": 2.3826777054139452e-14}

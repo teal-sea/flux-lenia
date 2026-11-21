@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_002_MITOSA",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_002_MITOSA",
+   "--arms",
+   "treat",
+   "--seeds",
+   "1-64",
+   "--steps",
+   "10000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "10000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "3",
+   "--food-sense",
+   "30",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/out/pilot2_gain_ladder/SPECIES_002_MITOSA_fs30_k3_per_channel"
+  ],
+  "started_unix": 1794800561.9835732,
+  "total_wall_seconds": 202.36588168144226,
+  "runs_done": 64,
+  "batch_size": 64,
+  "state_bytes_per_element": 1703936,
+  "kappa": 3.0,
+  "food_sense": 30.0,
+  "transport": "per_channel",
+  "steps": 10000,
+  "max_rel_total_drift": 3.4718667383090135e-15,
+  "ms_per_batched_step": 19.67645673751831,
+  "batches": [
+   {
+    "batch": 64,
+    "build_seconds": 3.375516653060913,
+    "compile_seconds": 0.0006999969482421875,
+    "loop_seconds": 196.7645673751831,
+    "first_chunk_seconds": 0.9005529880523682,
+    "ms_per_batched_step": 19.67645673751831,
+    "ms_per_run_step": 0.3074446365237236,
+    "max_rel_total_drift": 3.4718667383090135e-15,
+    "memory_analysis": {
+     "argument": 111331720,
+     "output": 109052968,
+     "temp": 882937232
+    }
+   }
+  ]
+ }
+]

@@ -1,0 +1,12 @@
+{
+  "_comment": "Pilot 2 (GPU): extend B's food_sense ladder upward. B's pilot (eb36b7a) found that 0.1, 0.3, 1, 3, 10 change foraging in 0 of 3 species by the pre-registered rule and chose 10 by fallback. Same rule, 64 seeds per gain instead of 1, gains 30/100/300/1000, kappa 3, treat arm, food on, 10,000 steps. Reference food_sense = 0 comes from the smoke_b64 output (OSCILLIS) plus the fs0 cells of the running 2x2 (all species, seeds 1-50, read at step 10,000).",
+  "experiment": "pilot2_gain_ladder",
+  "defaults": {"steps": 10000, "sample_every": 100, "frame_every": 10000, "arms": "treat", "seeds": "1-64", "food": 1, "batch": 64},
+  "species": ["SPECIES_001_OSCILLIS", "SPECIES_002_MITOSA", "SPECIES_003_VAGRANT"],
+  "cells": [
+    {"kappa": 3, "food_sense": 30, "transport": "per_channel"},
+    {"kappa": 3, "food_sense": 100, "transport": "per_channel"},
+    {"kappa": 3, "food_sense": 300, "transport": "per_channel"},
+    {"kappa": 3, "food_sense": 1000, "transport": "per_channel"}
+  ]
+}

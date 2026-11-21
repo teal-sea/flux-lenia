@@ -1,0 +1,16 @@
+SPECIES_024_VESICA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.30 GB = 0.39 GB (14.58 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  78s elapsed
+  t=6000/30000  157s elapsed
+  t=9000/30000  237s elapsed
+  t=12000/30000  315s elapsed
+  t=15000/30000  393s elapsed
+  t=18000/30000  470s elapsed
+  t=21000/30000  547s elapsed
+  t=24000/30000  623s elapsed
+  t=27000/30000  700s elapsed
+  t=30000/30000  776s elapsed
+  done: 25.86 ms per batched step (0.958 ms per run-step; CPU reference 27.9), max total drift 1.81e-15
+{"runs_done": 27, "total_wall_seconds": 778.8968522548676, "ms_per_batched_step": 25.861501471201578, "max_rel_total_drift": 1.8119843058356154e-15}

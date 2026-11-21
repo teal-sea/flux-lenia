@@ -1,0 +1,27 @@
+{
+  "species": "NODULUS",
+  "idx": 16,
+  "seed": 729,
+  "screen": {
+    "n_reproduction": 1,
+    "n_fission_raw": 1,
+    "best_child_mass_frac": 0.33935871094003367,
+    "n_blobs_final": 1,
+    "concentration_final": 7.05282192446793,
+    "occupancy_final": 0.449951171875,
+    "activity": 4.165455380866259,
+    "max_generation": 2,
+    "n_organisms": 18,
+    "n_survivors": 1
+  },
+  "recording": {
+    "divisions": 2,
+    "raw_fissions": 2,
+    "strict_le_raw": true,
+    "child_frac_min": 0.2102318836811571,
+    "child_frac_median": 0.5021705488755053
+  },
+  "flags": [
+    "single_division_in_screen: one qualifying fission carries the whole verdict"
+  ]
+}

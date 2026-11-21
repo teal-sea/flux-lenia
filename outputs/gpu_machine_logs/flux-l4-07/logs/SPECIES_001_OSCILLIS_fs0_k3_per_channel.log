@@ -1,0 +1,10 @@
+SPECIES_001_OSCILLIS: 9 runs requested, 9 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+W1118 00:51:27.250753   11963 cuda_timer.cc:88] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 9: arguments 0.02 GB + outputs 0.02 GB + temp 0.12 GB = 0.15 GB (16.87 MB per element); device limit 17.7 GB
+batch 1/1: 9 runs, seeds 48..50
+  t=30000/300000  215s elapsed
+  t=60000/300000  419s elapsed
+  t=90000/300000  622s elapsed
+  t=120000/300000  824s elapsed
+  t=150000/300000  1026s elapsed

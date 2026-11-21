@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_015_MEDUSA",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_015_MEDUSA",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "7,9,11,13,15,17,18,19,20",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "15000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "3",
+   "--food-sense",
+   "0",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/data/fl/out/species_scan_20261117/SPECIES_015_MEDUSA_fs0_k3_per_channel"
+  ],
+  "started_unix": 1794975294.9751375,
+  "total_wall_seconds": 836.5645110607147,
+  "runs_done": 27,
+  "batch_size": 27,
+  "state_bytes_per_element": 1703936,
+  "kappa": 3.0,
+  "food_sense": 0.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 1.3589882293767117e-15,
+  "ms_per_batched_step": 27.783166321118674,
+  "batches": [
+   {
+    "batch": 27,
+    "build_seconds": 1.4068233966827393,
+    "compile_seconds": 0.0004982948303222656,
+    "loop_seconds": 833.4949896335602,
+    "first_chunk_seconds": 2.5270650386810303,
+    "ms_per_batched_step": 27.783166321118674,
+    "ms_per_run_step": 1.0290061600414324,
+    "max_rel_total_drift": 1.3589882293767117e-15,
+    "memory_analysis": {
+     "argument": 48279944,
+     "output": 46006744,
+     "temp": 299404936
+    }
+   }
+  ]
+ }
+]

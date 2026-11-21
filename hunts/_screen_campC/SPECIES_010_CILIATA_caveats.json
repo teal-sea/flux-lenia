@@ -1,0 +1,29 @@
+{
+  "species": "CILIATA",
+  "idx": 10,
+  "seed": 602,
+  "screen": {
+    "n_reproduction": 1,
+    "n_fission_raw": 11,
+    "best_child_mass_frac": 0.35328649749070284,
+    "n_blobs_final": 3,
+    "concentration_final": 18.38324029377664,
+    "occupancy_final": 0.177001953125,
+    "activity": 6.7693085904096595,
+    "max_generation": 9,
+    "n_organisms": 111,
+    "n_survivors": 2
+  },
+  "recording": {
+    "divisions": 1,
+    "raw_fissions": 31,
+    "strict_le_raw": true,
+    "child_frac_min": 0.33429941343541747,
+    "child_frac_median": 0.33429941343541747
+  },
+  "flags": [
+    "single_division_in_screen: one qualifying fission carries the whole verdict",
+    "debris_dominated: 1 divisions among 11 raw fissions (FINDINGS 2.1)",
+    "fragmenting: 111 organisms tracked (shedding/merging churn, FINDINGS 2.1/2.5)"
+  ]
+}

@@ -1,0 +1,45 @@
+2026-11-18T01:03:29Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $5.95/$95
+2026-11-18T01:08:05Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $7.13/$95
+2026-11-18T01:25:02Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $11.45/$95
+2026-11-18T01:36:11Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $14.29/$95
+2026-11-18T01:42:01Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $15.78/$98
+2026-11-18T01:59:03Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $20.12/$98
+2026-11-18T02:16:03Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $24.46/$98
+2026-11-18T02:33:04Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $28.79/$98
+2026-11-18T02:50:02Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $33.12/$98
+2026-11-18T03:07:04Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $37.46/$98
+2026-11-18T03:24:03Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $41.79/$98
+2026-11-18T03:41:03Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $46.13/$98
+2026-11-18T03:58:03Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $50.47/$98
+2026-11-18T04:15:02Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $54.80/$98
+2026-11-18T04:32:04Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $59.14/$98
+2026-11-18T04:49:02Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $63.47/$98
+2026-11-18T05:06:05Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $67.81/$98
+2026-11-18T05:23:08Z horizon 128/900 scan 3887/7200 | boxes pulled 0/20 | spend $72.16/$98
+2026-11-18T05:39:46Z flux-l4-11: pulled 282 runs, sha 0a5d1118b772 verified, rm rc=0
+2026-11-18T05:40:12Z flux-l4-12: pulled 255 runs, sha 1a092911231b verified, rm rc=0
+2026-11-18T05:41:02Z flux-l4-19: pulled 279 runs, sha f72537fde2c1 verified, rm rc=0
+2026-11-18T05:41:30Z flux-l4-20: pulled 252 runs, sha 5b3c8a489af4 verified, rm rc=0
+2026-11-18T05:43:04Z horizon 248/900 scan 4834/7200 | boxes pulled 4/20 | spend $76.82/$98
+2026-11-18T05:59:37Z flux-l4-09: pulled 201 runs, sha 842f4c5c298e verified, rm rc=0
+2026-11-18T06:00:01Z flux-l4-10: pulled 174 runs, sha 8321c10bd519 verified, rm rc=0
+2026-11-18T06:00:53Z flux-l4-17: pulled 279 runs, sha 9e51e97d34cd verified, rm rc=0
+2026-11-18T06:02:00Z horizon 356/900 scan 5353/7200 | boxes pulled 7/20 | spend $80.76/$98
+2026-11-18T06:18:39Z flux-l4-07: pulled 201 runs, sha 8d250194ff23 verified, rm rc=0
+2026-11-18T06:19:26Z flux-l4-16: pulled 279 runs, sha 7c3521be88a9 verified, rm rc=0
+2026-11-18T06:19:54Z flux-l4-18: pulled 279 runs, sha f22331a3e526 verified, rm rc=0
+2026-11-18T06:21:11Z horizon 455/900 scan 6013/7200 | boxes pulled 10/20 | spend $83.87/$98
+2026-11-18T06:37:12Z flux-l4-03: pulled 60 runs, sha 41639dfd97b8 verified, rm rc=0
+2026-11-18T06:37:53Z flux-l4-08: pulled 201 runs, sha b3ac905b2893 verified, rm rc=0
+2026-11-18T06:38:33Z flux-l4-15: pulled 282 runs, sha b6743c1ee7cd verified, rm rc=0
+2026-11-18T06:39:31Z horizon 584/900 scan 6427/7200 | boxes pulled 13/20 | spend $86.22/$98
+2026-11-18T06:55:16Z flux-l4-02: pulled 60 runs, sha 7b9a9f4af861 verified, rm rc=0
+2026-11-18T06:55:44Z flux-l4-04: pulled 60 runs, sha 50a0c23363d0 verified, rm rc=0
+2026-11-18T06:56:09Z flux-l4-05: pulled 201 runs, sha 2a7cbebc467d verified, rm rc=0
+2026-11-18T06:56:43Z flux-l4-13: pulled 282 runs, sha db39ed52dac4 verified, rm rc=0
+2026-11-18T06:57:11Z flux-l4-14: pulled 282 runs, sha 3c1a1e4aba0f verified, rm rc=0
+2026-11-18T06:57:37Z flux-gpu-l4smoke: pulled 60 runs, sha 54f43e4528e6 verified, rm rc=0
+2026-11-18T06:59:49Z horizon 861/900 scan 7012/7200 | boxes pulled 19/20 | spend $87.83/$98
+2026-11-18T07:15:54Z horizon 861/900 scan 7012/7200 | boxes pulled 19/20 | spend $88.06/$98
+2026-11-18T07:32:14Z flux-l4-06: pulled 201 runs, sha 3e5c6bc0559f verified, rm rc=0
+2026-11-18T07:32:36Z horizon 900/900 scan 7174/7200 | boxes pulled 20/20 | spend $88.27/$98

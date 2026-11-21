@@ -1,0 +1,16 @@
+SPECIES_027_ZONATA: 30 runs requested, 30 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 30: arguments 0.05 GB + outputs 0.05 GB + temp 0.33 GB = 0.44 GB (14.56 MB per element); device limit 17.7 GB
+batch 1/1: 30 runs, seeds 5..20
+  t=3000/30000  105s elapsed
+  t=6000/30000  210s elapsed
+  t=9000/30000  310s elapsed
+  t=12000/30000  410s elapsed
+  t=15000/30000  509s elapsed
+  t=18000/30000  603s elapsed
+  t=21000/30000  702s elapsed
+  t=24000/30000  800s elapsed
+  t=27000/30000  895s elapsed
+  t=30000/30000  988s elapsed
+  done: 32.93 ms per batched step (1.098 ms per run-step; CPU reference 27.9), max total drift 1.30e-15
+{"runs_done": 30, "total_wall_seconds": 991.0406155586243, "ms_per_batched_step": 32.92511933644612, "max_rel_total_drift": 1.2999137736387686e-15}

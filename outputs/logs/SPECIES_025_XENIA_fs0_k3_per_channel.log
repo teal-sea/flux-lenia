@@ -1,0 +1,16 @@
+SPECIES_025_XENIA: 30 runs requested, 30 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 30: arguments 0.05 GB + outputs 0.05 GB + temp 0.33 GB = 0.44 GB (14.56 MB per element); device limit 17.7 GB
+batch 1/1: 30 runs, seeds 5..20
+  t=3000/30000  95s elapsed
+  t=6000/30000  189s elapsed
+  t=9000/30000  282s elapsed
+  t=12000/30000  376s elapsed
+  t=15000/30000  469s elapsed
+  t=18000/30000  563s elapsed
+  t=21000/30000  656s elapsed
+  t=24000/30000  748s elapsed
+  t=27000/30000  838s elapsed
+  t=30000/30000  927s elapsed
+  done: 30.91 ms per batched step (1.030 ms per run-step; CPU reference 27.9), max total drift 1.52e-15
+{"runs_done": 30, "total_wall_seconds": 930.7199366092682, "ms_per_batched_step": 30.912452054023742, "max_rel_total_drift": 1.51656606924523e-15}

@@ -1,0 +1,16 @@
+SPECIES_014_LUMINA: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.34 GB = 0.44 GB (16.19 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  95s elapsed
+  t=6000/30000  188s elapsed
+  t=9000/30000  281s elapsed
+  t=12000/30000  374s elapsed
+  t=15000/30000  466s elapsed
+  t=18000/30000  559s elapsed
+  t=21000/30000  652s elapsed
+  t=24000/30000  744s elapsed
+  t=27000/30000  836s elapsed
+  t=30000/30000  930s elapsed
+  done: 30.99 ms per batched step (1.148 ms per run-step; CPU reference 27.9), max total drift 4.16e-15
+{"runs_done": 27, "total_wall_seconds": 932.7562539577484, "ms_per_batched_step": 30.985295248031616, "max_rel_total_drift": 4.163813243556555e-15}

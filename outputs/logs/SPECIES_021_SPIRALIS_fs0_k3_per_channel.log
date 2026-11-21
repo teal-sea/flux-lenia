@@ -1,0 +1,16 @@
+SPECIES_021_SPIRALIS: 27 runs requested, 27 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 27: arguments 0.05 GB + outputs 0.05 GB + temp 0.30 GB = 0.39 GB (14.58 MB per element); device limit 17.7 GB
+batch 1/1: 27 runs, seeds 7..20
+  t=3000/30000  86s elapsed
+  t=6000/30000  173s elapsed
+  t=9000/30000  259s elapsed
+  t=12000/30000  346s elapsed
+  t=15000/30000  432s elapsed
+  t=18000/30000  519s elapsed
+  t=21000/30000  607s elapsed
+  t=24000/30000  694s elapsed
+  t=27000/30000  781s elapsed
+  t=30000/30000  868s elapsed
+  done: 28.93 ms per batched step (1.072 ms per run-step; CPU reference 27.9), max total drift 9.15e-16
+{"runs_done": 27, "total_wall_seconds": 871.3780524730682, "ms_per_batched_step": 28.932291642824808, "max_rel_total_drift": 9.153659873240452e-16}

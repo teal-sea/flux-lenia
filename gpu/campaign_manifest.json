@@ -1,0 +1,40 @@
+{
+ "_comment": "Owner's campaign: 2x2 factorial food_sense {0, pilot} x kappa {0, 3} x 3 species x seeds 1-50 x 3 arms = 1,800 runs in 12 batches of 150. food_sense '@PILOT' is replaced by --pilot / $FOOD_SENSE_PILOT at launch (the owner's pilot value; no default).",
+ "experiment": "food_sensing_2x2",
+ "defaults": {
+  "steps": 30000,
+  "sample_every": 100,
+  "frame_every": 1000,
+  "arms": "treat,neutral_plus,neutral_minus",
+  "seeds": "1-50",
+  "food": 1,
+  "batch": 150
+ },
+ "species": [
+  "SPECIES_001_OSCILLIS",
+  "SPECIES_002_MITOSA",
+  "SPECIES_003_VAGRANT"
+ ],
+ "cells": [
+  {
+   "kappa": 0,
+   "food_sense": 0,
+   "transport": "per_channel"
+  },
+  {
+   "kappa": 3,
+   "food_sense": 0,
+   "transport": "per_channel"
+  },
+  {
+   "kappa": 0,
+   "food_sense": "@PILOT",
+   "transport": "per_channel"
+  },
+  {
+   "kappa": 3,
+   "food_sense": "@PILOT",
+   "transport": "per_channel"
+  }
+ ]
+}

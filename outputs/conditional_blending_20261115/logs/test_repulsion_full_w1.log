@@ -1,0 +1,11 @@
+OSCILLIS  4. kappa=0 hash == pre-change engine (300 steps): d745f86df5d1bf97
+OSCILLIS  5. repulsion kappa=3.0, food off, 300 steps: max|dS_tag|/M = 1.19e-16, functional rows = 4.04e-17, |dM|/M = 2.46e-16
+OSCILLIS  6. repulsion changes the trajectory: max|A(kappa) - A(0)| = 1.19e+00
+MITOSA    4. kappa=0 hash == pre-change engine (300 steps): da6a3e1d688a82b7
+MITOSA    5. repulsion kappa=3.0, food off, 300 steps: max|dS_tag|/M = 6.92e-17, functional rows = 6.20e-17, |dM|/M = 2.46e-16
+MITOSA    6. repulsion changes the trajectory: max|A(kappa) - A(0)| = 9.71e-05
+VAGRANT   4. kappa=0 hash == pre-change engine (300 steps): 1e0f38ad2c3f2004
+VAGRANT   5. repulsion kappa=3.0, food off, 300 steps: max|dS_tag|/M = 1.11e-16, functional rows = 6.92e-17, |dM|/M = 2.46e-16
+VAGRANT   6. repulsion changes the trajectory: max|A(kappa) - A(0)| = 1.87e-04
+full OK
+EXIT=0

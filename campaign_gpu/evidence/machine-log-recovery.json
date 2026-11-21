@@ -1,0 +1,102 @@
+[
+  {
+    "box": "flux-gpu-l4smoke",
+    "archive_sha256": "54f43e4528e6fea4f13fba33458d0c419c8c89c6614d393b15c1782283701eeb",
+    "logs": 3
+  },
+  {
+    "box": "flux-l4-02",
+    "archive_sha256": "7b9a9f4af861011b318596e666fa359a85b3c1cc7583a78107de0725f2290c23",
+    "logs": 3
+  },
+  {
+    "box": "flux-l4-03",
+    "archive_sha256": "41639dfd97b8deb1b6904b9379737240c4cf80243eb66bf8b85caa88fc9e2a44",
+    "logs": 3
+  },
+  {
+    "box": "flux-l4-04",
+    "archive_sha256": "50a0c23363d07c593370ae33b4ba79cf1cf661575e1faf8c0b1051eb38f1b6f5",
+    "logs": 3
+  },
+  {
+    "box": "flux-l4-05",
+    "archive_sha256": "2a7cbebc467d3771745eb62b4bddad6e77c2905e4a7757b786a19e8fb6c41bdc",
+    "logs": 9
+  },
+  {
+    "box": "flux-l4-06",
+    "archive_sha256": "3e5c6bc0559fe66102b8f583532466437f2e198d59d8a6bba33727d84718a3bc",
+    "logs": 8
+  },
+  {
+    "box": "flux-l4-07",
+    "archive_sha256": "8d250194ff23000916400dc1efcf243c55fe16af13553986b99b14fcae5b528e",
+    "logs": 10
+  },
+  {
+    "box": "flux-l4-08",
+    "archive_sha256": "b3ac905b2893e22873fcb0b934a1c78e6a09dfb18acd9a9033004db3426dfef6",
+    "logs": 9
+  },
+  {
+    "box": "flux-l4-09",
+    "archive_sha256": "842f4c5c298e79a20fab183a755e84085aea39a986acf477caaa6b569ec26566",
+    "logs": 10
+  },
+  {
+    "box": "flux-l4-10",
+    "archive_sha256": "8321c10bd519d75768d28fa40d2d12f2f0c981f7c9690d0114e42afb021e3fae",
+    "logs": 9
+  },
+  {
+    "box": "flux-l4-11",
+    "archive_sha256": "0a5d1118b77241b1f30cddee08575eefc5a692bb31d58b251b926caa0fd48cb0",
+    "logs": 13
+  },
+  {
+    "box": "flux-l4-12",
+    "archive_sha256": "1a092911231b5ab0f46a137022c934c2f176d1dca7098f9af49ca7d6d2254126",
+    "logs": 12
+  },
+  {
+    "box": "flux-l4-13",
+    "archive_sha256": "db39ed52dac4786de72c69ba6a86c58710cd846899efaaeb4e66aaf93448bf70",
+    "logs": 13
+  },
+  {
+    "box": "flux-l4-14",
+    "archive_sha256": "3c1a1e4aba0f961e37f72ab5878a2b6f169d0f956b467e6195833f15810e82dc",
+    "logs": 13
+  },
+  {
+    "box": "flux-l4-15",
+    "archive_sha256": "b6743c1ee7cdf356f78a6d0a824bab22208ccde2107b769ccdab2377d9c3dcbe",
+    "logs": 13
+  },
+  {
+    "box": "flux-l4-16",
+    "archive_sha256": "7c3521be88a9c1e19ab6e98ebcfc4f9f013a5ea129a0ebb51ed82be2fdd0b13d",
+    "logs": 12
+  },
+  {
+    "box": "flux-l4-17",
+    "archive_sha256": "9e51e97d34cd9c9accf42809ce59d8dcd6372d7f65a96f7ac2c8f6f83420946d",
+    "logs": 12
+  },
+  {
+    "box": "flux-l4-18",
+    "archive_sha256": "f22331a3e5262232d347136623cf937f74850cd53e60fc185c38fc9035b95511",
+    "logs": 12
+  },
+  {
+    "box": "flux-l4-19",
+    "archive_sha256": "f72537fde2c1bb2e3aee0bccf9930ddda5cd72ec68918e55f094ba6ecef2f97a",
+    "logs": 11
+  },
+  {
+    "box": "flux-l4-20",
+    "archive_sha256": "5b3c8a489af4b846142e1e29f541787ff22ae1aabcf77f5f177662667a69d409",
+    "logs": 10
+  }
+]

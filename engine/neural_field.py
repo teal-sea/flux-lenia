@@ -56,7 +56,7 @@ import json
 import math
 import zlib
 from dataclasses import dataclass, asdict, field
-from functools import partial
+from functools import lru_cache, partial
 
 import jax
 import jax.numpy as jnp
@@ -99,6 +99,33 @@ class Config:
     # viewer's spawner and mutation brush need it on.
     advect_genome: bool = True
 
+    # Genome transport scheme (only matters when advect_genome is True).
+    #   "mean"        : genome moves on the cell's mass-weighted mean displacement
+    #                   (the original behaviour; every earlier result uses it).
+    #   "per_channel" : each channel carries (A_c, A_c*G) on its own displacement, so
+    #                   sum(A_tot * G) is conserved exactly by transport.
+    # See docs/GENOME-TRANSPORT-2026-11-10.md.
+    genome_transport: str = "mean"
+
+    # Self/non-self contact repulsion (ROADMAP step 2, velocity route;
+    # docs/CONDITIONAL-BLENDING-2026-11-15.md). 0.0 disables it: the code path is not
+    # traced at all, so every earlier result reproduces bit for bit.
+    #   v += -kappa * grad F,  F = (K*A_tot) * Var_K(G)   (see foreign_mass_field)
+    # K is a unit-sum smooth ring of this radius (cells); only the first
+    # `repulsion_genome_dims` genome rows enter, so the neutral tag (appended last by
+    # engine.nutrient.tagged) never does.
+    repulsion_kappa: float = 0.0
+    repulsion_radius: float = 8.0
+    repulsion_genome_dims: int = 8
+
+    # Food perception as brain input (docs/FOOD-SENSING-2026-11-16.md). 0.0 disables it: the
+    # code path is not traced, so every earlier result reproduces bit for bit. Otherwise the
+    # hidden pre-activation gains  food_sense * (X_food @ W1f)  where X_food are the food field's
+    # ring features (see food_features) and W1f is an extra weight block in the brain parameters.
+    # The genome's FiLM gamma/beta act on the sum, as on every other input. The lineage tag
+    # (last genome row) has zero FiLM weights and enters nowhere else.
+    food_sense: float = 0.0
+
     @property
     def window(self) -> int:
         """Transport stencil radius. Bilinear splitting of a displacement
@@ -109,6 +136,10 @@ class Config:
     @property
     def n_features(self) -> int:
         return 2 * self.n_kernels + self.channels + 1
+
+    @property
+    def n_food_features(self) -> int:
+        return 2 * self.n_kernels
 
 
 # ==========================================================================
@@ -224,6 +255,19 @@ def sample_params(rng: np.random.Generator, cfg: Config) -> dict:
     }
 
 
+def food_weight_seed(species_id: str) -> int:
+    """Deterministic W1f seed of a species: crc32 of 'W1f|<species id>'. The same for every arm,
+    seed and run of a species; different between species."""
+    return zlib.crc32(f"W1f|{species_id}".encode()) & 0xFFFFFFFF
+
+
+def sample_food_weights(species_id: str, cfg: Config) -> np.ndarray:
+    """W1f (n_food_features, hidden), drawn once per species, scaled like W1."""
+    rng = np.random.default_rng(food_weight_seed(species_id))
+    return rng.normal(0, 1.0 / math.sqrt(cfg.n_food_features),
+                      size=(cfg.n_food_features, cfg.hidden))
+
+
 def params_to_jax(p: dict) -> dict:
     return {k: jnp.asarray(v, dtype=jnp.float64) for k, v in p.items()}
 
@@ -277,7 +321,22 @@ def perceive(A: jnp.ndarray, khat: jnp.ndarray, ksrc: jnp.ndarray) -> jnp.ndarra
     return jnp.fft.irfft2(Ahat[ksrc] * khat, s=A.shape[-2:])
 
 
-def sensorimotor(U, A, Gf, light, p, cfg: Config):
+def food_features(F: jnp.ndarray, p: dict, bank, cfg: Config) -> jnp.ndarray:
+    """Food field F (H, W) seen through the SAME ring bank and bell machinery as the body.
+
+    Uf_k = F (*) ring_k  (perceive with every kernel reading the one food channel),
+    Bf_k = bell_k(Uf_k) - bell_k(0)  (the bell offset makes the feature exactly 0 where there is
+    no food, so a dish with no food gives the brain nothing).  Returns (2 n_kernels, H, W).
+    Reads nothing but F, the bank and the bell parameters: not the genome, not the tag."""
+    khat, ksrc = bank
+    Uf = perceive(F[None], khat, jnp.zeros_like(ksrc))
+    m = p["bell_m"][:, None, None]
+    s = jnp.abs(p["bell_s"][:, None, None]) + 1e-3
+    bell = lambda u: 2.0 * jnp.exp(-0.5 * ((u - m) / s) ** 2) - 1.0
+    return jnp.concatenate([Uf, bell(Uf) - bell(jnp.zeros_like(Uf))], axis=0)
+
+
+def sensorimotor(U, A, Gf, light, p, cfg: Config, Ff=None, return_hidden: bool = False):
     """Per-cell MLP: neighbourhood composition -> (growth, flux, drift).
 
     The genome field enters as FiLM modulation (multiplicative gain and
@@ -292,6 +351,10 @@ def sensorimotor(U, A, Gf, light, p, cfg: Config):
     X = jnp.concatenate([U, B, A, light[None]], axis=0)     # (F, H, W)
 
     pre = jnp.einsum("fh,fyx->hyx", p["W1"], X) + p["b1"][:, None, None]
+    if cfg.food_sense != 0.0:
+        if Ff is None:
+            raise ValueError("cfg.food_sense != 0 needs food features Ff (engine.nutrient.step passes them)")
+        pre = pre + cfg.food_sense * jnp.einsum("fh,fyx->hyx", p["W1f"], Ff)
     gamma = 1.0 + jnp.einsum("gh,gyx->hyx", p["Wg1"], Gf)
     beta = jnp.einsum("gh,gyx->hyx", p["Wg2"], Gf)
     h = jnp.tanh(pre * gamma + beta)
@@ -301,6 +364,8 @@ def sensorimotor(U, A, Gf, light, p, cfg: Config):
     E = cfg.e_scale * jnp.tanh(out[:c])
     gain = cfg.gain_max * jax.nn.sigmoid(out[c:2 * c])
     theta = cfg.theta_max * jnp.tanh(out[2 * c:])
+    if return_hidden:
+        return E, gain, theta, h
     return E, gain, theta
 
 
@@ -311,12 +376,48 @@ def _grad2(f: jnp.ndarray) -> tuple[jnp.ndarray, jnp.ndarray]:
     return gy, gx
 
 
-def flow_field(E, gain, theta, A, cfg: Config):
-    """v = gain * R(theta) grad(E) - alpha grad(A_total), softly bounded.
+@lru_cache(maxsize=None)
+def _repulsion_khat(size: int, radius: float) -> np.ndarray:
+    """rfft2 of the repulsion kernel: one smooth ring (existing build_kernel, single
+    shell), unit sum, support radius `radius`. A numpy constant at trace time."""
+    return np.fft.rfft2(build_kernel(size, radius, np.array([1.0])))
+
+
+def foreign_mass_field(A, Gf, cfg: Config):
+    """F(x) = (K*A_tot)(x) * Var_K(G)(x): foreign mass seen from x.
+
+    Var_K is the mass-weighted variance of the functional genome G (first
+    `repulsion_genome_dims` rows of Gf, never the neutral tag) over the kernel
+    neighbourhood of x. Equivalently F(x) = sum_y K(x-y) A_tot(y) |Gbar(x) - G(y)|^2 with
+    Gbar the neighbourhood's mass-weighted mean genome. It is zero wherever the mass in
+    the neighbourhood shares one genome, so identical-genome lineages feel nothing, and
+    it never reads the genome stored in an empty cell. Three FFT convolutions of
+    (A_tot, A_tot G, A_tot |G|^2); G is centred on its global mass-weighted mean first
+    (F is invariant to that shift; it removes cancellation).
+    """
+    n = min(cfg.repulsion_genome_dims, Gf.shape[0])
+    Atot = jnp.sum(A, axis=0)
+    G = Gf[:n]
+    Gm = jnp.sum(G * Atot, axis=(1, 2)) / (jnp.sum(Atot) + EPS)
+    Gc = G - Gm[:, None, None]
+    q = jnp.sum(Gc ** 2, axis=0)
+    stack = jnp.concatenate([Atot[None], (Atot * q)[None], Atot * Gc], axis=0)
+    khat = _repulsion_khat(A.shape[-1], float(cfg.repulsion_radius))
+    conv = jnp.fft.irfft2(jnp.fft.rfft2(stack) * khat, s=A.shape[-2:])
+    ka, kaq, kag = conv[0], conv[1], conv[2:]
+    ok = ka > 1e-12
+    var = kaq - jnp.sum(kag ** 2, axis=0) / jnp.where(ok, ka, 1.0)
+    return jnp.where(ok, jnp.maximum(var, 0.0), 0.0)
+
+
+def flow_field(E, gain, theta, A, cfg: Config, Gf=None):
+    """v = gain * R(theta) grad(E) - alpha grad(A_total) - kappa grad(F), softly bounded.
 
     The rotation is the active term: it makes the flow non-gradient, so the
     dynamics need not relax to a potential minimum. The alpha term is the
-    only thing stopping mass from collapsing to a delta.
+    only thing stopping mass from collapsing to a delta. The kappa term (off unless
+    cfg.repulsion_kappa != 0 and Gf is given) pushes every channel's mass down the
+    foreign-mass field F, away from mass of a different functional genome.
     """
     gEy, gEx = _grad2(E)
     ct, st = jnp.cos(theta), jnp.sin(theta)
@@ -326,6 +427,10 @@ def flow_field(E, gain, theta, A, cfg: Config):
     gAy, gAx = _grad2(jnp.sum(A, axis=0))
     vy = gain * ry - cfg.alpha * gAy
     vx = gain * rx - cfg.alpha * gAx
+    if cfg.repulsion_kappa != 0.0 and Gf is not None:
+        gFy, gFx = _grad2(foreign_mass_field(A, Gf, cfg))
+        vy = vy - cfg.repulsion_kappa * gFy
+        vx = vx - cfg.repulsion_kappa * gFx
 
     dy, dx = cfg.dt * vy, cfg.dt * vx
     mag = jnp.sqrt(dy ** 2 + dx ** 2) + EPS
@@ -351,6 +456,32 @@ def reintegrate(A, Gf, dy, dx, cfg: Config):
     w = cfg.window
     ax = (-2, -1)
     A_new = jnp.zeros_like(A)
+
+    if cfg.advect_genome and cfg.genome_transport == "per_channel":
+        # Exact: the matter arriving at x from channel c at source s is
+        # w_c(s->x) A_c(s) and carries G(s). G_new = sum(w A_c G) / sum(w A_c).
+        # Mass first, by the same loop as the other branches (so A is bit-identical).
+        for oi in range(-w, w + 1):
+            for oj in range(-w, w + 1):
+                sh = (oi, oj)
+                wy = jnp.clip(1.0 - jnp.abs(oi - jnp.roll(dy, sh, axis=ax)), 0.0, 1.0)
+                wx = jnp.clip(1.0 - jnp.abs(oj - jnp.roll(dx, sh, axis=ax)), 0.0, 1.0)
+                A_new = A_new + wy * wx * jnp.roll(A, sh, axis=ax)
+        # The barrier stops XLA from fusing the genome numerator into the mass loop,
+        # which would change the rounding of A.
+        dy2, dx2, A2, G2 = jax.lax.optimization_barrier((dy, dx, A, Gf))
+        g_num = jnp.zeros_like(Gf)
+        for oi in range(-w, w + 1):
+            for oj in range(-w, w + 1):
+                sh = (oi, oj)
+                wy = jnp.clip(1.0 - jnp.abs(oi - jnp.roll(dy2, sh, axis=ax)), 0.0, 1.0)
+                wx = jnp.clip(1.0 - jnp.abs(oj - jnp.roll(dx2, sh, axis=ax)), 0.0, 1.0)
+                arriving = jnp.sum(wy * wx * jnp.roll(A2, sh, axis=ax), axis=0)
+                g_num = g_num + arriving * jnp.roll(G2, sh, axis=ax)
+        g_den = jnp.sum(A_new, axis=0)
+        return A_new, jnp.where(g_den > 1e-30, g_num / jnp.where(g_den > 1e-30, g_den, 1.0), Gf)
+    if cfg.genome_transport not in ("mean", "per_channel"):
+        raise ValueError(f"unknown genome_transport {cfg.genome_transport!r}")
 
     if cfg.advect_genome:
         Atot = jnp.sum(A, axis=0)
@@ -388,7 +519,7 @@ def step(A, Gf, light, p, bank, cfg: Config):
     khat, ksrc = bank
     U = perceive(A, khat, ksrc)
     E, gain, theta = sensorimotor(U, A, Gf, light, p, cfg)
-    dy, dx = flow_field(E, gain, theta, A, cfg)
+    dy, dx = flow_field(E, gain, theta, A, cfg, Gf)
     A_new, Gf_new = reintegrate(A, Gf, dy, dx, cfg)
     return A_new, Gf_new, dy, dx
 

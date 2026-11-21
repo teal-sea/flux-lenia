@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_003_VAGRANT",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_003_VAGRANT",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "28,29,30,31,32,33,34,35,36,37",
+   "--steps",
+   "300000",
+   "--sample-every",
+   "1000",
+   "--frame-every",
+   "50000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "3",
+   "--food-sense",
+   "0",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/data/fl/out/horizon300k_20261117/SPECIES_003_VAGRANT_fs0_k3_per_channel"
+  ],
+  "started_unix": 1794964406.5145872,
+  "total_wall_seconds": 8276.092558860779,
+  "runs_done": 30,
+  "batch_size": 30,
+  "state_bytes_per_element": 1703936,
+  "kappa": 3.0,
+  "food_sense": 0.0,
+  "transport": "per_channel",
+  "steps": 300000,
+  "max_rel_total_drift": 2.3449001425305538e-14,
+  "ms_per_batched_step": 27.57296113650004,
+  "batches": [
+   {
+    "batch": 30,
+    "build_seconds": 1.5330307483673096,
+    "compile_seconds": 0.00047659873962402344,
+    "loop_seconds": 8271.888340950012,
+    "first_chunk_seconds": 27.3359637260437,
+    "ms_per_batched_step": 27.57296113650004,
+    "ms_per_run_step": 0.9190987045500013,
+    "max_rel_total_drift": 2.3449001425305538e-14,
+    "memory_analysis": {
+     "argument": 53391752,
+     "output": 51118600,
+     "temp": 332435080
+    }
+   }
+  ]
+ }
+]

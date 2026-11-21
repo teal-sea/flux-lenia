@@ -1,0 +1,64 @@
+[
+ {
+  "species": "SPECIES_012_GLOBULA",
+  "device": "cuda:0",
+  "platform": "gpu",
+  "jax": "0.11.1",
+  "argv": [
+   "--device",
+   "gpu",
+   "--species",
+   "SPECIES_012_GLOBULA",
+   "--arms",
+   "treat,neutral_plus,neutral_minus",
+   "--seeds",
+   "7,9,11,13,15,17,18,19,20",
+   "--steps",
+   "30000",
+   "--sample-every",
+   "100",
+   "--frame-every",
+   "15000",
+   "--transport",
+   "per_channel",
+   "--kappa",
+   "3",
+   "--food-sense",
+   "0",
+   "--food",
+   "1",
+   "--batch",
+   "64",
+   "--outdir",
+   "/data/fl/out/species_scan_20261117/SPECIES_012_GLOBULA_fs0_k3_per_channel"
+  ],
+  "started_unix": 1794979925.294119,
+  "total_wall_seconds": 858.7121434211731,
+  "runs_done": 27,
+  "batch_size": 27,
+  "state_bytes_per_element": 1703936,
+  "kappa": 3.0,
+  "food_sense": 0.0,
+  "transport": "per_channel",
+  "steps": 30000,
+  "max_rel_total_drift": 6.499568868193843e-16,
+  "ms_per_batched_step": 28.51570327281952,
+  "batches": [
+   {
+    "batch": 27,
+    "build_seconds": 1.4243097305297852,
+    "compile_seconds": 0.00043702125549316406,
+    "loop_seconds": 855.4710981845856,
+    "first_chunk_seconds": 2.5466058254241943,
+    "ms_per_batched_step": 28.51570327281952,
+    "ms_per_run_step": 1.0561371582525747,
+    "max_rel_total_drift": 6.499568868193843e-16,
+    "memory_analysis": {
+     "argument": 48279944,
+     "output": 46006744,
+     "temp": 299404936
+    }
+   }
+  ]
+ }
+]

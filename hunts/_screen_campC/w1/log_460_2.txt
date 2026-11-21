@@ -1,0 +1,3 @@
+seed=466 viable=True repro=0/0 wall=15.1s
+seed=474 viable=False repro=1/1 wall=12.6s
+SHARD_DONE 2

@@ -1,0 +1,21 @@
+SPECIES_001_OSCILLIS: 30 runs requested, 30 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 30: arguments 0.05 GB + outputs 0.05 GB + temp 0.33 GB = 0.44 GB (14.56 MB per element); device limit 17.7 GB
+batch 1/1: 30 runs, seeds 38..47
+  t=30000/300000  889s elapsed
+SPECIES_001_OSCILLIS: 30 runs requested, 30 to do (0 already present); devices [CudaDevice(id=0)]; jax 0.11.1
+memory estimate per element: state (A,G,F float64) 1.70 MB
+compiled batch 30: arguments 0.05 GB + outputs 0.05 GB + temp 0.33 GB = 0.44 GB (14.56 MB per element); device limit 17.7 GB
+batch 1/1: 30 runs, seeds 38..47
+  t=30000/300000  891s elapsed
+  t=60000/300000  1741s elapsed
+  t=90000/300000  2586s elapsed
+  t=120000/300000  3430s elapsed
+  t=150000/300000  4272s elapsed
+  t=180000/300000  5114s elapsed
+  t=210000/300000  5955s elapsed
+  t=240000/300000  6794s elapsed
+  t=270000/300000  7633s elapsed
+  t=300000/300000  8445s elapsed
+  done: 28.15 ms per batched step (0.938 ms per run-step; CPU reference 27.9), max total drift 2.05e-14
+{"runs_done": 30, "total_wall_seconds": 8448.866130828857, "ms_per_batched_step": 28.148783554236093, "max_rel_total_drift": 2.0529698554077408e-14}
