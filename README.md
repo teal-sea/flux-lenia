@@ -37,7 +37,9 @@ measurement failures that produced wrong numbers first) ·
 reproduction commands), generated from the raw records by
 `scripts/report.py` so it cannot drift from the data. Individual specimens
 are `hunts/SPECIES_*.md`; every candidate that was ever run, passing or
-failing, is one JSON line in `hunts/_screen/shard_*.jsonl`.
+failing, is one JSON line in `hunts/_screen/shard_*.jsonl`. The November
+2026 selection experiments (two lineages, food, a 30-species scan) are
+summarised [below](#selection-experiments-november-2026).
 
 ## Run it
 
@@ -175,7 +177,7 @@ the control.
 Two things this run corrected about itself, both worth knowing:
 
 1. An earlier pass reported 22 of 40 candidates as reproducing. Those
-   "offspring" were 0.3-2.6% of the parent's mass — debris shed by a big
+   "offspring" were 0.3-2.6% of the parent's mass: debris shed by a big
    body. Adding the offspring-mass floor dropped the true rate to ~3-5%,
    and widening the search (concentration avoidance and seeded mass, not
    just brain weights) plus a shaped objective is what then found genuine
@@ -185,6 +187,47 @@ Two things this run corrected about itself, both worth knowing:
    4 generations. The final three species came from screening alone, so
    they are all seed-reproducible; the hill-climb path is kept for pools
    too thin to fill the target.
+
+## Selection experiments, November 2026
+
+One question ran through November: put two lineages that differ only in
+their genome into the same dish with food. Does one of them win, and is
+food the reason? Each design doc fixed its decision rule before its runs;
+results are appended below the design and the design is not edited.
+
+| step | doc | runs | verdict by its own rule |
+| --- | --- | --- | --- |
+| Genome variance decay | [VARIANCE-DECAY](docs/VARIANCE-DECAY-2026-11-03.md) | 18 | long: median half-life 19,400 steps |
+| Food and two lineages | [FOOD-SELECTION](docs/FOOD-SELECTION-2026-11-09.md) | 90 | no takeover, food not the cause; a small shift appeared even without food |
+| Exact genome transport | [GENOME-TRANSPORT](docs/GENOME-TRANSPORT-2026-11-10.md) | 45 | that shift was the transport: it falls from up to 10 share points to at most 3.4e-15 |
+| Food under exact transport | [FOOD-ON-EXACT-TRANSPORT](docs/FOOD-ON-EXACT-TRANSPORT-2026-11-10.md) | 45 | no selection in any species; the earlier OSCILLIS winner was transport bias |
+| Contact repulsion | [CONDITIONAL-BLENDING](docs/CONDITIONAL-BLENDING-2026-11-15.md) | 45 | lineages stay apart in all 3 species and nobody wins; VAGRANT fails the neutral-arm check (+2.15 SE), so by the letter of the rule the result is void |
+| Food sensing, 2x2 | [FOOD-SENSING](docs/FOOD-SENSING-2026-11-16.md), [GPU copy](docs/FOOD-SENSING-2x2-GPU-2026-11-16.md) | 50 seeds per cell | with repulsion on, sensing causes selection for OSCILLIS on A100 (40 of 50, threshold 40) and VAGRANT on rented CPU (43 of 50); no takeover |
+| 300,000-step horizon | [HORIZON-300K](docs/HORIZON-300K-SUMMARY-2026-11-18.md) | 900 | by the standard rule, OSCILLIS takes over with sensing off (median winner share 0.933) and on (0.977), with opposite winners; MITOSA no selection; VAGRANT with sensing has 49 of 50 seeds outside the envelope but split winners (3 and 46), so large but inconsistent |
+| 30-species scan | [SPECIES-SCAN](docs/SPECIES-SCAN-SUMMARY-2026-11-18.md) | 7,173 of 7,200 | selection in 4 of 30 species with sensing and repulsion off, 5 of 29 with repulsion only, 11 of 30 with sensing only, 12 of 30 with both; takeover in none; sensing does not raise the count by the pre-registered test (11 species on-only, 4 off-only, p = 0.1185) |
+
+Body plus food stayed conserved to at most 6.76e-15 relative drift across
+the scan. The campaign report, with per-run hardware labels, cost, every
+deviation and the 27 runs still missing (VAGRANT, sensing off, repulsion
+on), is [GPU-CAMPAIGN-2026-11-18](docs/GPU-CAMPAIGN-2026-11-18.md). Both
+summaries regenerate from the committed run JSON without simulating; the
+commands are in its Reproduction section.
+
+What these results do not mean:
+
+- "Food sensing" here is one random food coupling per species (`W1f`,
+  drawn from a fixed seed), not a designed one. A null result is a null
+  for that coupling, not for food sensing in general.
+- The runs are spread over A100, L4 and rented CPU, labelled per run.
+  OSCILLIS passes the selection threshold on A100 (40 of 50) and misses
+  it on rented CPU (35 of 50), so that verdict is not replicated across
+  hardware.
+- The long-horizon takeover is a change in lineage share. No phototaxis,
+  division or behaviour claim follows from it.
+
+A genome may now carry its own `W1f`; `scripts/food_selection.py` and
+`scripts/gpu_batch.py` then use it instead of drawing one. Genomes without
+one, which is all 30 committed species, run exactly as before.
 
 ## The viewport
 
