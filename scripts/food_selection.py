@@ -133,7 +133,8 @@ def build_run(species: str, seed: int, arm: str, food_on: bool, transport: str =
         cfg = dataclasses.replace(cfg, repulsion_kappa=kappa)
     if food_sense != 0.0:
         cfg = dataclasses.replace(cfg, food_sense=food_sense)
-        params = dict(params, W1f=nf.sample_food_weights(species, cfg))
+        if "W1f" not in params:
+            params = dict(params, W1f=nf.sample_food_weights(species, cfg))
     p = nf.params_to_jax(params)
     food = FOOD if food_on else nu.Food(enabled=False)
 
@@ -224,8 +225,9 @@ def main() -> None:
         "sample_every": sample, "genome_transport": transport,
         "repulsion_kappa": kappa, "repulsion_radius": cfg.repulsion_radius,
         "repulsion_genome_dims": cfg.repulsion_genome_dims,
-        **({"food_sense": food_sense, "W1f_seed": nf.food_weight_seed(species),
-            "W1f_seed_rule": "crc32('W1f|<species id>')",
+        **({"food_sense": food_sense,
+            "W1f_seed": None if "W1f" in run.data["params"] else nf.food_weight_seed(species),
+            "W1f_seed_rule": "params['W1f']" if "W1f" in run.data["params"] else "crc32('W1f|<species id>')",
             "food_eaten_total": eaten_cum, "body_decayed_total": decayed_cum} if food_sense_arg else {}),
         "food_params": dataclasses.asdict(food),
         "genome_A_sign": ARMS[arm][0], "genome_B_sign": ARMS[arm][1],

@@ -230,8 +230,9 @@ def simulate(species, pairs, *, food_on, transport, kappa, food_sense, fs_presen
             "sample_every": sample_every, "genome_transport": transport,
             "repulsion_kappa": kappa, "repulsion_radius": cfg.repulsion_radius,
             "repulsion_genome_dims": cfg.repulsion_genome_dims,
-            **({"food_sense": food_sense, "W1f_seed": nf.food_weight_seed(species),
-                "W1f_seed_rule": "crc32('W1f|<species id>')",
+            **({"food_sense": food_sense,
+                "W1f_seed": None if "W1f" in runs[i].data["params"] else nf.food_weight_seed(species),
+                "W1f_seed_rule": "params['W1f']" if "W1f" in runs[i].data["params"] else "crc32('W1f|<species id>')",
                 "food_eaten_total": float(eaten_cum[i]), "body_decayed_total": float(decayed_cum[i])}
                if fs_present else {}),
             "food_params": dataclasses.asdict(food),
